@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+span{
+  display: block;
+}
+
+.sign-in{
+  background: url(../src/assets/image/bg-login.jpeg);
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+}
+input:focus{
+  outline: none;
+}
+.active{
+  color:#00ABF2;
+}
