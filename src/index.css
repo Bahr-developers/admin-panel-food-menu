@@ -5,7 +5,9 @@
 span{
   display: block;
 }
-
+.MuiFormLabel-root span{
+  display: inline-block;
+}
 .sign-in{
   background: url(../src/assets/image/bg-login.jpeg);
   background-size: 100vw 100vh;
