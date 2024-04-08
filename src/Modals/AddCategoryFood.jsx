@@ -5,7 +5,9 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import { BiCloudUpload } from 'react-icons/bi';
+import { styled } from '@mui/material/styles'
+
 
 const AddCategoryFood = () => {
   const [open, setOpen] = React.useState(false);
@@ -18,6 +20,17 @@ const AddCategoryFood = () => {
   const handleAddCotegory = (e) => {
     e.preventDefault()
   }
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
   return (
     <React.Fragment>
       <Button onClick={handleClickOpen}>
@@ -31,11 +44,21 @@ const AddCategoryFood = () => {
           onSubmit: handleAddCotegory
         }}       
       >
-        <DialogTitle>Subscribe</DialogTitle>
         <DialogContent>
           <DialogContentText>
             To subscribe to this website
           </DialogContentText>
+          <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<BiCloudUpload />}
+                sx={{margin: '25px 0 -10px 0'}}
+                >                
+                Upload file
+                <VisuallyHiddenInput type="file" />
+            </Button>
           <TextField
             autoFocus
             required
