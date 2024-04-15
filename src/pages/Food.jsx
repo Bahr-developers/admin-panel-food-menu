@@ -2,14 +2,17 @@ import MiniNav from "../components/MiniNav";
 import Navbar from "../components/Navbar";
 import AddCategoryFood from "../Modals/AddCategoryFood";
 import AddFood from '../Modals/AddFood'
+import { ALL_DATA } from "../Query/ALL_DATA";
 
 const Food = () => {
+    const food = ALL_DATA.useFood()
+    console.log(food.data);
     return (
         <div>
             <Navbar/>
             <hr />
             <div className="drink-wrap">
-                <div className="container px-3 relative">
+                <div className="sm:container px-3 relative">
                     <div className="drink-header flex justify-between relative  my-3">
                         <h2 className="text-[22px] font-bold">Foods</h2>
                         <AddCategoryFood/>

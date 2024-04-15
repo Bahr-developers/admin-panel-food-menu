@@ -7,6 +7,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { BiCloudUpload } from 'react-icons/bi';
 import { styled } from '@mui/material/styles'
 import { Fragment, useRef, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CategoryUtils } from '../utils/categoryutils';
+import { QUERY_KEY } from '../Query/QUERY_KEY';
+import { ALL_DATA } from '../Query/ALL_DATA';
 
 
 
@@ -25,6 +29,18 @@ async function getBase64Full(file) {
 const AddCategoryFood = () => {
   const [open, setOpen] = useState(false);
   const praductImg = useRef()
+  const queryClient = useQueryClient()
+  const category = ALL_DATA.useCatefory()
+  console.log(category.data);
+  const addCategory = useMutation({
+    mutationFn: CategoryUtils.addCategory,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [QUERY_KEY.category]})
+    },
+    onError: (err) => {
+      console.log(err, "add Category");
+    }
+  })
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -33,6 +49,9 @@ const AddCategoryFood = () => {
   };
   const handleAddCotegory = (e) => {
     e.preventDefault()
+      addCategory.mutate({
+      name: e.target.uz.value
+    })
   }
 
   const showImage = async (e) => {
