@@ -12,6 +12,10 @@ import { MdTouchApp } from "react-icons/md";
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import { useState } from "react";
+import { useRef } from "react";
+import { ALL_DATA } from "../Query/ALL_DATA";
+import { MenuItem, Select } from "@mui/material";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -51,37 +55,150 @@ const btnStyle = {
   boxShadow:
     "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;",
 };
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
-export default function TransitionsModal() {
-  const [open, setOpen] = React.useState(false);
+const handleTitle = (e) =>{
+  e.preventDefault()
+}
+
+
+
+const AddFood = () => {
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const praductImgs = React.useRef();
+  const praductImgs = useRef();
+  const language = ALL_DATA.useLanguage();
+  const category = ALL_DATA.useCatefory()
 
-  const showImages = async (e) => {
-    const images = [];
-    for (let i = 0; i < e.target.files.length; i++) {
-      images.push(await getBase64Full(e.target.files[i]));
-    }
-    console.log(images);
-    for (let image of images) {
-      praductImgs.current.insertAdjacentHTML(
-        "beforeend",
-        `<img src=${image} width='65' alt="praduct-image" className="overflow-hidden rounded-md"/>`
-      );
-    }
+
+  /////////////////////////////////// Add to titile child modal
+function AddTitle() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
   };
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <React.Fragment>
+      <Button
+        component="label"
+        role={undefined}
+        variant="contained"
+        onClick={handleOpen}
+        tabIndex={-1}
+        startIcon={<MdTouchApp />}
+        sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
+      >
+        Add Title
+      </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: 200 }}>
+          <h2 id="child-modal-title">Add title</h2>
+          <form onSubmit={handleTitle}>
+            {language.data?.length && language.data.map(lang=>{
+              return <TextField
+                      key={lang._id}
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="name"
+                      name={lang.code}
+                      label={`Add category ${lang.code}`}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+            })}
+            <button
+              type="submit"
+              className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
+            >
+              Saqlash
+            </button>
+          </form>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
+ //////////////////////////////////// Add description child modal
+function AddDecription() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <React.Fragment>
+      <Button
+        component="label"
+        role={undefined}
+        variant="contained"
+        onClick={handleOpen}
+        tabIndex={-1}
+        startIcon={<MdTouchApp />}
+        sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
+      >
+        Add Description
+      </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: 200 }}>
+          <h2 id="child-modal-title">Add Description</h2>
+          <form>
+            {language.data?.length && language.data.map(lang=>{
+              return <TextField
+                      key={lang._id}
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="name"
+                      name={lang.code}
+                      label={`Add category ${lang.code}`}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+            })}
+            <button
+              type="submit"
+              className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
+            >
+              Saqlash
+            </button>
+          </form>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
+  
   return (
     <div className="relative">
       <Button sx={btnStyle} onClick={handleOpen}>
@@ -135,11 +252,11 @@ export default function TransitionsModal() {
                     margin="dense"
                     id="name"
                     name="uz"
-                    label="Add category Uz"
+                    label="Price"
                     type="number"
                     variant="standard"
                   />
-                  <Box sx={{ minWidth: 120, }}>
+                  <Box sx={{ minWidth: 120, marginTop: "4px"}}>
                     <FormControl>
                       <InputLabel variant="standard" htmlFor="uncontrolled-native">
                         Category
@@ -150,10 +267,10 @@ export default function TransitionsModal() {
                           name: 'age',
                           id: 'uncontrolled-native',
                         }}
-                      >
-                        <option value={10}>Ten</option>
-                        <option value={20}>Twenty</option>
-                        <option value={30}>Thirty</option>
+                      > 
+                      {category.data?.length && category.data.map(ctg => {
+                      return <option key={ctg.id} value={ctg.id}>{ctg.name}</option>
+                    })}
                       </NativeSelect>
                     </FormControl>
                   </Box>
@@ -163,161 +280,23 @@ export default function TransitionsModal() {
           </Box>
         </Fade>
       </Modal>
-    </div>
+    </div>    
   );
+  // Show praduct images  
+  async function showImages(e){
+    const images = [];
+    for (let i = 0; i < e.target.files.length; i++) {
+      images.push(await getBase64Full(e.target.files[i]));
+    }
+    console.log(images);
+    for (let image of images) {
+      praductImgs.current.insertAdjacentHTML(
+        "beforeend",
+        `<img src=${image} width='65' alt="praduct-image" className="overflow-hidden rounded-md"/>`
+      );
+    }
+  }
 }
 
-// Add to titile child modal
-function AddTitle() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+export default AddFood;
 
-  return (
-    <React.Fragment>
-      <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        onClick={handleOpen}
-        tabIndex={-1}
-        startIcon={<MdTouchApp />}
-        sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
-      >
-        Add Title
-      </Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
-        <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Add title</h2>
-          <form>
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="uz"
-              label="Add category Uz"
-              type="text"
-              fullWidth
-              variant="standard"
-            />
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="uz"
-              label="Add category Uz"
-              type="text"
-              fullWidth
-              variant="standard"
-            />
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="uz"
-              label="Add category Uz"
-              type="text"
-              fullWidth
-              variant="standard"
-            />
-            <button
-              type="submit"
-              className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
-            >
-              Saqlash
-            </button>
-          </form>
-        </Box>
-      </Modal>
-    </React.Fragment>
-  );
-}
-// Add description
-function AddDecription() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <React.Fragment>
-      <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        onClick={handleOpen}
-        tabIndex={-1}
-        startIcon={<MdTouchApp />}
-        sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
-      >
-        Add Description
-      </Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
-        <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Add title</h2>
-          <form>
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="uz"
-              label="Add category Uz"
-              type="text"
-              fullWidth
-              variant="standard"
-            />
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="uz"
-              label="Add category Uz"
-              type="text"
-              fullWidth
-              variant="standard"
-            />
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="uz"
-              label="Add category Uz"
-              type="text"
-              fullWidth
-              variant="standard"
-            />
-            <button
-              type="submit"
-              className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
-            >
-              Saqlash
-            </button>
-          </form>
-        </Box>
-      </Modal>
-    </React.Fragment>
-  );
-}
