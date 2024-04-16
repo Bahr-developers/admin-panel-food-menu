@@ -6,7 +6,6 @@ import { ALL_DATA } from "../Query/ALL_DATA";
 
 const Food = () => {
     const food = ALL_DATA.useFood()
-    console.log(food.data);
     return (
         <div>
             <Navbar/>

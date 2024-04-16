@@ -11,6 +11,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CategoryUtils } from '../utils/categoryutils';
 import { QUERY_KEY } from '../Query/QUERY_KEY';
 import { ALL_DATA } from '../Query/ALL_DATA';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { TranslateUtils } from '../utils/translate.utils';
+import toast from 'react-hot-toast';
 
 
 
@@ -31,33 +34,46 @@ const AddCategoryFood = () => {
   const praductImg = useRef()
   const queryClient = useQueryClient()
   const category = ALL_DATA.useCatefory()
-  console.log(category.data);
+  const language = ALL_DATA.useLanguage()
+  const addTranslate = useMutation({
+    mutationFn: TranslateUtils.postTranslate,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [QUERY_KEY.translete]})
+    },
+    onError: (err) => {
+      console.log(err, "Add translete");
+    }
+  })
   const addCategory = useMutation({
     mutationFn: CategoryUtils.addCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [QUERY_KEY.category]})
+      toast.success("Add category success")
     },
     onError: (err) => {
       console.log(err, "add Category");
     }
   })
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   const handleAddCotegory = (e) => {
     e.preventDefault()
+      const definition = {}
+      for (let el of language.data) {
+        definition[el.code] = e.target[el.code].value;
+      }
+      addTranslate.mutate({
+        code: e.target.translete_code.value,
+        definition,
+        type: "content"
+      })
       addCategory.mutate({
-      name: e.target.uz.value
+      name: addTranslate.data,
+      image: e.target.image.files[0],
+      category_id: e.target.category.value,
+      restaurant_id: "661bd36d8e353f56d26067c5"
     })
-  }
-
-  const showImage = async (e) => {
-    praductImg.current.src = await getBase64Full(e.target.files[0])
-    praductImg.current.classList.remove('hidden')
-    console.log(e.target.files[0]);
+    console.log(addCategory.variables);
+    console.log(addTranslate.data);
   }
 
   const VisuallyHiddenInput = styled('input')({
@@ -91,15 +107,14 @@ const AddCategoryFood = () => {
           <div className="miniwrap-image flex gap-x-4 md:gap-x-10 items-center">
           <Button
                 component="label"
-                role={undefined}
                 variant="contained"
                 tabIndex={-1}
-                onChange={showImage}
+                onChange={showImage}                
                 startIcon={<BiCloudUpload />}
                 sx={{margin: '25px 0 10px 0'}}
                 >                
                 Upload file
-                <VisuallyHiddenInput type="file" />
+                <VisuallyHiddenInput name='image' type="file" />
             </Button>
             <img width={90} ref={praductImg} className='hidden rounded-lg' src="" alt="img" />
           </div>
@@ -108,34 +123,41 @@ const AddCategoryFood = () => {
             required
             margin="dense"
             id="name"
-            name="uz"
-            label="Add category Uz"
+            name="translete_code"
+            label="Category translete code"
             type="text"
             fullWidth
             variant="standard"
           />
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="ru"
-            label="Add category Ru"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="en"
-            label="Add category En"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
+          {language.data?.length && language.data.map(lang => {
+            return <TextField
+                      key={lang._id}
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="name"
+                      name={lang.code}
+                      label={`Category name ${lang.code}`}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+          })}
+              <FormControl fullWidth sx={{marginTop: "20px", width:"100%"}}>
+                  <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                  <Select
+                    sx={{ width: "100%" }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name='category'
+                    label="Category"
+                    defaultValue={""}
+                    >
+                    {category.data?.length && category.data.map(ctg => {
+                      return <MenuItem key={ctg.id} value={ctg.id}>{ctg.name}</MenuItem>
+                    })}
+                  </Select>
+              </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
@@ -144,6 +166,19 @@ const AddCategoryFood = () => {
       </Dialog>
     </Fragment>
   );
+
+  // Show category image
+  async function showImage (e)  {
+    praductImg.current.src = await getBase64Full(e.target.files[0])
+    praductImg.current.classList.remove('hidden')
+  }
+  // Open and close modal
+  function handleClickOpen(){
+    setOpen(true);
+  }
+  function handleClose(){
+    setOpen(false);
+  }
 }
 
 export default AddCategoryFood;

@@ -9,10 +9,13 @@ export const CategoryUtils = {
         })
         return data
     },
-    addCategory: async ({name}) => {
-        const {data} = await custumAxios.post('/category/add', {
-            name
-        })
+    addCategory: async ({name, image, category_id, restaurant_id}) => {
+        const formData = new FormData()
+        formData.append("name",name)
+        formData.append("image",image)
+        formData.append("category_id",category_id)
+        formData.append("restaurant_id",restaurant_id)
+        const {data} = await custumAxios.post('/category/add', formData)
         return data
     },
     editCAtegory: async ({id, name, category_id}) => {

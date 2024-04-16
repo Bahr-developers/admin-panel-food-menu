@@ -25,12 +25,12 @@ const Addlanguage = () => {
                 <h2 className="text-[20px] font-bold">Language</h2>
                 <AddLanguage/>
             </div>
-            <div className="body mt-2">
+            <div className="body container mt-2">
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650, marginTop: 5 }} size="small" aria-label="a dense table">
                     <TableHead>
                     <TableRow>
-                        <TableCell >№</TableCell>
+                        <TableCell sx={{width: "10px" }}>№</TableCell>
                         <TableCell>Language</TableCell>
                         <TableCell>Code</TableCell>
                         <TableCell>Edit</TableCell>
