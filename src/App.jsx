@@ -12,7 +12,7 @@ import AddTranslete from './pages/Translete'
 import AddPraduct from './pages/Praduct'
 
 function App() {
-
+  if (!localStorage.getItem("language")) localStorage.setItem("language", "uz");
   return (
     <>
       <Routes>

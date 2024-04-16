@@ -1,7 +1,6 @@
 import MiniNav from "../components/MiniNav";
 import Navbar from "../components/Navbar";
-import AddCategorySweet from "../Modals/AddCategorySweet";
-import AddSweet from '../Modals/AddSweets'
+import AddCategory from "../Modals/AddCategory";
 
 const Sweets = () => {
     return (
@@ -12,9 +11,8 @@ const Sweets = () => {
                 <div className="container px-3">
                     <div className="drink-header flex justify-between my-3">
                         <h2 className="text-[22px] font-bold">Sweets</h2>
-                        <AddCategorySweet/>
+                        <AddCategory/>
                     </div>
-                        <AddSweet/>
                 </div>
             </div>
             <MiniNav/>

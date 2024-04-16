@@ -1,6 +1,6 @@
 import MiniNav from "../components/MiniNav";
 import Navbar from "../components/Navbar";
-import AddCategoryFood from "../Modals/AddCategoryFood";
+import AddCategoryFood from "../Modals/AddCategory";
 import AddFood from '../Modals/AddFood'
 import { ALL_DATA } from "../Query/ALL_DATA";
 

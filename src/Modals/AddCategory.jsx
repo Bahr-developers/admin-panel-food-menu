@@ -29,7 +29,7 @@ async function getBase64Full(file) {
     });
   }
 
-const AddCategoryFood = () => {
+const AddCategory = () => {
   const [open, setOpen] = useState(false);
   const praductImg = useRef()
   const queryClient = useQueryClient()
@@ -52,6 +52,8 @@ const AddCategoryFood = () => {
     },
     onError: (err) => {
       console.log(err, "add Category");
+
+      toast.error("Xatolik")
     }
   })
 
@@ -181,4 +183,4 @@ const AddCategoryFood = () => {
   }
 }
 
-export default AddCategoryFood;
+export default AddCategory;

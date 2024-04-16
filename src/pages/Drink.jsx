@@ -1,6 +1,6 @@
+import AddCategory from "../Modals/AddCategory";
 import MiniNav from "../components/MiniNav";
 import Navbar from "../components/Navbar";
-import DrinckAdd from '../Modals/AddDrinck'
 
 
 const Drink = () => {
@@ -12,7 +12,7 @@ const Drink = () => {
                     <div className="drink-header flex justify-between">
                         <h2 className="text-[22px] font-bold">Drinck</h2>
                     </div>
-                    <DrinckAdd/>
+                    <AddCategory/>
                 </div>
             </div>
             <MiniNav/>
