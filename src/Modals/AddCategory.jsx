@@ -68,12 +68,14 @@ const AddCategory = () => {
         definition,
         type: "content"
       })
-      addCategory.mutate({
-      name: addTranslate.data,
-      image: e.target.image.files[0],
-      category_id: e.target.category.value,
-      restaurant_id: "661bd36d8e353f56d26067c5"
-    })
+      if(addTranslate.data){
+        addCategory.mutate({
+          name: addTranslate.data,
+          image: e.target.image.files[0],
+          category_id: e.target.category.value,
+          restaurant_id: "661bd36d8e353f56d26067c5"
+        })
+      }      
     console.log(addCategory.variables);
     console.log(addTranslate.data);
   }
