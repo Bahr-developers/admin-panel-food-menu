@@ -27,7 +27,8 @@ async function getBase64Full(file) {
       };
       reader.onerror = reject;
     });
-  }
+}
+
 
 const AddCategory = () => {
   const [open, setOpen] = useState(false);
@@ -35,6 +36,8 @@ const AddCategory = () => {
   const queryClient = useQueryClient()
   const category = ALL_DATA.useCatefory()
   const language = ALL_DATA.useLanguage()
+
+  // Add taranslete and Category functions
   const addTranslate = useMutation({
     mutationFn: TranslateUtils.postTranslate,
     onSuccess: () => {
@@ -68,16 +71,14 @@ const AddCategory = () => {
         definition,
         type: "content"
       })
-      if(addTranslate.data){
-        addCategory.mutate({
-          name: addTranslate.data,
-          image: e.target.image.files[0],
-          category_id: e.target.category.value,
-          restaurant_id: "661bd36d8e353f56d26067c5"
-        })
-      }      
-    console.log(addCategory.variables);
-    console.log(addTranslate.data);
+      addCategory.mutate({
+        name: addTranslate.data,
+        image_url: e.target.image_category.files[0],
+        category_id: e.target.category.value,
+        restaurant_id: "661bd36d8e353f56d26067c5"
+      })     
+    console.log(addCategory.variables, "Category");
+    console.log(addTranslate.variables, "Transleta");
   }
 
   const VisuallyHiddenInput = styled('input')({
@@ -113,12 +114,13 @@ const AddCategory = () => {
                 component="label"
                 variant="contained"
                 tabIndex={-1}
-                onChange={showImage}                
+                onChange={showImage}    
+                name='image_category'            
                 startIcon={<BiCloudUpload />}
                 sx={{margin: '25px 0 10px 0'}}
                 >                
                 Upload file
-                <VisuallyHiddenInput name='image' type="file" />
+                <VisuallyHiddenInput name='image_category' type="file" />
             </Button>
             <img width={90} ref={praductImg} className='hidden rounded-lg' src="" alt="img" />
           </div>

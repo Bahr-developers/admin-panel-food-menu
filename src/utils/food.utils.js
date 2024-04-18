@@ -9,14 +9,18 @@ export const FoodUtils = {
         })
         return data
     },
-    addFood: async ({name, description, price, category_id, restourant_id}) =>  {
-        const {data} = await custumAxios.post('food/add', {
-            name,
-            price, 
-            category_id,
-            restourant_id,
-            description
-        })
+    addFood: async ({images,name, description, price, category_id, restourant_id}) =>  {
+        const formData = new FormData()
+        for(let img of images){
+            formData.append("images", img)
+        }
+        console.log(formData.get("images"));
+        formData.append("name",JSON.stringify(name));
+        formData.append("description",JSON.stringify(description))
+        formData.append("category_id",category_id)
+        formData.append("price",price)
+        formData.append("restourant_id",restourant_id)
+        const {data} = await custumAxios.post('food/add', formData)
         return data
     },
     editFood: async ({name, description, price, id}) => {

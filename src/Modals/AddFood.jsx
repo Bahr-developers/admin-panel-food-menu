@@ -15,6 +15,11 @@ import NativeSelect from '@mui/material/NativeSelect';
 import { useState } from "react";
 import { useRef } from "react";
 import { ALL_DATA } from "../Query/ALL_DATA";
+import { useReducer } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { FoodUtils } from "../utils/food.utils";
+import { QUERY_KEY } from "../Query/QUERY_KEY";
+import toast from "react-hot-toast";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -66,138 +71,206 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const handleTitle = (e) =>{
-  e.preventDefault()
+
+function reduser(state, action){
+  switch(action.type){
+    case 'title':{
+      return {
+        title: action.titleName,
+        description: state.description
+      }
+    }
+    case 'description':{
+      return {
+        title: state.title,
+        description: action.description
+      }
+    }
+    default: {
+      return {
+        title: state.title,
+        description: state.description
+      }
+    }
+  }
 }
-
-
+const initionState = {title: {}, description: {}}
 
 const AddFood = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  ///////////////////////////////////// Modal open and close
+  const [open, setOpen] = useState(false); const handleOpen = () => setOpen(true); const handleClose = () => setOpen(false);
+  ///////////////////////////////////// useReducer
+  const [state, dispatch] =useReducer(reduser, initionState)
   const praductImgs = useRef();
+  const category = ALL_DATA.useCatefory();        
   const language = ALL_DATA.useLanguage();
-  const category = ALL_DATA.useCatefory()
+  const queryClient = useQueryClient()
+  const addFood = useMutation({
+    mutationFn: FoodUtils.addFood,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [QUERY_KEY.food]})
+      toast.success("Succes add food")
+    },
+    onError: (err) => {
+      console.log(err, "Error add food");
+    }
+  })
 
+  const handleAddFood =(e) => {
+    e.preventDefault()
+    const images = []
+    console.log(e.target.images?.files.length);
+    for(let i=0; i< e.target.images?.files.length; i++){
+        images.push(e.target.images.files[i])
+    }
+    addFood.mutate({
+      images: images,
+      name: state.title,
+      description: state.description,
+      price: e.target.price?.value,
+      category_id: e.target.category_id?.value,
+      restourant_id: "661bd36d8e353f56d26067c5"
+    })
+  }
+
+  const handleTitle = (e) =>{
+    e.preventDefault()
+    const title = {}
+    for(let lang of language.data){
+      title[lang.code] = e.target[lang.code].value
+    }
+    dispatch({
+      type: "title",
+      titleName: title
+    })
+  }
 
   /////////////////////////////////// Add to titile child modal
-function AddTitle() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <React.Fragment>
-      <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        onClick={handleOpen}
-        tabIndex={-1}
-        startIcon={<MdTouchApp />}
-        sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
-      >
-        Add Title
-      </Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
-        <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Add title</h2>
-          <form onSubmit={handleTitle}>
-            {language.data?.length && language.data.map(lang=>{
-              return <TextField
-                      key={lang._id}
-                      autoFocus
-                      required
-                      margin="dense"
-                      id="name"
-                      name={lang.code}
-                      label={`Add category ${lang.code}`}
-                      type="text"
-                      fullWidth
-                      variant="standard"
-                    />
-            })}
-            <button
-              type="submit"
-              className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
-            >
-              Saqlash
-            </button>
-          </form>
-        </Box>
-      </Modal>
-    </React.Fragment>
-  );
-}
+  function AddTitle() {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
+    return (
+      <React.Fragment>
+        <Button
+          component="label"
+          role={undefined}
+          variant="contained"
+          onClick={handleOpen}
+          tabIndex={-1}
+          startIcon={<MdTouchApp />}
+          sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
+        >
+          Add Title
+        </Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="child-modal-title"
+          aria-describedby="child-modal-description"
+        >
+          <Box sx={{ ...style, width: 200 }}>
+            <h2 id="child-modal-title">Add title</h2>
+            <form onSubmit={handleTitle}>
+              {language.data?.length && language.data.map(lang=>{
+                return <TextField
+                        key={lang._id}
+                        autoFocus
+                        required
+                        margin="dense"
+                        id="name"
+                        name={lang.code}
+                        label={`Add category ${lang.code}`}
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                      />
+              })}
+              <button
+                type="submit"
+                className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
+              >
+                Saqlash
+              </button>
+            </form>
+          </Box>
+        </Modal>
+      </React.Fragment>
+    );
+  }
  //////////////////////////////////// Add description child modal
-function AddDecription() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <React.Fragment>
-      <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        onClick={handleOpen}
-        tabIndex={-1}
-        startIcon={<MdTouchApp />}
-        sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
-      >
-        Add Description
-      </Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
-        <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Add Description</h2>
-          <form>
-            {language.data?.length && language.data.map(lang=>{
-              return <TextField
-                      key={lang._id}
-                      autoFocus
-                      required
-                      margin="dense"
-                      id="name"
-                      name={lang.code}
-                      label={`Add category ${lang.code}`}
-                      type="text"
-                      fullWidth
-                      variant="standard"
-                    />
-            })}
-            <button
-              type="submit"
-              className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
-            >
-              Saqlash
-            </button>
-          </form>
-        </Box>
-      </Modal>
-    </React.Fragment>
-  );
-}
+  function AddDecription() {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
   
+    const handleAddDescription =(e)=>{
+      e.preventDefault()    
+      const description = {}
+      for(let des of language.data){
+        description[des.code] = e.target[des.code].value
+      }
+      dispatch({
+        type: "description",
+        description: description
+      })
+    }
+    return (
+      <React.Fragment>
+        <Button
+          component="label"
+          role={undefined}
+          variant="contained"
+          onClick={handleOpen}
+          tabIndex={-1}
+          startIcon={<MdTouchApp />}
+          sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
+        >
+          Add Description
+        </Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="child-modal-title"
+          aria-describedby="child-modal-description"
+        >
+          <Box sx={{ ...style, width: 200 }}>
+            <h2 id="child-modal-title">Add Description</h2>
+            <form onSubmit={handleAddDescription}>
+              {language.data?.length && language.data.map(lang=>{
+                return <TextField
+                        key={lang._id}
+                        autoFocus
+                        required
+                        margin="dense"
+                        id="name"
+                        name={lang.code}
+                        label={`Add category ${lang.code}`}
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                      />
+              })}
+              <button
+                type="submit"
+                className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
+              >
+                Saqlash
+              </button>
+            </form>
+          </Box>
+        </Modal>
+      </React.Fragment>
+      );
+    }
   return (
     <div className="relative">
       <Button sx={btnStyle} onClick={handleOpen}>
@@ -221,7 +294,7 @@ function AddDecription() {
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               Add to praduct
             </Typography>
-            <form>
+            <form onSubmit={handleAddFood}>
               <Button
                 component="label"
                 role={undefined}
@@ -236,7 +309,7 @@ function AddDecription() {
                 onChange={showImages}
               >
                 Upload file
-                <VisuallyHiddenInput multiple type="file" />
+                <VisuallyHiddenInput name="images" multiple type="file" />
               </Button>
               {/* Showe chald image */}
               <div
@@ -250,7 +323,7 @@ function AddDecription() {
                     required
                     margin="dense"
                     id="name"
-                    name="uz"
+                    name="price"
                     label="Price"
                     type="number"
                     variant="standard"
@@ -261,11 +334,7 @@ function AddDecription() {
                         Category
                       </InputLabel>
                       <NativeSelect
-                        defaultValue={10}
-                        inputProps={{
-                          name: 'age',
-                          id: 'uncontrolled-native',
-                        }}
+                        name="category_id"
                       > 
                       {category.data?.length && category.data.map(ctg => {
                       return <option key={ctg.id} value={ctg.id}>{ctg.name}</option>
@@ -273,8 +342,11 @@ function AddDecription() {
                       </NativeSelect>
                     </FormControl>
                   </Box>
-              </div>
+                </div>
               <AddDecription/>
+              <Button className="w-full" type="submit" variant="contained" color="success">
+                Add
+            </Button>
             </form>
           </Box>
         </Fade>
@@ -287,7 +359,6 @@ function AddDecription() {
     for (let i = 0; i < e.target.files.length; i++) {
       images.push(await getBase64Full(e.target.files[i]));
     }
-    console.log(images);
     for (let image of images) {
       praductImgs.current.insertAdjacentHTML(
         "beforeend",
