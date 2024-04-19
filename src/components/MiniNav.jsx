@@ -33,26 +33,6 @@ const MiniNav = () => {
         <NavLink to="profil" className="text-white text-[35px]">
           <CgProfile />
         </NavLink>
-        {/* <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Recents"
-                            value="recents"
-                            icon={<FaBowlFood />}
-                        >
-                            <Link to='/food'></Link>
-                        </BottomNavigationAction>
-                    <BottomNavigationAction
-                        label="Favorites"
-                        value="favorites"
-                        icon={<BiDrink />}
-                    />
-                    <BottomNavigationAction
-                        label="Nearby"
-                        value="nearby"
-                        icon={<LuDessert />}
-                    />
-                    <BottomNavigationAction label="Folder" value="folder" icon={<LuSalad />} />
-                </BottomNavigation> */}
       </div>
     </footer>
   );

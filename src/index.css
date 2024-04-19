@@ -16,3 +16,6 @@ span {
 input:focus {
   outline: none;
 }
+.active{
+  color: rgb(159, 159, 217);
+}

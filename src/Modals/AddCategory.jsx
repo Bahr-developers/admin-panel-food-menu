@@ -6,14 +6,16 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { BiCloudUpload } from "react-icons/bi";
 import { styled } from "@mui/material/styles";
-import { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CategoryUtils } from "../utils/categoryutils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { ALL_DATA } from "../Query/ALL_DATA";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Modal, Select } from "@mui/material";
 import { TranslateUtils } from "../utils/translate.utils";
 import toast from "react-hot-toast";
+import { MdTouchApp } from "react-icons/md";
+import { useParams } from "react-router-dom";
 
 
 // Images transform getbase64Full
@@ -60,19 +62,20 @@ const AddCategory = () => {
   const queryClient = useQueryClient();
   const category = ALL_DATA.useCatefory();
   const language = ALL_DATA.useLanguage();
+  const parms = useParams()
 
   const translate = ALL_DATA.useTranslete()
-  console.log(translate.data?.at(translate.data.length-1));
-  console.log(translate.data);
   
   // Add taranslete and Category functions
   const addTranslate = useMutation({
     mutationFn: TranslateUtils.postTranslate,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
+      toast.success("Translate succes")
     },
     onError: (err) => {
       console.log(err, "Add translete");
+      toast.error("Xatolik")
     },
   });
 
@@ -108,7 +111,7 @@ const AddCategory = () => {
         name: translate.data?.at(translate.data?.length-1)._id,
         image: e.target.image_category.files[0],
         category_id: e.target.category.value,
-        restaurant_id: "661bd36d8e353f56d26067c5"
+        restaurant_id: parms.restaurantId
       })     
     console.log(addCategory.variables, "Category");
     console.log(addTranslate.variables, "Transleta");
