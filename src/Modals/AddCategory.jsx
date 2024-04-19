@@ -1,35 +1,32 @@
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import { BiCloudUpload } from 'react-icons/bi';
-import { styled } from '@mui/material/styles'
-import React, { Fragment, useRef, useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CategoryUtils } from '../utils/categoryutils';
-import { QUERY_KEY } from '../Query/QUERY_KEY';
-import { ALL_DATA } from '../Query/ALL_DATA';
-import { Box, FormControl, InputLabel, MenuItem, Modal, Select } from '@mui/material';
-import { TranslateUtils } from '../utils/translate.utils';
-import toast from 'react-hot-toast';
-import { MdTouchApp } from 'react-icons/md';
-
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import { BiCloudUpload } from "react-icons/bi";
+import { styled } from "@mui/material/styles";
+import { Fragment, useRef, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CategoryUtils } from "../utils/categoryutils";
+import { QUERY_KEY } from "../Query/QUERY_KEY";
+import { ALL_DATA } from "../Query/ALL_DATA";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { TranslateUtils } from "../utils/translate.utils";
+import toast from "react-hot-toast";
 
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    });
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.onerror = reject;
+  });
 }
-
 
 const style = {
   position: "absolute",
@@ -59,10 +56,10 @@ const VisuallyHiddenInput = styled('input')({
 
 const AddCategory = () => {
   const [open, setOpen] = useState(false);
-  const praductImg = useRef()
-  const queryClient = useQueryClient()
-  const category = ALL_DATA.useCatefory()
-  const language = ALL_DATA.useLanguage()
+  const praductImg = useRef();
+  const queryClient = useQueryClient();
+  const category = ALL_DATA.useCatefory();
+  const language = ALL_DATA.useLanguage();
 
   const translate = ALL_DATA.useTranslete()
   console.log(translate.data?.at(translate.data.length-1));
@@ -72,25 +69,24 @@ const AddCategory = () => {
   const addTranslate = useMutation({
     mutationFn: TranslateUtils.postTranslate,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [QUERY_KEY.translete]})
-      toast.success("Success")
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
     },
     onError: (err) => {
       console.log(err, "Add translete");
-      toast.error("Error")
-    }
-  })
+    },
+  });
+
   const addCategory = useMutation({
     mutationFn: CategoryUtils.addCategory,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [QUERY_KEY.category]})
-      toast.success("Add category success")
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
+      toast.success("Add category success");
     },
     onError: (err) => {
       console.log(err, "add Category");
-      toast.error("Xatolik")
-    }
-  })
+      toast.error("Xatolik");
+    },
+  });
 
   
   const handleTitleAddCategory = (e) =>{
@@ -196,9 +192,9 @@ const AddCategory = () => {
         open={open}
         onClose={handleClose}
         PaperProps={{
-          component: 'form',
-          onSubmit: handleAddCotegory
-        }}       
+          component: "form",
+          onSubmit: handleAddCotegory,
+        }}
       >
         <DialogContent sx={{}}>
           <DialogContentText>
@@ -246,17 +242,17 @@ const AddCategory = () => {
   );
 
   // Show category image
-  async function showImage (e)  {
-    praductImg.current.src = await getBase64Full(e.target.files[0])
-    praductImg.current.classList.remove('hidden')
+  async function showImage(e) {
+    praductImg.current.src = await getBase64Full(e.target.files[0]);
+    praductImg.current.classList.remove("hidden");
   }
   // Open and close modal
-  function handleClickOpen(){
+  function handleClickOpen() {
     setOpen(true);
   }
-  function handleClose(){
+  function handleClose() {
     setOpen(false);
   }
-}
+};
 
 export default AddCategory;

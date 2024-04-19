@@ -1,13 +1,5 @@
-import MiniNav from "../components/MiniNav";
-import Navbar from "../components/Navbar";
-
 const AddPraduct = () => {
-    return (
-        <>
-            <Navbar/>
-            <MiniNav/>
-        </>
-    );
+  return <div>product</div>;
 };
 
 export default AddPraduct;

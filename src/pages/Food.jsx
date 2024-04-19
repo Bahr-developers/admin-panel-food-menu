@@ -1,32 +1,20 @@
-import MiniNav from "../components/MiniNav";
-import Navbar from "../components/Navbar";
 import AddCategoryFood from "../Modals/AddCategory";
-import AddFood from '../Modals/AddFood'
-import { ALL_DATA } from "../Query/ALL_DATA";
+import AddFood from "../Modals/AddFood";
 
 const Food = () => {
-    const food = ALL_DATA.useFood()
-    const category = ALL_DATA.useCatefory()
-    
-    return (
-        <div>
-            <Navbar/>
-            <hr />
-            <div className="drink-wrap">
-                <div className="sm:container px-3 relative">
-                    <div className="drink-header flex justify-between relative  my-3">
-                        <h2 className="text-[22px] font-bold">Foods</h2>
-                        <AddCategoryFood/>
-                    </div>
-                    <div className="body-foods">
-
-                    </div>
-                    <AddFood/>
-                </div>
-            </div>
-            <MiniNav/>
+  return (
+    <div>
+      <div className="drink-wrap">
+        <div className="relative">
+          <div className="drink-header flex justify-between relative  my-3">
+            <h2 className="text-[22px] font-bold">Foods</h2>
+            <AddCategoryFood />
+          </div>
+          <AddFood />
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Food;

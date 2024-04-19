@@ -1,4 +1,4 @@
-import { custumAxios } from "../configs/axios.config"
+import { custumAxios } from "../configs/axios.config";
 
 export const CategoryUtils = {
     getCategory: async () => {

@@ -7,34 +7,34 @@ import { CategoryUtils } from "../utils/categoryutils";
 import { LanguageUtils } from "../utils/language.utils";
 
 export const ALL_DATA = {
-    useLanguage:  () => {
-        return useQuery({
-            queryKey: [QUERY_KEY.language],
-            queryFn: LanguageUtils.getLanguage
-        })
-    },
-    useTranslete: () => {
-        return useQuery({
-            queryKey: [QUERY_KEY.translete],
-            queryFn: TranslateUtils.getTranslate
-        })
-    },
-    useRestourant: () => {
-        return useQuery({
-            queryKey: [QUERY_KEY.restourant],
-            queryFn: RestourantUtils.getRestourant
-        })
-    },
-    useFood: () => {
-        return useQuery({
-            queryKey: [QUERY_KEY.food],
-            queryFn: FoodUtils.getFood
-        })
-    },    
-    useCatefory: () => {
-        return useQuery({
-            queryKey: [QUERY_KEY.category],
-            queryFn: CategoryUtils.getCategory
-        })
-    },
-}
+  useLanguage: () => {
+    return useQuery({
+      queryKey: [QUERY_KEY.language],
+      queryFn: LanguageUtils.getLanguage,
+    });
+  },
+  useTranslete: () => {
+    return useQuery({
+      queryKey: [QUERY_KEY.translete],
+      queryFn: TranslateUtils.getTranslate,
+    });
+  },
+  useRestourant: () => {
+    return useQuery({
+      queryKey: [QUERY_KEY.restourant],
+      queryFn: RestourantUtils.getRestourant,
+    });
+  },
+  useFood: () => {
+    return useQuery({
+      queryKey: [QUERY_KEY.food],
+      queryFn: FoodUtils.getFood,
+    });
+  },
+  useCatefory: () => {
+    return useQuery({
+      queryKey: [QUERY_KEY.category],
+      queryFn: CategoryUtils.getCategory,
+    });
+  },
+};
