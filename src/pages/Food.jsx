@@ -7,8 +7,7 @@ import { ALL_DATA } from "../Query/ALL_DATA";
 const Food = () => {
     const food = ALL_DATA.useFood()
     const category = ALL_DATA.useCatefory()
-    console.log(category.data);
-    console.log(food.data);
+    
     return (
         <div>
             <Navbar/>

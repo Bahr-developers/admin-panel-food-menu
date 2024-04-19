@@ -1,6 +1,7 @@
 import MiniNav from "../components/MiniNav";
 import Navbar from "../components/Navbar";
 import AddCategory from "../Modals/AddCategory";
+import AddFood from "../Modals/AddFood";
 
 const Sweets = () => {
     return (
@@ -13,6 +14,10 @@ const Sweets = () => {
                         <h2 className="text-[22px] font-bold">Sweets</h2>
                         <AddCategory/>
                     </div>
+                    <div className="sweets-body">
+
+                    </div>
+                    <AddFood/>
                 </div>
             </div>
             <MiniNav/>

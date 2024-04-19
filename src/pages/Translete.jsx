@@ -17,7 +17,6 @@ const Translate = () => {
     const language = ALL_DATA.useLanguage()
     const translate = ALL_DATA.useTranslete()
     console.log(translate.data);
-    // if(translate.data) 
   return (
     <>
     <Navbar/>
@@ -30,10 +29,10 @@ const Translate = () => {
         <TableHead>
           <TableRow>
             <TableCell >№</TableCell>
-            <TableCell>Translete code</TableCell>
             {language.data?.length && language.data.map((code) => {
-                return <TableCell key={code._id}>{code.title}</TableCell>
+              return <TableCell key={code._id}>{code.title}</TableCell>
             })}
+            <TableCell>Status</TableCell>
             <TableCell>Edit</TableCell>
             <TableCell>Delete</TableCell>
           </TableRow>
@@ -47,12 +46,12 @@ const Translate = () => {
               <TableCell sx={{width: "15px" }}>
                 {i+1}
               </TableCell>
-              <TableCell sx={{width: "15px" }}>
-                {tr.code}
-              </TableCell>
               {tr.definitions.map(code => {
                     return <TableCell key={code._id}>{code.value}</TableCell>
               })}
+              <TableCell sx={tr.status==="active"?{width: "15px", color:"green" }:{width: "15px", color:"red"}}>
+                {tr.status}
+              </TableCell>
               <TableCell sx={{width: "15px" }}>
                 <BiEdit/>
               </TableCell>
