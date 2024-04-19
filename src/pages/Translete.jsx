@@ -40,10 +40,10 @@ const Translate = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell sx={{ width: "15px" }}>{i + 1}</TableCell>
-                  <TableCell sx={{ width: "15px" }}>{tr.code}</TableCell>
                   {tr.definitions.map((code) => {
                     return <TableCell key={code._id}>{code.value}</TableCell>;
                   })}
+                  <TableCell sx={tr.status==="active" ? { width: "15px", color:"white", backgroundColor: "green"}:{ width: "15px", color:"white", backgroundColor: "red" }}>{tr.status}</TableCell>
                   <TableCell sx={{ width: "15px" }}>
                     <BiEdit />
                   </TableCell>
