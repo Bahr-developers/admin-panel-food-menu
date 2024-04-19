@@ -17,24 +17,42 @@ const Translate = () => {
     <>
       <div className="flex justify-between px-3">
         <p>Add Translate</p>
-        <AddTranslete />
-      </div>
-      <TableContainer component={Paper}>
-        <Table
-          sx={{ minWidth: 650, marginTop: 5 }}
-          size="small"
-          aria-label="a dense table"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>№</TableCell>
-              <TableCell>Translete code</TableCell>
-              {language.data?.length &&
-                language.data.map((code) => {
-                  return <TableCell key={code._id}>{code.title}</TableCell>;
-                })}
-              <TableCell>Edit</TableCell>
-              <TableCell>Delete</TableCell>
+        <AddTranslete/>
+    </div>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650, marginTop: 5 }} size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell >№</TableCell>
+            {language.data?.length && language.data.map((code) => {
+              return <TableCell key={code._id}>{code.title}</TableCell>
+            })}
+            <TableCell>Status</TableCell>
+            <TableCell>Edit</TableCell>
+            <TableCell>Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {translate.data?.length &&  translate.data.map((tr, i) => (
+            <TableRow
+              key={i}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell sx={{width: "15px" }}>
+                {i+1}
+              </TableCell>
+              {tr.definitions.map(code => {
+                    return <TableCell key={code._id}>{code.value}</TableCell>
+              })}
+              <TableCell sx={tr.status==="active"?{width: "15px", color:"green" }:{width: "15px", color:"red"}}>
+                {tr.status}
+              </TableCell>
+              <TableCell sx={{width: "15px" }}>
+                <BiEdit/>
+              </TableCell>
+              <TableCell sx={{width: "15px" }}>
+                <BiTrash/>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
