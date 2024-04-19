@@ -1,11 +1,13 @@
 import AddCategoryFood from "../Modals/AddCategory";
 import AddFood from "../Modals/AddFood";
 import { ALL_DATA } from "../Query/ALL_DATA";
+import Loader from '../components/Loading'
 
 import FoodCard from "../components/FoodCard";
 const Food = () => {
     const food = ALL_DATA.useFood();
     console.log(food.data);
+    if(!food.data) return <Loader/>
   return (
     <div>
       <div className="drink-wrap">
@@ -15,12 +17,9 @@ const Food = () => {
             <AddCategoryFood />
           </div>
           <div className="food-body flex flex-wrap gap-3 items-center justify-between">
-          <FoodCard/>
-          <FoodCard/>
-            <FoodCard/>
-            <FoodCard/>
-            <FoodCard/>
-
+            {food.data?.length && food.data.map(el => {
+                return <FoodCard key={el.id} data ={el}/>
+            })}
           </div>
           <AddFood />
         </div>
