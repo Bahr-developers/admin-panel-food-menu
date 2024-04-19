@@ -9,9 +9,9 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { BiCloudUpload } from "react-icons/bi";
 import { MdTouchApp } from "react-icons/md";
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import NativeSelect from '@mui/material/NativeSelect';
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import NativeSelect from "@mui/material/NativeSelect";
 import { useState } from "react";
 import { useRef } from "react";
 import { ALL_DATA } from "../Query/ALL_DATA";
@@ -71,57 +71,58 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-
-function reduser(state, action){
-  switch(action.type){
-    case 'title':{
+function reduser(state, action) {
+  switch (action.type) {
+    case "title": {
       return {
         title: action.titleName,
-        description: state.description
-      }
+        description: state.description,
+      };
     }
-    case 'description':{
+    case "description": {
       return {
         title: state.title,
-        description: action.description
-      }
+        description: action.description,
+      };
     }
     default: {
       return {
         title: state.title,
-        description: state.description
-      }
+        description: state.description,
+      };
     }
   }
 }
-const initionState = {title: {}, description: {}}
+const initionState = { title: {}, description: {} };
 
 const AddFood = () => {
   ///////////////////////////////////// Modal open and close
-  const [open, setOpen] = useState(false); const handleOpen = () => setOpen(true); const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   ///////////////////////////////////// useReducer
-  const [state, dispatch] =useReducer(reduser, initionState)
+  const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
-  const category = ALL_DATA.useCatefory();        
+  const category = ALL_DATA.useCatefory();
   const language = ALL_DATA.useLanguage();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const addFood = useMutation({
     mutationFn: FoodUtils.addFood,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [QUERY_KEY.food]})
-      toast.success("Succes add food")
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
+      toast.success("Succes add food");
     },
     onError: (err) => {
       console.log(err, "Error add food");
-    }
-  })
+    },
+  });
 
-  const handleAddFood =(e) => {
-    e.preventDefault()
-    const images = []
+  const handleAddFood = (e) => {
+    e.preventDefault();
+    const images = [];
     console.log(e.target.images?.files.length);
-    for(let i=0; i< e.target.images?.files.length; i++){
-        images.push(e.target.images.files[i])
+    for (let i = 0; i < e.target.images?.files.length; i++) {
+      images.push(e.target.images.files[i]);
     }
     addFood.mutate({
       images: images,
@@ -129,21 +130,21 @@ const AddFood = () => {
       description: state.description,
       price: e.target.price?.value,
       category_id: e.target.category_id?.value,
-      restourant_id: "661bd36d8e353f56d26067c5"
-    })
-  }
+      restourant_id: "661bd36d8e353f56d26067c5",
+    });
+  };
 
-  const handleTitle = (e) =>{
-    e.preventDefault()
-    const title = {}
-    for(let lang of language.data){
-      title[lang.code] = e.target[lang.code].value
+  const handleTitle = (e) => {
+    e.preventDefault();
+    const title = {};
+    for (let lang of language.data) {
+      title[lang.code] = e.target[lang.code].value;
     }
     dispatch({
       type: "title",
-      titleName: title
-    })
-  }
+      titleName: title,
+    });
+  };
 
   /////////////////////////////////// Add to titile child modal
   function AddTitle() {
@@ -176,20 +177,23 @@ const AddFood = () => {
           <Box sx={{ ...style, width: 200 }}>
             <h2 id="child-modal-title">Add title</h2>
             <form onSubmit={handleTitle}>
-              {language.data?.length && language.data.map(lang=>{
-                return <TextField
-                        key={lang._id}
-                        autoFocus
-                        required
-                        margin="dense"
-                        id="name"
-                        name={lang.code}
-                        label={`Add category ${lang.code}`}
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                      />
-              })}
+              {language.data?.length &&
+                language.data.map((lang) => {
+                  return (
+                    <TextField
+                      key={lang._id}
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="name"
+                      name={lang.code}
+                      label={`Add category ${lang.code}`}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+                  );
+                })}
               <button
                 type="submit"
                 className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
@@ -202,7 +206,7 @@ const AddFood = () => {
       </React.Fragment>
     );
   }
- //////////////////////////////////// Add description child modal
+  //////////////////////////////////// Add description child modal
   function AddDecription() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
@@ -211,18 +215,18 @@ const AddFood = () => {
     const handleClose = () => {
       setOpen(false);
     };
-  
-    const handleAddDescription =(e)=>{
-      e.preventDefault()    
-      const description = {}
-      for(let des of language.data){
-        description[des.code] = e.target[des.code].value
+
+    const handleAddDescription = (e) => {
+      e.preventDefault();
+      const description = {};
+      for (let des of language.data) {
+        description[des.code] = e.target[des.code].value;
       }
       dispatch({
         type: "description",
-        description: description
-      })
-    }
+        description: description,
+      });
+    };
     return (
       <React.Fragment>
         <Button
@@ -245,20 +249,23 @@ const AddFood = () => {
           <Box sx={{ ...style, width: 200 }}>
             <h2 id="child-modal-title">Add Description</h2>
             <form onSubmit={handleAddDescription}>
-              {language.data?.length && language.data.map(lang=>{
-                return <TextField
-                        key={lang._id}
-                        autoFocus
-                        required
-                        margin="dense"
-                        id="name"
-                        name={lang.code}
-                        label={`Add category ${lang.code}`}
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                      />
-              })}
+              {language.data?.length &&
+                language.data.map((lang) => {
+                  return (
+                    <TextField
+                      key={lang._id}
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="name"
+                      name={lang.code}
+                      label={`Add category ${lang.code}`}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+                  );
+                })}
               <button
                 type="submit"
                 className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
@@ -269,8 +276,8 @@ const AddFood = () => {
           </Box>
         </Modal>
       </React.Fragment>
-      );
-    }
+    );
+  }
   return (
     <div className="relative">
       <Button sx={btnStyle} onClick={handleOpen}>
@@ -318,43 +325,54 @@ const AddFood = () => {
               ></div>
               <AddTitle />
               <div className="flex items-center gap-3">
-                  <TextField
-                    autoFocus
-                    required
-                    margin="dense"
-                    id="name"
-                    name="price"
-                    label="Price"
-                    type="number"
-                    variant="standard"
-                  />
-                  <Box sx={{ minWidth: 120, marginTop: "4px"}}>
-                    <FormControl>
-                      <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Category
-                      </InputLabel>
-                      <NativeSelect
-                        name="category_id"
-                      > 
-                      {category.data?.length && category.data.map(ctg => {
-                      return <option key={ctg.id} value={ctg.id}>{ctg.name}</option>
-                    })}
-                      </NativeSelect>
-                    </FormControl>
-                  </Box>
-                </div>
-              <AddDecription/>
-              <Button className="w-full" type="submit" variant="contained" color="success">
+                <TextField
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="name"
+                  name="price"
+                  label="Price"
+                  type="number"
+                  variant="standard"
+                />
+                <Box sx={{ minWidth: 120, marginTop: "4px" }}>
+                  <FormControl>
+                    <InputLabel
+                      variant="standard"
+                      htmlFor="uncontrolled-native"
+                    >
+                      Category
+                    </InputLabel>
+                    <NativeSelect name="category_id">
+                      {category.data?.length &&
+                        category.data.map((ctg) => {
+                          return (
+                            <option key={ctg.id} value={ctg.id}>
+                              {ctg.name}
+                            </option>
+                          );
+                        })}
+                    </NativeSelect>
+                  </FormControl>
+                </Box>
+              </div>
+              <AddDecription />
+              <Button
+                className="w-full"
+                type="submit"
+                variant="contained"
+                color="success"
+              >
                 Add
-            </Button>
+              </Button>
             </form>
           </Box>
         </Fade>
       </Modal>
-    </div>    
+    </div>
   );
-  // Show praduct images  
-  async function showImages(e){
+  // Show praduct images
+  async function showImages(e) {
     const images = [];
     for (let i = 0; i < e.target.files.length; i++) {
       images.push(await getBase64Full(e.target.files[i]));
@@ -366,7 +384,6 @@ const AddFood = () => {
       );
     }
   }
-}
+};
 
 export default AddFood;
-
