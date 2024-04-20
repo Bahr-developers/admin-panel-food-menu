@@ -17,12 +17,13 @@ const RootLayouts = () => {
 
   return (
     <main>
-      <Navbar restaurant={getRestaurantById} />
-      <hr className="mb-3" />
+      <div className="sticky top-0 left-0 bg-white z-10">
+        <Navbar restaurant={getRestaurantById} />
+        <hr className="mb-3" />
+      </div>
       <div className="container mx-auto px-3">
         <Outlet />
       </div>
-      <MiniNav />
     </main>
   );
 };

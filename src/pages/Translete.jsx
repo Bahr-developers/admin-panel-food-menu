@@ -17,21 +17,26 @@ const Translate = () => {
     <>
       <div className="flex justify-between px-3">
         <p>Add Translate</p>
-        <AddTranslete/>
-    </div>
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650, marginTop: 5 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell >№</TableCell>
-            {language.data?.length && language.data.map((code) => {
-              return <TableCell key={code._id}>{code.title}</TableCell>
-            })}
-            <TableCell>Status</TableCell>
-            <TableCell>Edit</TableCell>
-            <TableCell>Delete</TableCell>
-          </TableRow>
-        </TableHead>
+        <AddTranslete />
+      </div>
+      <TableContainer component={Paper}>
+        <Table
+          sx={{ minWidth: 650, marginTop: 5 }}
+          size="small"
+          aria-label="a dense table"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell>№</TableCell>
+              {language.data?.length &&
+                language.data.map((code) => {
+                  return <TableCell key={code._id}>{code.title}</TableCell>;
+                })}
+              <TableCell>Status</TableCell>
+              <TableCell>Edit</TableCell>
+              <TableCell>Delete</TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
             {translate.data?.length &&
               translate.data.map((tr, i) => (
@@ -43,7 +48,23 @@ const Translate = () => {
                   {tr.definitions.map((code) => {
                     return <TableCell key={code._id}>{code.value}</TableCell>;
                   })}
-                  <TableCell sx={tr.status==="active" ? { width: "15px", color:"white", backgroundColor: "green"}:{ width: "15px", color:"white", backgroundColor: "red" }}>{tr.status}</TableCell>
+                  <TableCell
+                    sx={
+                      tr.status === "active"
+                        ? {
+                            width: "15px",
+                            color: "white",
+                            backgroundColor: "green",
+                          }
+                        : {
+                            width: "15px",
+                            color: "white",
+                            backgroundColor: "red",
+                          }
+                    }
+                  >
+                    {tr.status}
+                  </TableCell>
                   <TableCell sx={{ width: "15px" }}>
                     <BiEdit />
                   </TableCell>

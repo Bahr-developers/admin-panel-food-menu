@@ -1,38 +1,28 @@
-// import { BottomNavigation, BottomNavigationAction } from "@mui/material";
-// import { useState } from "react";
-import { BiDrink } from "react-icons/bi";
-import { CgProfile } from "react-icons/cg";
-import { FaBowlFood } from "react-icons/fa6";
-import { LuDessert, LuSalad } from "react-icons/lu";
-import { Link, NavLink, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { ALL_DATA } from "../Query/ALL_DATA";
+import { data } from "autoprefixer";
 
 const MiniNav = () => {
-  // const [value, setValue] = useState('recents');
-
-  // const handleChange = (event, newValue) => {
-  //     setValue(newValue);
-  // };
-
   const { restaurantId } = useParams();
 
+  const getCategories = ALL_DATA.useCatefory(restaurantId);
+
   return (
-    <footer className="fixed z-20 bottom-0 left-0 w-full bg-[rgba(153,107,58,0.99)]">
+    <footer
+      className={`fixed z-20 bottom-0 left-0 w-full bg-[rgba(153,107,58,0.99)] ${
+        getCategories?.data?.data.length ? " block" : " hidden"
+      }`}
+    >
       <div className="flex justify-between items-center px-3 container mx-auto py-2">
-        <Link to={`/${restaurantId}`} className="text-white text-[35px]">
-          <FaBowlFood />
-        </Link>
-        <NavLink to={"drink"} className="text-white text-[35px]">
-          <BiDrink />
-        </NavLink>
-        <NavLink to="sweets" className="text-white text-[35px]">
-          <LuDessert />
-        </NavLink>
-        <NavLink to="salads" className="text-white text-[35px]">
-          <LuSalad />
-        </NavLink>
-        <NavLink to="profil" className="text-white text-[35px]">
-          <CgProfile />
-        </NavLink>
+        {getCategories?.data?.data?.map((category) => (
+          <Link
+            key={category.id}
+            to={`/${restaurantId}/${category.id}`}
+            className="text-white  md:text-xl"
+          >
+            {category?.name}
+          </Link>
+        ))}
       </div>
     </footer>
   );

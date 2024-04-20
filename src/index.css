@@ -23,3 +23,15 @@ input:focus {
 .lazy-load-image-background {
   width: 100%;
 }
+
+select {
+  appearance: none;
+}
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background-color: #82f238;
+  border-radius: 50%;
+  margin: 0 5px;
+}
