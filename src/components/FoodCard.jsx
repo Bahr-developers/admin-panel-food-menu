@@ -17,7 +17,6 @@ import toast from "react-hot-toast";
 
 const FoodCard = (props) => {
   const queryClient = useQueryClient();
-  console.log(data);
   const deletaFood = useMutation({
     mutationFn: FoodUtils.deleteFood,
     onSuccess: () => {
@@ -33,7 +32,7 @@ const FoodCard = (props) => {
   const foodInformation = props?.food;
 
   return (
-    <div className="card-food w-[47%] md:w-[31%] mb-2">
+    <div className="card-food relative w-[47%] md:w-[31%] mb-2">
       <Swiper
         pagination={{ clickable: true }}
         modules={[Pagination]}
@@ -60,13 +59,13 @@ const FoodCard = (props) => {
           <div className="h-[100px] text-center">no image</div>
         )}
       </Swiper>
-      <EditFood data={data}/>
-      <DeleteFood deleteFn={deletaFood.mutate} id={data.id}/>
+      <EditFood data={foodInformation}/>
+      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation.id}/>
       <h2 className="font-bold py-1 text-xl truncate">
         {foodInformation.name}
       </h2>
       <p className="overflow-hidden">{foodInformation.description}</p>
-      <p>{foodInformation.price} so'm</p>
+      <p>{foodInformation.price} so`m</p>
       <p>{foodInformation.food_status}</p>
       <p>{foodInformation.status}</p>
     </div>

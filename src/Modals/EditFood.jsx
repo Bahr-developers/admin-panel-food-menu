@@ -93,21 +93,10 @@ const EditFood = ({data}) => {
   ///////////////////////////////////// useReducer
   const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
-
   const category = ALL_DATA.useCatefory();
   const language = ALL_DATA.useLanguage();
   const queryClient = useQueryClient();
 
-  const addFood = useMutation({
-    mutationFn: FoodUtils.addFood,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
-      toast.success("Succes add food");
-    },
-    onError: (err) => {
-      console.log(err, "Error add food");
-    },
-  });
   const editFood = useMutation({
     mutationFn: FoodUtils.editFood,
     onSuccess: () => {
@@ -127,7 +116,7 @@ const EditFood = ({data}) => {
     for (let i = 0; i < e.target.images?.files.length; i++) {
       images.push(e.target.images.files[i]);
     }
-    addFood.mutate({
+    editFood.mutate({
       images: images,
       name: state.title,
       description: state.description,
