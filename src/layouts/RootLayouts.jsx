@@ -15,8 +15,6 @@ const RootLayouts = () => {
     (restourant) => restaurantId === restourant.id
   );
 
-  console.log(getRestaurantById);
-
   return (
     <main>
       <Navbar restaurant={getRestaurantById} />

@@ -36,28 +36,28 @@ const HamburgerMenu = () => {
             <Link
               onClick={() => setOpenMenu(false)}
               className="flex items-center gap-3 font-bold py-2 p-1 w-[85%] border rounded-sm"
-              to="/add-language"
+              to="add-language"
             >
               <GrLanguage /> Til qo`shish
             </Link>
             <Link
               onClick={() => setOpenMenu(false)}
               className="flex items-center gap-3 font-bold py-2 p-1 w-[85%] border rounded-sm mt-2"
-              to="/add-translate"
+              to="add-translate"
             >
               <MdGTranslate /> Translete qo`shishish
             </Link>
             <Link
               onClick={() => setOpenMenu(false)}
               className="flex items-center gap-3 font-bold py-2 p-1 w-[85%] border rounded-sm mt-2"
-              to="/add-category"
+              to="add-category"
             >
               <TbCategoryPlus /> Categoriya qo`shish
             </Link>
             <Link
               onClick={() => setOpenMenu(false)}
               className="flex items-center gap-3 font-bold py-2 p-1 w-[85%] border rounded-sm mt-2"
-              to="/add-praduct"
+              to="add-praduct"
             >
               <RiAddCircleLine /> Mahsulot qo`shishish
             </Link>

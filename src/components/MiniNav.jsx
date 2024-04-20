@@ -16,7 +16,7 @@ const MiniNav = () => {
   const { restaurantId } = useParams();
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-[rgba(153,107,58,0.99)]">
+    <footer className="fixed z-20 bottom-0 left-0 w-full bg-[rgba(153,107,58,0.99)]">
       <div className="flex justify-between items-center px-3 container mx-auto py-2">
         <Link to={`/${restaurantId}`} className="text-white text-[35px]">
           <FaBowlFood />
@@ -33,26 +33,6 @@ const MiniNav = () => {
         <NavLink to="profil" className="text-white text-[35px]">
           <CgProfile />
         </NavLink>
-        {/* <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Recents"
-                            value="recents"
-                            icon={<FaBowlFood />}
-                        >
-                            <Link to='/food'></Link>
-                        </BottomNavigationAction>
-                    <BottomNavigationAction
-                        label="Favorites"
-                        value="favorites"
-                        icon={<BiDrink />}
-                    />
-                    <BottomNavigationAction
-                        label="Nearby"
-                        value="nearby"
-                        icon={<LuDessert />}
-                    />
-                    <BottomNavigationAction label="Folder" value="folder" icon={<LuSalad />} />
-                </BottomNavigation> */}
       </div>
     </footer>
   );

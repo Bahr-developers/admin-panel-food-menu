@@ -1,6 +1,6 @@
 const Loading = () => {
   return (
-    <div className=" min-h-screen text-[#45d6b5] flex flex-col justify-center items-center">
+    <div className=" mt-[-160px] min-h-screen text-[#45d6b5] flex flex-col justify-center items-center">
       <svg
         className="w-[150px]"
         version="1.1"

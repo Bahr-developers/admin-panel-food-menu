@@ -18,7 +18,7 @@ const Navbar = (props) => {
     <nav className="navbar py-3">
       <div className="container px-3 relative mx-auto">
         <div className="navbar-wrap w-[100%] flex justify-between items-center">
-          {/* <HamburgerMenu/> */}
+          <HamburgerMenu/>
           <div className="flex items-center gap-2">
             {restaurant?.image_url ? (
               <LazyLoadImage
@@ -41,6 +41,7 @@ const Navbar = (props) => {
             )}
             <h2>{restaurant?.name}</h2>
           </div>
+         
           <input
             ref={SearchBtn}
             className="focus:border-blue-400 left-auto absolute p-3 ease-in duration-300 border translate-y-[-70px] rounded-lg block w-[70%]"

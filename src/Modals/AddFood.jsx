@@ -281,7 +281,7 @@ const AddFood = () => {
     );
   }
   return (
-    <div className="relative">
+    <div className="relative z-30">
       <Button sx={btnStyle} onClick={handleOpen}>
         <Typography sx={{ fontSize: "35px" }}>+</Typography>
       </Button>
