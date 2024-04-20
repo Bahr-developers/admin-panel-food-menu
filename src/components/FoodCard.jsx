@@ -8,9 +8,19 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import './swiper.css'
 import { IMG_BASE_URL } from '../constants/server.BaseUrl';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FoodUtils } from '../utils/food.utils';
+import { QUERY_KEY } from '../Query/QUERY_KEY';
 
 const FoodCard = ({data}) => {
     console.log(data);
+    const queryClient = useQueryClient()
+    const deletaFood = useMutation({
+        mutationFn: FoodUtils.deleteFood,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [QUERY_KEY.food]})
+        }
+    })
     return (
             <div className="card-food w-[47%]">
                 <Swiper pagination={true} modules={[Pagination]} className="mySwiper">

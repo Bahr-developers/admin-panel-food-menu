@@ -21,9 +21,11 @@ const SignIn = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const number = e.target.number.value.replaceAll(" ", "");
+    const password = e.target.password.value
     try {
       const login = await custumAxios.post("auth/login", {
         phone: number,
+        password: password
       });
       if (login.status < 300) {
         toast.success("successfully log in");

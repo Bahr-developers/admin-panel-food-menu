@@ -16,7 +16,7 @@ const Food = () => {
             <h2 className="text-[22px] font-bold">Foods</h2>
             <AddCategoryFood />
           </div>
-          <div className="food-body flex flex-wrap gap-3 items-center justify-between">
+          <div className="food-body flex flex-wrap gap-2 md:gap-3 items-center justify-between">
             {food.data?.length && food.data.map(el => {
                 return <FoodCard key={el.id} data ={el}/>
             })}
