@@ -16,6 +16,10 @@ span {
 input:focus {
   outline: none;
 }
-.active{
+.active {
   color: rgb(159, 159, 217);
+}
+
+.lazy-load-image-background {
+  width: 100%;
 }
