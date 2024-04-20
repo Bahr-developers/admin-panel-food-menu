@@ -44,7 +44,7 @@ const Navbar = (props) => {
          
           <input
             ref={SearchBtn}
-            className="focus:border left-auto absolute p-3 ease-in duration-300 border translate-y-[-70px] rounded-lg block w-[70%]"
+            className="focus:border-blue-400 left-auto absolute p-3 ease-in duration-300 border translate-y-[-70px] rounded-lg block w-[70%]"
             type="search"
             name="searchFood"
             placeholder="Search food"
