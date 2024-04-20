@@ -12,7 +12,7 @@ import { FoodUtils } from "../utils/food.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-const FoodCard = ({ data }) => {
+const FoodCard = (props) => {
   const queryClient = useQueryClient();
 
   const deletaFood = useMutation({
@@ -22,11 +22,17 @@ const FoodCard = ({ data }) => {
     },
   });
 
+  const foodInformation = props?.food;
+
   return (
-    <div className="card-food w-[47%] md:w-[31%]">
-      <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
-        {data.image_urls.length ? (
-          data.image_urls.map((img, index) => {
+    <div className="card-food w-[47%] md:w-[31%] mb-2">
+      <Swiper
+        pagination={{ clickable: true }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
+        {foodInformation.image_urls.length ? (
+          foodInformation.image_urls.map((img, index) => {
             return (
               <SwiperSlide
                 key={Math.random()}
@@ -35,7 +41,7 @@ const FoodCard = ({ data }) => {
                 <LazyLoadImage
                   src={`${IMG_BASE_URL}${img}`}
                   alt={`slider img ${index + 1}`}
-                  className="h-full w-full object-contain"
+                  className="h-full w-full rounded-t-[10px]"
                   height={300}
                   effect="blur"
                 />
@@ -46,8 +52,13 @@ const FoodCard = ({ data }) => {
           <div className="h-[100px] text-center">no image</div>
         )}
       </Swiper>
-      <h2 className="font-bold">{data.name}</h2>
-      <p className="h-[50px] overflow-hidden">{data.description}</p>
+      <h2 className="font-bold py-1 text-xl truncate">
+        {foodInformation.name}
+      </h2>
+      <p className="overflow-hidden">{foodInformation.description}</p>
+      <p>{foodInformation.price} so'm</p>
+      <p>{foodInformation.food_status}</p>
+      <p>{foodInformation.status}</p>
     </div>
   );
 };

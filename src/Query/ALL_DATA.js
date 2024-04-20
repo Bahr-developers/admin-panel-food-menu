@@ -5,6 +5,7 @@ import { FoodUtils } from "../utils/food.utils";
 import { RestourantUtils } from "../utils/restourant";
 import { CategoryUtils } from "../utils/categoryutils";
 import { LanguageUtils } from "../utils/language.utils";
+import { custumAxios } from "../configs/axios.config";
 
 export const ALL_DATA = {
   useLanguage: () => {
@@ -31,10 +32,16 @@ export const ALL_DATA = {
       queryFn: FoodUtils.getFood,
     });
   },
-  useCatefory: () => {
+  useCatefory: (id) => {
+    if (!id) return [];
     return useQuery({
       queryKey: [QUERY_KEY.category],
-      queryFn: CategoryUtils.getCategory,
+      queryFn: async () =>
+        await custumAxios.get(`category/find/by/restaurant/${id}`, {
+          headers: {
+            "accept-language": localStorage.getItem("language"),
+          },
+        }),
     });
   },
 };
