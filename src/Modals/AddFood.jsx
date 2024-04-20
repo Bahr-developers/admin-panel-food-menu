@@ -103,9 +103,11 @@ const AddFood = () => {
   ///////////////////////////////////// useReducer
   const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
+
   const category = ALL_DATA.useCatefory();
   const language = ALL_DATA.useLanguage();
   const queryClient = useQueryClient();
+
   const addFood = useMutation({
     mutationFn: FoodUtils.addFood,
     onSuccess: () => {

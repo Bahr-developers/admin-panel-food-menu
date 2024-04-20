@@ -21,17 +21,20 @@ const SignIn = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const number = e.target.number.value.replaceAll(" ", "");
+    const password = e.target.password.value.trim();
     try {
       const login = await custumAxios.post("auth/login", {
         phone: number,
+        password: password,
       });
+      console.log(login);
       if (login.status < 300) {
         toast.success("successfully log in");
         navigate(`/${login?.data?.restourant_id}`);
       }
-    } catch (err) {
-      console.log(err);
-      toast.error("User not found");
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -61,6 +64,7 @@ const SignIn = () => {
                   blocks: [4, 2, 3, 2, 2],
                 }}
                 name="number"
+                required
                 className="rounded p-2 w-[100%] mt-3 text-[#474d4d] font-bold text-[18px] bg-white"
               />
             </label>
@@ -71,6 +75,7 @@ const SignIn = () => {
                 type={showPassword}
                 name="password"
                 className="rounded p-2 w-[100%] mt-3 text-[#474d4d] font-medium text-[18px] bg-white"
+                required
               />
               <span
                 type="submit"
