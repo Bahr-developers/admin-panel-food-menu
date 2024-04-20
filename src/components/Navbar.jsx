@@ -12,8 +12,6 @@ const Navbar = (props) => {
 
   const getLanguage = ALL_DATA.useLanguage();
 
-  console.log(getLanguage);
-
   const restaurant = props?.restaurant;
 
   const showSerchInput = () => {

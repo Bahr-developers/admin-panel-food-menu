@@ -5,6 +5,9 @@
 span {
   display: block;
 }
+body::-webkit-scrollbar{
+  display: none;
+}
 .MuiFormLabel-root span {
   display: inline-block;
 }
