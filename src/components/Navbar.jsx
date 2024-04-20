@@ -1,13 +1,17 @@
 import { BiSearch } from "react-icons/bi";
 import logo from "../assets/image/login_logo.png";
 import { useRef } from "react";
-import HamburgerMenu from "./HamburgerMenu";
 import { IMG_BASE_URL } from "../constants/server.BaseUrl";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ALL_DATA } from "../Query/ALL_DATA";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
 
 const Navbar = (props) => {
+  const queryClient = useQueryClient();
+
   const SearchBtn = useRef();
 
   const getLanguage = ALL_DATA.useLanguage();
@@ -26,16 +30,16 @@ const Navbar = (props) => {
   );
 
   const handleChangeLanguage = (e) => {
-    console.log(e.target.value);
     localStorage.setItem("language", e.target.value);
     setLangaugeChange(e.target.value);
+    queryClient.invalidateQueries({ type: "all" });
   };
 
   return (
     <nav className="navbar py-3">
       <div className="container px-3 relative mx-auto">
         <div className="navbar-wrap w-[100%] flex justify-between items-center">
-          <div className="flex items-center gap-2">
+          <Link to={`/${restaurant?.id}`} className="flex items-center gap-2">
             {restaurant?.image_url ? (
               <LazyLoadImage
                 width={50}
@@ -56,7 +60,7 @@ const Navbar = (props) => {
               />
             )}
             <h2>{restaurant?.name}</h2>
-          </div>
+          </Link>
 
           <input
             ref={SearchBtn}
@@ -66,17 +70,28 @@ const Navbar = (props) => {
             placeholder="Search food"
           />
 
-          <div className="flex items-center gap-2">
-            <button onClick={showSerchInput} className="text-[30px]">
-              <BiSearch />
+          <div className="flex items-center gap-3">
+            <button onClick={showSerchInput} className="text-gray-500">
+              <BiSearch size={30} />
             </button>
-            <select onChange={handleChangeLanguage} value={languageChange}>
+            <select
+              onChange={handleChangeLanguage}
+              value={languageChange}
+              className="border-2 py-[2px] px-2 rounded focus:outline-none focus:border-[#966A39] text-gray-800 cursor-pointer"
+            >
               {getLanguage?.data?.map((language) => (
                 <option value={language.code} key={language._id}>
                   {language.code}
                 </option>
               ))}
             </select>
+
+            <Link
+              to={"profile"}
+              className="flex items-center gap-1 text-gray-400"
+            >
+              <FaUser size={22} />
+            </Link>
           </div>
         </div>
       </div>

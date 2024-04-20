@@ -15,7 +15,7 @@ import EditFood from "../Modals/EditFood";
 import DeleteFood from "./DeleteFood";
 import toast from "react-hot-toast";
 
-const FoodCard = ({ data }) => {
+const FoodCard = (props) => {
   const queryClient = useQueryClient();
   console.log(data);
   const deletaFood = useMutation({
@@ -30,36 +30,45 @@ const FoodCard = ({ data }) => {
     }
   });
 
+  const foodInformation = props?.food;
+
   return (
-    <div className="card-food w-[47%] md:w-[31%]">
-      <div className="image-food-wrap relative">
-        <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
-            {data.image_urls.length ? (
-            data.image_urls.map((img, index) => {
-                return (
-                <SwiperSlide
-                    key={Math.random()}
-                    className="h-[150px] sm:h-[200px] md:h-[300px] w-full"
-                >
-                    <LazyLoadImage
-                    src={`${IMG_BASE_URL}${img}`}
-                    alt={`slider img ${index + 1}`}
-                    className="h-full w-full object-contain"
-                    height={300}
-                    effect="blur"
-                    />
-                </SwiperSlide>
-                );
-            })
-            ) : (
-            <div className="h-[100px] text-center">no image</div>
-            )}
-        </Swiper>
-        <EditFood data={data}/>
-        <DeleteFood deleteFn={deletaFood.mutate} id={data.id}/>
-      </div>
-      <h2 className="font-bold">{data.name}</h2>
-      <p className="h-[50px] overflow-hidden">{data.description}</p>
+    <div className="card-food w-[47%] md:w-[31%] mb-2">
+      <Swiper
+        pagination={{ clickable: true }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
+        {foodInformation.image_urls.length ? (
+          foodInformation.image_urls.map((img, index) => {
+            return (
+              <SwiperSlide
+                key={Math.random()}
+                className="h-[150px] sm:h-[200px] md:h-[300px] w-full"
+              >
+                <LazyLoadImage
+                  src={`${IMG_BASE_URL}${img}`}
+                  alt={`slider img ${index + 1}`}
+                  className="h-full w-full rounded-t-[10px]"
+                  height={300}
+                  effect="blur"
+                />
+              </SwiperSlide>
+            );
+          })
+        ) : (
+          <div className="h-[100px] text-center">no image</div>
+        )}
+      </Swiper>
+      <EditFood data={data}/>
+      <DeleteFood deleteFn={deletaFood.mutate} id={data.id}/>
+      <h2 className="font-bold py-1 text-xl truncate">
+        {foodInformation.name}
+      </h2>
+      <p className="overflow-hidden">{foodInformation.description}</p>
+      <p>{foodInformation.price} so'm</p>
+      <p>{foodInformation.food_status}</p>
+      <p>{foodInformation.status}</p>
     </div>
   );
 };
