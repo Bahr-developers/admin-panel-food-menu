@@ -11,15 +11,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FoodUtils } from "../utils/food.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import EditFood from "../Modals/EditFood";
+import DeleteFood from "./DeleteFood";
+import toast from "react-hot-toast";
 
 const FoodCard = (props) => {
   const queryClient = useQueryClient();
-
+  console.log(data);
   const deletaFood = useMutation({
     mutationFn: FoodUtils.deleteFood,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
+      toast.success("Delete success")
     },
+    onError: (err)=>{
+      console.log(err, "Delete food");
+      toast.error("Error")
+    }
   });
 
   const foodInformation = props?.food;
@@ -52,6 +60,8 @@ const FoodCard = (props) => {
           <div className="h-[100px] text-center">no image</div>
         )}
       </Swiper>
+      <EditFood data={data}/>
+      <DeleteFood deleteFn={deletaFood.mutate} id={data.id}/>
       <h2 className="font-bold py-1 text-xl truncate">
         {foodInformation.name}
       </h2>
