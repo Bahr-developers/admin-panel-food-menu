@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 // pages
 import SignIn from "./pages/SignIn";
@@ -12,9 +12,20 @@ import RootLayouts from "./layouts/RootLayouts";
 
 // blur css
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useEffect } from "react";
 
 function App() {
+  const navigate = useNavigate();
+
   if (!localStorage.getItem("language")) localStorage.setItem("language", "uz");
+
+  const restaurantId = localStorage.getItem("id");
+
+  useEffect(() => {
+    if (!restaurantId) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <>

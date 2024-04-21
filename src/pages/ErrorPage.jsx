@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const ErrorPage = () => {
         <p>It looks like nothing was found at this location.</p>
         <button
           className="mt-5 border p-2 bg-red-600"
-          onClick={() => navigate("/food")}
+          onClick={() => navigate(`/`)}
         >
           BACK TO HOME
         </button>
