@@ -7,7 +7,6 @@ import { ALL_DATA } from "../Query/ALL_DATA";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
 import UserDropdown from "./UserDropdown";
 
 const Navbar = (props) => {
@@ -65,20 +64,23 @@ const Navbar = (props) => {
 
           <input
             ref={SearchBtn}
-            className="focus:border-blue-400 left-auto absolute p-3 ease-in duration-300 border translate-y-[-70px] rounded-lg block w-[70%]"
+            className="focus:border-blue-400 left-auto absolute p-3 ease-in duration-300 border translate-y-[-70px] rounded-lg block w-[55%] md:w-[70%]"
             type="search"
             name="searchFood"
             placeholder="Search food"
           />
 
           <div className="flex items-center gap-3">
-            <button onClick={showSerchInput} className="text-gray-500">
+            <button
+              onClick={showSerchInput}
+              className="text-gray-500 active:text-gray-800"
+            >
               <BiSearch size={30} />
             </button>
             <select
               onChange={handleChangeLanguage}
               value={languageChange}
-              className="border-2 py-[2px] px-2 rounded focus:outline-none focus:border-[#966A39] text-gray-800 cursor-pointer"
+              className="border-2 py-[2px] px-2 rounded focus:outline-none focus:border-gray-500 text-gray-800 cursor-pointer"
             >
               {getLanguage?.data?.map((language) => (
                 <option value={language.code} key={language._id}>
