@@ -1,4 +1,10 @@
+import { custumAxios } from "../configs/axios.config";
+
 export const CategoryUtils = {
+  getCategoryAll: async() => {
+    const data = await custumAxios.get('category/find/all')
+    return data
+  },
   getCategory: async () => {
     const { data } = await custumAxios.get(
       `category/find/by/restaurant/${id}`,
@@ -9,6 +15,10 @@ export const CategoryUtils = {
       }
     );
     return data;
+  },
+  getFindByCategory: async (id) => {
+    const data = await custumAxios.get(`category/find/by/restaurant/${id}`)
+    return data
   },
   addCategory: async ({ name, image, category_id, restaurant_id }) => {
     const formData = new FormData();

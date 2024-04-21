@@ -32,9 +32,9 @@ export const FoodUtils = {
   },
   editFood: async ({ name, description, price, id }) => {
     const { data } = await custumAxios.patch(`food/edit/${id}`, {
-      name,
-      price,
-      description,
+      name: String(name),
+      price: price,
+      description: String(description),
     });
     return data;
   },

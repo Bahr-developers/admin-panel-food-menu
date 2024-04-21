@@ -21,6 +21,7 @@ import { FoodUtils } from "../utils/food.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
 import { LuFolderEdit } from "react-icons/lu";
+import { useParams } from "react-router-dom";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -85,7 +86,9 @@ function reduser(state, action) {
 const initionState = { title: {}, description: {} };
 
 const EditFood = ({data}) => {
-    console.log(data, "edit");
+  const params = useParams()
+    const category = ALL_DATA.useCatefory(data.restourant_id)
+    const categoryEdit = category?.data?.data.find(el => el.id === params.categoryId)
     ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -93,7 +96,6 @@ const EditFood = ({data}) => {
   ///////////////////////////////////// useReducer
   const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
-  const category = ALL_DATA.useCatefory();
   const language = ALL_DATA.useLanguage();
   const queryClient = useQueryClient();
 
@@ -122,8 +124,9 @@ const EditFood = ({data}) => {
       description: state.description,
       price: e.target.price?.value,
       category_id: e.target.category_id?.value,
-      restourant_id: "661bd36d8e353f56d26067c5",
+      restourant_id:params.restaurantId,
     });
+    console.log(editFood.variables);
   };
 
   const handleTitle = (e) => {
@@ -339,10 +342,10 @@ const EditFood = ({data}) => {
                       Category
                     </InputLabel>
                     <NativeSelect name="category_id">
-                      {category.data?.length &&
-                        category.data.map((ctg) => {
+                      {categoryEdit.subcategories?.length &&
+                        categoryEdit.subcategories.map((ctg) => {
                           return (
-                            <option key={ctg.id} value={ctg.id}>
+                            <option key={ctg._id} value={ctg._id}>
                               {ctg.name}
                             </option>
                           );

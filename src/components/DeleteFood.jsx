@@ -23,7 +23,7 @@ const DeleteFood = ({deleteFn, id}) => {
   }
     return (
     <React.Fragment>
-        <button className='absolute bottom-[122px] z-20 bg-red-500 text-white p-1 md:p-2 rounded-full right-2 md:right-4' onClick={handleClickOpen}><MdDelete size={20}/></button> 
+        <button className='absolute top-[130px] z-10 bg-red-500 text-white p-1 md:p-2 rounded-full right-2 md:right-4' onClick={handleClickOpen}><MdDelete size={20}/></button> 
       <Dialog
         open={open}
         keepMounted
