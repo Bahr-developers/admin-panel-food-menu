@@ -6,6 +6,7 @@ import { RestourantUtils } from "../utils/restourant";
 import { CategoryUtils } from "../utils/categoryutils";
 import { LanguageUtils } from "../utils/language.utils";
 import { custumAxios } from "../configs/axios.config";
+import { UserUtils } from "../utils/userUtils";
 
 export const ALL_DATA = {
   useLanguage: () => {
@@ -42,6 +43,12 @@ export const ALL_DATA = {
             "accept-language": localStorage.getItem("language"),
           },
         }),
+    });
+  },
+  useUsers: () => {
+    return useQuery({
+      queryKey: [QUERY_KEY.user],
+      queryFn: UserUtils.getUsers,
     });
   },
 };

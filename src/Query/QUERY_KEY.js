@@ -4,4 +4,5 @@ export const QUERY_KEY = {
   translete: "transletes",
   restourant: "restourant",
   language: "languages",
+  user: "user",
 };

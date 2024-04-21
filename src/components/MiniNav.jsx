@@ -1,6 +1,5 @@
 import { Link, useParams } from "react-router-dom";
 import { ALL_DATA } from "../Query/ALL_DATA";
-import { data } from "autoprefixer";
 
 const MiniNav = () => {
   const { restaurantId } = useParams();
