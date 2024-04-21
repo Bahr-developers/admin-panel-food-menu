@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import UserDropdown from "./UserDropdown";
 
 const Navbar = (props) => {
   const queryClient = useQueryClient();
@@ -86,12 +87,7 @@ const Navbar = (props) => {
               ))}
             </select>
 
-            <Link
-              to={"profile"}
-              className="flex items-center gap-1 text-gray-400"
-            >
-              <FaUser size={22} />
-            </Link>
+            <UserDropdown />
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState("password");
+
   // Show password function
   const handleshowPasswor = () => {
     return showPassword === "password"
@@ -20,17 +21,23 @@ const SignIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     const number = e.target.number.value.replaceAll(" ", "");
+
     const password = e.target.password.value.trim();
+
     try {
       const login = await custumAxios.post("auth/login", {
         phone: number,
         password: password,
       });
-      console.log(login);
+
       if (login.status < 300) {
         toast.success("successfully log in");
-        navigate(`/${login?.data?.restourant_id}`);
+        localStorage.setItem("id", login?.data?.restourant_id);
+        setTimeout(() => {
+          navigate(`/${login?.data?.restourant_id}`);
+        }, 1000);
       }
     } catch (error) {
       console.log(error);
