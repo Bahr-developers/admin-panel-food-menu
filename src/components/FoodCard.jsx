@@ -65,9 +65,29 @@ const FoodCard = (props) => {
         {foodInformation.name}
       </h2>
       <p className="overflow-hidden">{foodInformation.description}</p>
+      <p className="mb-1">{foodInformation.price} so'm</p>
+      <span
+        className={`p-[2px] rounded inline-block ${
+          foodInformation?.food_status === "available"
+            ? "text-white bg-green-500"
+            : foodInformation?.food_status === "preparing"
+            ? "bg-yellow-500 text-white"
+            : "bg-red-500 text-white"
+        }`}
+      >
+        {foodInformation.food_status}
+      </span>
+      <p
+        className={`my-1 text-center rounded py-1 text-white md:text-lg ${
+          foodInformation.status === "active" ? "bg-green-400" : "bg-red-400"
+        }`}
+      >
+        {foodInformation.status}
+      </p>
       <p>{foodInformation.price} so`m</p>
       <p>{foodInformation.food_status}</p>
       <p>{foodInformation.status}</p>
+
     </div>
   );
 };

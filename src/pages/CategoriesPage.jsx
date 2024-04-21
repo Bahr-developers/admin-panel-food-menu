@@ -1,7 +1,6 @@
 import AddCategoryFood from "../Modals/AddCategory";
 import AddFood from "../Modals/AddFood";
 import { ALL_DATA } from "../Query/ALL_DATA";
-import Loader from "../components/Loading";
 
 import FoodCard from "../components/FoodCard";
 import { useParams } from "react-router-dom";

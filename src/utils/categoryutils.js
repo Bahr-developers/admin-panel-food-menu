@@ -1,6 +1,5 @@
 export const CategoryUtils = {
   getCategory: async () => {
-    console.log(`category/find/by/restaurant/${id}`);
     const { data } = await custumAxios.get(
       `category/find/by/restaurant/${id}`,
       {

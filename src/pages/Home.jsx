@@ -9,8 +9,6 @@ const Home = () => {
 
   const getMainCategories = ALL_DATA.useCatefory(restaurantId);
 
-  console.log(getMainCategories);
-
   if (getMainCategories.isLoading) return <Loading />;
 
   return (
