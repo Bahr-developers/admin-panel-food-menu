@@ -60,7 +60,7 @@ const FoodCard = (props) => {
         )}
       </Swiper>
       <EditFood data={foodInformation}/>
-      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation.id}/>
+      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id}/>
       <h2 className="font-bold py-1 text-xl truncate">
         {foodInformation.name}
       </h2>

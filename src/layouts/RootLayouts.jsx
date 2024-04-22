@@ -17,7 +17,7 @@ const RootLayouts = () => {
 
   return (
     <main>
-      <div className="sticky top-0 left-0 bg-white z-10">
+      <div className="sticky top-0 left-0 bg-white z-20">
         <Navbar restaurant={getRestaurantById} />
         <hr className="mb-3" />
       </div>

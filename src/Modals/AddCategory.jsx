@@ -228,7 +228,6 @@ const AddCategory = () => {
                   id="demo-simple-select"
                   name='category'
                   label="Category"
-                  defaultValue={""}
                   >
                   {category.data?.length && category.data.map(ctg => {
                     return <MenuItem fullWidth key={ctg.id} value={ctg.id}>{ctg.name}</MenuItem>

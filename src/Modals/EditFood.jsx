@@ -86,9 +86,13 @@ function reduser(state, action) {
 const initionState = { title: {}, description: {} };
 
 const EditFood = ({data}) => {
+  console.log(data, "data");
   const params = useParams()
-    const category = ALL_DATA.useCatefory(data.restourant_id)
-    const categoryEdit = category?.data?.data.find(el => el.id === params.categoryId)
+  const category = ALL_DATA.useCatefory(data.restourant_id)
+  const categoryEdit = category?.data?.data.find(el => el.id === params.categoryId)
+  console.log(categoryEdit, "edits");
+  const categoryEditModal = categoryEdit.subcategories.find(el => el._id === data.category_id)
+  console.log(categoryEditModal.name, "lkefmvkemvklemrkml");
     ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -274,8 +278,8 @@ const EditFood = ({data}) => {
     );
   }
   return (
-    <div className="relative z-30">
-      <button className="absolute bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14" onClick={handleOpen}> <LuFolderEdit size={20}/> </button>
+    <div className="relative z-10">
+      <button className="absolute z-10 bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14" onClick={handleOpen}> <LuFolderEdit size={20}/> </button>
       <Modal
         aria-labelledby={`child-modal-title${data.id}`}
         aria-describedby={`transition-modal-description${data.id}`}
@@ -341,7 +345,7 @@ const EditFood = ({data}) => {
                     >
                       Category
                     </InputLabel>
-                    <NativeSelect name="category_id">
+                    <NativeSelect defaultValue={categoryEditModal.name} name="category_id">
                       {categoryEdit.subcategories?.length &&
                         categoryEdit.subcategories.map((ctg) => {
                           return (
