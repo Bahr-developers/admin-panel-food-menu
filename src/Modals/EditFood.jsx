@@ -84,9 +84,8 @@ function reduser(state, action) {
 }
 const initionState = { title: {}, description: {} };
 
-const EditFood = ({data}) => {
-    console.log(data, "edit");
-    ///////////////////////////////////// Modal open and close
+const EditFood = ({ data }) => {
+  ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -100,14 +99,14 @@ const EditFood = ({data}) => {
   const editFood = useMutation({
     mutationFn: FoodUtils.editFood,
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: [QUERY_KEY.food]});
-        toast.success("Succes edit")
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
+      toast.success("Succes edit");
     },
-    onError: (err) =>{
-        console.log(err, "Edit food");
-        toast.error("Error")
-    }
-  })
+    onError: (err) => {
+      console.log(err, "Edit food");
+      toast.error("Error");
+    },
+  });
 
   const handleAddFood = (e) => {
     e.preventDefault();
@@ -272,7 +271,13 @@ const EditFood = ({data}) => {
   }
   return (
     <div className="relative z-30">
-      <button className="absolute bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14" onClick={handleOpen}> <LuFolderEdit size={20}/> </button>
+      <button
+        className="absolute bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14"
+        onClick={handleOpen}
+      >
+        {" "}
+        <LuFolderEdit size={20} />{" "}
+      </button>
       <Modal
         aria-labelledby={`child-modal-title${data.id}`}
         aria-describedby={`transition-modal-description${data.id}`}
@@ -288,7 +293,10 @@ const EditFood = ({data}) => {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography id={`transition-modal-description${data.id}`} sx={{ mt: 2 }}>
+            <Typography
+              id={`transition-modal-description${data.id}`}
+              sx={{ mt: 2 }}
+            >
               Add to praduct
             </Typography>
             <form onSubmit={handleAddFood}>
@@ -314,7 +322,7 @@ const EditFood = ({data}) => {
                 className="flex flex-wrap gap-1 w-[100%]"
               ></div>
               <div className="title-edit flex items-center gap-3">
-                <h2 className="font-bold">Name:</h2> 
+                <h2 className="font-bold">Name:</h2>
                 <p className="font-medium">{data.name}</p>
               </div>
               <AddTitle />
@@ -352,7 +360,7 @@ const EditFood = ({data}) => {
                 </Box>
               </div>
               <div className="title-edit flex items-center gap-3 mt-1 mb-[-10px]">
-                <h2 className="font-bold">Description:</h2> 
+                <h2 className="font-bold">Description:</h2>
                 <p className="font-medium">{data.description}</p>
               </div>
               <AddDecription />
