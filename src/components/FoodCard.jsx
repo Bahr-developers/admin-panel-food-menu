@@ -59,34 +59,34 @@ const FoodCard = (props) => {
           <div className="h-[100px] text-center">no image</div>
         )}
       </Swiper>
-      <EditFood data={foodInformation} />
-      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation.id} />
+      <EditFood data={foodInformation}/>
+      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id}/>
+
       <h2 className="font-bold py-1 text-xl truncate">
         {foodInformation.name}
       </h2>
       <p className="overflow-hidden">{foodInformation.description}</p>
-      <p className="mb-1">{foodInformation.price} so'm</p>
-      <span
-        className={`p-[2px] rounded inline-block ${
-          foodInformation?.food_status === "available"
-            ? "text-white bg-green-500"
-            : foodInformation?.food_status === "preparing"
-            ? "bg-yellow-500 text-white"
-            : "bg-red-500 text-white"
-        }`}
-      >
-        {foodInformation.food_status}
-      </span>
-      <p
-        className={`my-1 text-center rounded py-1 text-white md:text-lg ${
-          foodInformation.status === "active" ? "bg-green-400" : "bg-red-400"
-        }`}
-      >
-        {foodInformation.status}
-      </p>
-      <p>{foodInformation.price} so`m</p>
-      <p>{foodInformation.food_status}</p>
-      <p>{foodInformation.status}</p>
+      <p className="mb-1">{foodInformation.price} so`m</p>
+      <div className="flex items-center gap-x-5">
+        <span
+          className={`p-[4px] rounded inline-block ${
+            foodInformation?.food_status === "available"
+              ? "text-white bg-green-500"
+              : foodInformation?.food_status === "preparing"
+              ? "bg-yellow-500 text-white"
+              : "bg-red-500 text-white"
+          }`}
+        >
+          {foodInformation.food_status}
+        </span>
+        <p
+          className={`my-1 text-center rounded p-1 text-white md:text-lg ${
+            foodInformation.status === "active" ? "bg-green-400" : "bg-red-400"
+          }`}
+        >
+          {foodInformation.status}
+        </p>
+      </div>
     </div>
   );
 };

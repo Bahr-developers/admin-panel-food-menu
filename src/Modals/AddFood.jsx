@@ -20,6 +20,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FoodUtils } from "../utils/food.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -96,6 +97,7 @@ function reduser(state, action) {
 const initionState = { title: {}, description: {} };
 
 const AddFood = () => {
+  const params = useParams();
   ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -103,8 +105,8 @@ const AddFood = () => {
   ///////////////////////////////////// useReducer
   const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
-
-  const category = ALL_DATA.useCatefory();
+  const getCategoryFood = ALL_DATA.useCatefory(params.restaurantId);
+  const category = getCategoryFood?.data?.data.find(el => el.id === params.categoryId)
   const language = ALL_DATA.useLanguage();
   const queryClient = useQueryClient();
 
@@ -117,8 +119,30 @@ const AddFood = () => {
     onError: (err) => {
       console.log(err, "Error add food");
     },
-  });
+  }); 
 
+  const handleTitle = (e) => {
+    e.preventDefault();
+    const title = {};
+    for (let lang of language.data) {
+      title[lang.code] = e.target[lang.code].value;
+    }
+    dispatch({
+      type: "title",
+      titleName: title,
+    });
+  };
+  const handleAddDescription = (e) => {
+    e.preventDefault();
+    const description = {};
+    for (let des of language.data) {
+      description[des.code] = e.target[des.code].value;
+    }
+    dispatch({
+      type: "description",
+      description: description,
+    });
+  };
   const handleAddFood = (e) => {
     e.preventDefault();
     const images = [];
@@ -134,18 +158,7 @@ const AddFood = () => {
       category_id: e.target.category_id?.value,
       restourant_id: "661bd36d8e353f56d26067c5",
     });
-  };
-
-  const handleTitle = (e) => {
-    e.preventDefault();
-    const title = {};
-    for (let lang of language.data) {
-      title[lang.code] = e.target[lang.code].value;
-    }
-    dispatch({
-      type: "title",
-      titleName: title,
-    });
+    console.log(addFood.variables);
   };
 
   /////////////////////////////////// Add to titile child modal
@@ -216,18 +229,6 @@ const AddFood = () => {
     };
     const handleClose = () => {
       setOpen(false);
-    };
-
-    const handleAddDescription = (e) => {
-      e.preventDefault();
-      const description = {};
-      for (let des of language.data) {
-        description[des.code] = e.target[des.code].value;
-      }
-      dispatch({
-        type: "description",
-        description: description,
-      });
     };
     return (
       <React.Fragment>
@@ -346,10 +347,10 @@ const AddFood = () => {
                       Category
                     </InputLabel>
                     <NativeSelect name="category_id">
-                      {category.data?.length &&
-                        category.data.map((ctg) => {
+                      {category.subcategories?.length &&
+                        category.subcategories.map((ctg) => {
                           return (
-                            <option key={ctg.id} value={ctg.id}>
+                            <option key={ctg._id} value={ctg._id}>
                               {ctg.name}
                             </option>
                           );
