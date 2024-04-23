@@ -5,7 +5,7 @@ export const CategoryUtils = {
     const data = await custumAxios.get('category/find/all')
     return data
   },
-  getCategory: async () => {
+  getCategory: async (id) => {
     const { data } = await custumAxios.get(
       `category/find/by/restaurant/${id}`,
       {

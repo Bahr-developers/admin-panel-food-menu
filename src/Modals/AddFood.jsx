@@ -158,6 +158,7 @@ const AddFood = () => {
       category_id: e.target.category_id?.value,
       restourant_id: "661bd36d8e353f56d26067c5",
     });
+    console.log(addFood.variables);
   };
 
   /////////////////////////////////// Add to titile child modal

@@ -23,6 +23,7 @@ import toast from "react-hot-toast";
 import { LuFolderEdit } from "react-icons/lu";
 import { useParams } from "react-router-dom";
 import { MenuItem, Select } from "@mui/material";
+import { IMG_BASE_URL } from "../constants/server.BaseUrl";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -87,7 +88,6 @@ function reduser(state, action) {
 const initionState = { title: {}, description: {} };
 
 const EditFood = ({data}) => {
-  console.log(data);
   const params = useParams()
   const category = ALL_DATA.useCatefory(data.restourant_id)
   const categoryEdit = category?.data?.data.find(el => el.id === params.categoryId)
@@ -116,17 +116,22 @@ const EditFood = ({data}) => {
 
   const handleAddFood = (e) => {
     e.preventDefault();
-    const images = [];
+    const images = data.image_urls;
     console.log(e.target.images?.files.length);
     for (let i = 0; i < e.target.images?.files.length; i++) {
       images.push(e.target.images.files[i]);
     }
+    const title = Object.keys(state.title).length ===0 ? "" : state.title;
+    const description = Object.keys(state.description).length === 0 ? "" : state.description
+    console.log(title);
+
     editFood.mutate({
       id: data._id,
-      food_status: "",
-      status: "",
-      name: state.title || "",
-      description: state.description || "",
+      images: images,
+      food_status: e.target.food_status.value,
+      status: e.target.status.value,
+      name: title,
+      description: description,
       price: e.target.price?.value,
       category_id: e.target.category_id?.value,
       restourant_id: params.restaurantId,
@@ -189,7 +194,7 @@ const EditFood = ({data}) => {
                       name={lang.code}
                       label={`Add category ${lang.code}`}
                       type="text"
-                      fullWidth
+                      
                       variant="standard"
                     />
                   );
@@ -320,7 +325,13 @@ const EditFood = ({data}) => {
               <div
                 ref={praductImgs}
                 className="flex flex-wrap gap-1 w-[100%]"
-              ></div>
+              >
+                {
+                  data.image_urls.length && data.image_urls.map(img => {
+                    return  <img width={70} key={Math.random()} src={`${IMG_BASE_URL}${img}`} alt="images" />
+                  })
+                }
+              </div>
               <div className="title-edit flex items-center gap-3">
                 <h2 className="font-bold">Name:</h2> 
                 <p className="font-medium">{data.name}</p>
@@ -365,32 +376,33 @@ const EditFood = ({data}) => {
               </div>
               <AddDecription />
               <div className="foode-status flex items-center gap-3">
-                  <FormControl sx={{marginTop: "20px", width:"100%"}}>
-                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                  <FormControl sx={{margin: "20px 0 20px", width:"100%"}}>
+                    <InputLabel id="demo-simple-select-label">Food Status</InputLabel>
                     <Select
                       sx={{ width: "100%" }}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       name='food_status'
-                      label="Category"
+                      label="Food Status"
+                      defaultValue="available"
                       >
-                      {category.data?.length && category.data.map(ctg => {
-                        return <MenuItem fullWidth key={ctg.id} value={ctg.id}>{ctg.name}</MenuItem>
-                      })}
+                        <MenuItem value="available">Available</MenuItem>
+                        <MenuItem value="preparing">Preparing</MenuItem>
+                        <MenuItem value="none">None</MenuItem>
                     </Select>
                   </FormControl>
-                  <FormControl sx={{marginTop: "20px", width:"100%"}}>
-                      <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                  <FormControl sx={{margin: "20px 0 20px", width:"100%"}}>
+                      <InputLabel id="demo-simple-select-label">Status</InputLabel>
                       <Select
                         sx={{ width: "100%" }}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         name='status'
-                        label="Category"
+                        label="Status"
+                        defaultValue="active"
                         >
-                        {category.data?.length && category.data.map(ctg => {
-                          return <MenuItem fullWidth key={ctg.id} value={ctg.id}>{ctg.name}</MenuItem>
-                        })}
+                          <MenuItem  value="active">Active</MenuItem>
+                          <MenuItem  value="inactive">Inactive</MenuItem>
                       </Select>
                   </FormControl>
               </div>
