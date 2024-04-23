@@ -24,6 +24,7 @@ import { LuFolderEdit } from "react-icons/lu";
 import { useParams } from "react-router-dom";
 import { MenuItem, Select } from "@mui/material";
 import { IMG_BASE_URL } from "../constants/server.BaseUrl";
+import DeleteFood from "../components/DeleteFood";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -88,6 +89,7 @@ function reduser(state, action) {
 const initionState = { title: {}, description: {} };
 
 const EditFood = ({data}) => {
+  console.log(data);
   const params = useParams()
   const category = ALL_DATA.useCatefory(data.restourant_id)
   const categoryEdit = category?.data?.data.find(el => el.id === params.categoryId)
@@ -150,7 +152,17 @@ const EditFood = ({data}) => {
       titleName: title,
     });
   };
-
+  const deleteImg = useMutation({
+    mutationFn: FoodUtils.deleteImg,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [QUERY_KEY.food]})
+      toast.success("Delete image")
+    },
+    onError: (err) => {
+      console.log(err, "image delete");
+      toast.error("Don't delete image")
+    }
+  })
   /////////////////////////////////// Add to titile child modal
   function AddTitle() {
     const [open, setOpen] = React.useState(false);
@@ -327,8 +339,12 @@ const EditFood = ({data}) => {
                 className="flex flex-wrap gap-1 w-[100%]"
               >
                 {
-                  data.image_urls.length && data.image_urls.map(img => {
-                    return  <img width={70} key={Math.random()} src={`${IMG_BASE_URL}${img}`} alt="images" />
+                  data.image_urls.length && data.image_urls.map((img) => {
+                    console.log(data, "wjvnejovno");
+                    return  <div key={Math.random()} className="child-img relative flex flex-col ">
+                              <img className="mb-[]" width={70} src={`${IMG_BASE_URL}${img}`} alt="images" />
+                              <button onClick={() => deleteImg.mutate({foodId: data._id, image_url: img})}>delete</button>
+                            </div>
                   })
                 }
               </div>
