@@ -21,12 +21,12 @@ const FoodCard = (props) => {
     mutationFn: FoodUtils.deleteFood,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
-      toast.success("Delete success")
+      toast.success("Delete success");
     },
-    onError: (err)=>{
+    onError: (err) => {
       console.log(err, "Delete food");
-      toast.error("Error")
-    }
+      toast.error("Error");
+    },
   });
 
   const foodInformation = props?.food;
@@ -61,6 +61,7 @@ const FoodCard = (props) => {
       </Swiper>
       <EditFood data={foodInformation}/>
       <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id}/>
+
       <h2 className="font-bold py-1 text-xl truncate">
         {foodInformation.name}
       </h2>

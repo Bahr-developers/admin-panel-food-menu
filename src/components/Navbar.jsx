@@ -6,21 +6,24 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ALL_DATA } from "../Query/ALL_DATA";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import UserDropdown from "./UserDropdown";
+
+import { custumAxios } from "../configs/axios.config";
+import { useDispatch } from "react-redux";
+import { setSearchValue } from "../redux/searchSlice";
 
 const Navbar = (props) => {
   const queryClient = useQueryClient();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const SearchBtn = useRef();
+  const [searchShow, setSearchShow] = useState(false);
 
   const getLanguage = ALL_DATA.useLanguage();
 
   const restaurant = props?.restaurant;
-
-  const showSerchInput = () => {
-    SearchBtn.current.classList.toggle("translate-y-[-70px]");
-  };
 
   // for change language
   if (!localStorage.getItem("language")) localStorage.setItem("language", "uz");
@@ -33,6 +36,31 @@ const Navbar = (props) => {
     localStorage.setItem("language", e.target.value);
     setLangaugeChange(e.target.value);
     queryClient.invalidateQueries({ type: "all" });
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const inputValue = e.target.value.trim();
+    try {
+      const search = await custumAxios.get(
+        `food/${restaurant?.id}/search?name=${inputValue}`,
+        {
+          headers: {
+            "accept-language": localStorage.getItem("language"),
+          },
+        }
+      );
+      dispatch(setSearchValue(search?.data));
+      if (inputValue) {
+        navigate(`/${restaurant?.id}/search`);
+      } else {
+        navigate(`/${restaurant?.id}`);
+        setSearchShow(false);
+      }
+      console.log(search);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -63,17 +91,21 @@ const Navbar = (props) => {
           </Link>
 
           <input
-            ref={SearchBtn}
-            className="focus:border-blue-400 left-auto absolute p-3 ease-in duration-300 border translate-y-[-70px] rounded-lg block w-[55%] md:w-[70%]"
+            className={`focus:border-blue-400 left-auto absolute p-3 ease-in duration-300 border rounded-lg block w-[55%] md:w-[70%] ${
+              searchShow ? "translate-y-0" : "translate-y-[-80px]"
+            }`}
             type="search"
             name="searchFood"
             placeholder="Search food"
+            onChange={handleSearch}
           />
 
           <div className="flex items-center gap-3">
             <button
-              onClick={showSerchInput}
-              className="text-gray-500 active:text-gray-800"
+              onClick={() => setSearchShow((prev) => !prev)}
+              className={`text-gray-500 active:text-gray-800 ${
+                location.pathname == `/${restaurant?.id}` ? "hidden" : "block"
+              }`}
             >
               <BiSearch size={30} />
             </button>
