@@ -30,11 +30,13 @@ export const FoodUtils = {
     const { data } = await custumAxios.post("food/add", formData);
     return data;
   },
-  editFood: async ({ name, description, price, id }) => {
+  editFood: async ({ name, food_status, status, description, price, id }) => {
     const { data } = await custumAxios.patch(`food/edit/${id}`, {
       name: String(name),
       price: price,
       description: String(description),
+      food_status: food_status,
+      status: status
     });
     return data;
   },

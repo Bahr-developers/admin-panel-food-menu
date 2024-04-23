@@ -119,8 +119,30 @@ const AddFood = () => {
     onError: (err) => {
       console.log(err, "Error add food");
     },
-  });
+  }); 
 
+  const handleTitle = (e) => {
+    e.preventDefault();
+    const title = {};
+    for (let lang of language.data) {
+      title[lang.code] = e.target[lang.code].value;
+    }
+    dispatch({
+      type: "title",
+      titleName: title,
+    });
+  };
+  const handleAddDescription = (e) => {
+    e.preventDefault();
+    const description = {};
+    for (let des of language.data) {
+      description[des.code] = e.target[des.code].value;
+    }
+    dispatch({
+      type: "description",
+      description: description,
+    });
+  };
   const handleAddFood = (e) => {
     e.preventDefault();
     const images = [];
@@ -135,18 +157,6 @@ const AddFood = () => {
       price: e.target.price?.value,
       category_id: e.target.category_id?.value,
       restourant_id: "661bd36d8e353f56d26067c5",
-    });
-  };
-
-  const handleTitle = (e) => {
-    e.preventDefault();
-    const title = {};
-    for (let lang of language.data) {
-      title[lang.code] = e.target[lang.code].value;
-    }
-    dispatch({
-      type: "title",
-      titleName: title,
     });
   };
 
@@ -218,18 +228,6 @@ const AddFood = () => {
     };
     const handleClose = () => {
       setOpen(false);
-    };
-
-    const handleAddDescription = (e) => {
-      e.preventDefault();
-      const description = {};
-      for (let des of language.data) {
-        description[des.code] = e.target[des.code].value;
-      }
-      dispatch({
-        type: "description",
-        description: description,
-      });
     };
     return (
       <React.Fragment>

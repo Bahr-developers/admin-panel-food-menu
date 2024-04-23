@@ -22,6 +22,7 @@ import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
 import { LuFolderEdit } from "react-icons/lu";
 import { useParams } from "react-router-dom";
+import { MenuItem, Select } from "@mui/material";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -86,13 +87,11 @@ function reduser(state, action) {
 const initionState = { title: {}, description: {} };
 
 const EditFood = ({data}) => {
-  console.log(data, "data");
+  console.log(data);
   const params = useParams()
   const category = ALL_DATA.useCatefory(data.restourant_id)
   const categoryEdit = category?.data?.data.find(el => el.id === params.categoryId)
-  console.log(categoryEdit, "edits");
   const categoryEditModal = categoryEdit.subcategories.find(el => el._id === data.category_id)
-  console.log(categoryEditModal.name, "lkefmvkemvklemrkml");
     ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -123,12 +122,14 @@ const EditFood = ({data}) => {
       images.push(e.target.images.files[i]);
     }
     editFood.mutate({
-      images: images,
-      name: state.title,
-      description: state.description,
+      id: data._id,
+      food_status: "",
+      status: "",
+      name: state.title || "",
+      description: state.description || "",
       price: e.target.price?.value,
       category_id: e.target.category_id?.value,
-      restourant_id:params.restaurantId,
+      restourant_id: params.restaurantId,
     });
     console.log(editFood.variables);
   };
@@ -345,7 +346,7 @@ const EditFood = ({data}) => {
                     >
                       Category
                     </InputLabel>
-                    <NativeSelect defaultValue={categoryEditModal.name} name="category_id">
+                    <NativeSelect defaultValue={categoryEditModal._id} name="category_id">
                       {categoryEdit.subcategories?.length &&
                         categoryEdit.subcategories.map((ctg) => {
                           return (
@@ -363,6 +364,36 @@ const EditFood = ({data}) => {
                 <p className="font-medium">{data.description}</p>
               </div>
               <AddDecription />
+              <div className="foode-status flex items-center gap-3">
+                  <FormControl sx={{marginTop: "20px", width:"100%"}}>
+                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                    <Select
+                      sx={{ width: "100%" }}
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      name='food_status'
+                      label="Category"
+                      >
+                      {category.data?.length && category.data.map(ctg => {
+                        return <MenuItem fullWidth key={ctg.id} value={ctg.id}>{ctg.name}</MenuItem>
+                      })}
+                    </Select>
+                  </FormControl>
+                  <FormControl sx={{marginTop: "20px", width:"100%"}}>
+                      <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                      <Select
+                        sx={{ width: "100%" }}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        name='status'
+                        label="Category"
+                        >
+                        {category.data?.length && category.data.map(ctg => {
+                          return <MenuItem fullWidth key={ctg.id} value={ctg.id}>{ctg.name}</MenuItem>
+                        })}
+                      </Select>
+                  </FormControl>
+              </div>
               <Button
                 className="w-full"
                 type="submit"

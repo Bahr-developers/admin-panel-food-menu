@@ -1,5 +1,4 @@
 import { Outlet, useParams } from "react-router-dom";
-import MiniNav from "../components/MiniNav";
 import Navbar from "../components/Navbar";
 import { useRestaurant } from "../utils/RestaurantUtils";
 
