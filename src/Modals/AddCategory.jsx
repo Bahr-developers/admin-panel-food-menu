@@ -57,10 +57,13 @@ const VisuallyHiddenInput = styled('input')({
 
 
 const AddCategory = () => {
+  const param = useParams()
+  console.log(param.restaurantId);
   const [open, setOpen] = useState(false);
   const praductImg = useRef();
   const queryClient = useQueryClient();
-  const category = ALL_DATA.useCatefory();
+  const category = ALL_DATA.useCatefory(param.restaurantId)?.data;
+  console.log(category);
   const language = ALL_DATA.useLanguage();
   const parms = useParams()
 
@@ -228,7 +231,6 @@ const AddCategory = () => {
                   id="demo-simple-select"
                   name='category'
                   label="Category"
-                  defaultValue={""}
                   >
                   {category.data?.length && category.data.map(ctg => {
                     return <MenuItem fullWidth key={ctg.id} value={ctg.id}>{ctg.name}</MenuItem>

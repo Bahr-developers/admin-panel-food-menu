@@ -1,5 +1,4 @@
 import { Outlet, useParams } from "react-router-dom";
-import MiniNav from "../components/MiniNav";
 import Navbar from "../components/Navbar";
 import { useRestaurant } from "../utils/RestaurantUtils";
 
@@ -17,7 +16,7 @@ const RootLayouts = () => {
 
   return (
     <main>
-      <div className="sticky top-0 left-0 bg-white z-10">
+      <div className="sticky top-0 left-0 bg-white z-20">
         <Navbar restaurant={getRestaurantById} />
         <hr className="mb-3" />
       </div>

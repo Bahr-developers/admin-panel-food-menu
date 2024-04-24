@@ -30,13 +30,25 @@ export const FoodUtils = {
     const { data } = await custumAxios.post("food/add", formData);
     return data;
   },
-  editFood: async ({ name, description, price, id }) => {
+  addSingleImage: async ({foodId, image}) => {
+    const formData = new FormData()
+    formData.append("foodId",foodId)
+    formData.append("image",image)
+    const {data}  =custumAxios.post('food/add/one/food-image', formData)
+    return data
+  },
+  editFood: async ({name, food_status, status, description, price, id }) => {
     const { data } = await custumAxios.patch(`food/edit/${id}`, {
-      name,
-      price,
-      description,
+      name, food_status, price, status, description
     });
     return data;
+  },
+  deleteImg: async ({foodId, image_url}) => {
+    const {data}  = await custumAxios.delete('food/delete/food-image', {
+      foodId,
+      image_url      
+    })
+    return data
   },
   deleteFood: async (id) => {
     const { data } = custumAxios.delete(`food/delete/${id}`);

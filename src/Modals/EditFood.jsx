@@ -21,6 +21,10 @@ import { FoodUtils } from "../utils/food.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
 import { LuFolderEdit } from "react-icons/lu";
+import { useParams } from "react-router-dom";
+import { MenuItem, Select } from "@mui/material";
+import { IMG_BASE_URL } from "../constants/server.BaseUrl";
+import DeleteFood from "../components/DeleteFood";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -84,15 +88,24 @@ function reduser(state, action) {
 }
 const initionState = { title: {}, description: {} };
 
+
+const EditFood = ({data}) => {
+  console.log(data);
+  const params = useParams()
+  const category = ALL_DATA.useCatefory(data.restourant_id)
+  const categoryEdit = category?.data?.data.find(el => el.id === params.categoryId)
+  const categoryEditModal = categoryEdit.subcategories.find(el => el._id === data.category_id)
+    ///////////////////////////////////// Modal open and close
+
 const EditFood = ({ data }) => {
   ///////////////////////////////////// Modal open and close
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   ///////////////////////////////////// useReducer
   const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
-  const category = ALL_DATA.useCatefory();
   const language = ALL_DATA.useLanguage();
   const queryClient = useQueryClient();
 
@@ -110,19 +123,27 @@ const EditFood = ({ data }) => {
 
   const handleAddFood = (e) => {
     e.preventDefault();
-    const images = [];
+    const images = data.image_urls;
     console.log(e.target.images?.files.length);
     for (let i = 0; i < e.target.images?.files.length; i++) {
       images.push(e.target.images.files[i]);
     }
+    const title = Object.keys(state.title).length ===0 ? "" : state.title;
+    const description = Object.keys(state.description).length === 0 ? "" : state.description
+    console.log(title);
+
     editFood.mutate({
+      id: data._id,
       images: images,
-      name: state.title,
-      description: state.description,
+      food_status: e.target.food_status.value,
+      status: e.target.status.value,
+      name: title,
+      description: description,
       price: e.target.price?.value,
       category_id: e.target.category_id?.value,
-      restourant_id: "661bd36d8e353f56d26067c5",
+      restourant_id: params.restaurantId,
     });
+    console.log(editFood.variables);
   };
 
   const handleTitle = (e) => {
@@ -136,7 +157,17 @@ const EditFood = ({ data }) => {
       titleName: title,
     });
   };
-
+  const deleteImg = useMutation({
+    mutationFn: FoodUtils.deleteImg,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [QUERY_KEY.food]})
+      toast.success("Delete image")
+    },
+    onError: (err) => {
+      console.log(err, "image delete");
+      toast.error("Don't delete image")
+    }
+  })
   /////////////////////////////////// Add to titile child modal
   function AddTitle() {
     const [open, setOpen] = React.useState(false);
@@ -180,7 +211,7 @@ const EditFood = ({ data }) => {
                       name={lang.code}
                       label={`Add category ${lang.code}`}
                       type="text"
-                      fullWidth
+                      
                       variant="standard"
                     />
                   );
@@ -270,6 +301,10 @@ const EditFood = ({ data }) => {
     );
   }
   return (
+
+    <div className="relative z-10">
+      <button className="absolute z-10 bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14" onClick={handleOpen}> <LuFolderEdit size={20}/> </button>
+
     <div className="relative z-30">
       <button
         className="absolute bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14"
@@ -278,6 +313,7 @@ const EditFood = ({ data }) => {
         {" "}
         <LuFolderEdit size={20} />{" "}
       </button>
+
       <Modal
         aria-labelledby={`child-modal-title${data.id}`}
         aria-describedby={`transition-modal-description${data.id}`}
@@ -320,7 +356,17 @@ const EditFood = ({ data }) => {
               <div
                 ref={praductImgs}
                 className="flex flex-wrap gap-1 w-[100%]"
-              ></div>
+              >
+                {
+                  data.image_urls.length && data.image_urls.map((img) => {
+                    console.log(data, "wjvnejovno");
+                    return  <div key={Math.random()} className="child-img relative flex flex-col ">
+                              <img className="mb-[]" width={70} src={`${IMG_BASE_URL}${img}`} alt="images" />
+                              <button onClick={() => deleteImg.mutate({foodId: data._id, image_url: img})}>delete</button>
+                            </div>
+                  })
+                }
+              </div>
               <div className="title-edit flex items-center gap-3">
                 <h2 className="font-bold">Name:</h2>
                 <p className="font-medium">{data.name}</p>
@@ -346,11 +392,11 @@ const EditFood = ({ data }) => {
                     >
                       Category
                     </InputLabel>
-                    <NativeSelect name="category_id">
-                      {category.data?.length &&
-                        category.data.map((ctg) => {
+                    <NativeSelect defaultValue={categoryEditModal._id} name="category_id">
+                      {categoryEdit.subcategories?.length &&
+                        categoryEdit.subcategories.map((ctg) => {
                           return (
-                            <option key={ctg.id} value={ctg.id}>
+                            <option key={ctg._id} value={ctg._id}>
                               {ctg.name}
                             </option>
                           );
@@ -364,6 +410,37 @@ const EditFood = ({ data }) => {
                 <p className="font-medium">{data.description}</p>
               </div>
               <AddDecription />
+              <div className="foode-status flex items-center gap-3">
+                  <FormControl sx={{margin: "20px 0 20px", width:"100%"}}>
+                    <InputLabel id="demo-simple-select-label">Food Status</InputLabel>
+                    <Select
+                      sx={{ width: "100%" }}
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      name='food_status'
+                      label="Food Status"
+                      defaultValue="available"
+                      >
+                        <MenuItem value="available">Available</MenuItem>
+                        <MenuItem value="preparing">Preparing</MenuItem>
+                        <MenuItem value="none">None</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl sx={{margin: "20px 0 20px", width:"100%"}}>
+                      <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                      <Select
+                        sx={{ width: "100%" }}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        name='status'
+                        label="Status"
+                        defaultValue="active"
+                        >
+                          <MenuItem  value="active">Active</MenuItem>
+                          <MenuItem  value="inactive">Inactive</MenuItem>
+                      </Select>
+                  </FormControl>
+              </div>
               <Button
                 className="w-full"
                 type="submit"

@@ -46,7 +46,7 @@ const CategoriesPage = () => {
                   )}
                   <p className="text-2xl">{subcategory?.name}</p>
                 </div>
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-start gap-3">
                   {subcategory?.foods.map((food) => (
                     <FoodCard key={food._id} food={food} />
                   ))}
