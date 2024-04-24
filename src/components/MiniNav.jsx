@@ -4,7 +4,7 @@ import { ALL_DATA } from "../Query/ALL_DATA";
 const MiniNav = () => {
   const { restaurantId } = useParams();
 
-  const getCategories = ALL_DATA.useCatefory(restaurantId);
+  const getCategories = ALL_DATA.useCategory(restaurantId);
 
   return (
     <footer

@@ -14,12 +14,12 @@ import Loading from "../components/Loading";
 const CategoriesPage = () => {
   const { restaurantId, categoryId } = useParams();
 
-  const getCategories = ALL_DATA.useCatefory(restaurantId);
+  const getCategories = ALL_DATA.useCategory(restaurantId);
 
   const getCategoryById = getCategories?.data?.data.find(
     (category) => category.id === categoryId
   );
-
+  console.log(getCategoryById, "errrrrrrrrrrrrr");
   if (getCategories.isLoading) return <Loading />;
 
   return (

@@ -6,14 +6,10 @@ import TextField from "@mui/material/TextField";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
-import { BiCloudUpload } from "react-icons/bi";
 import { MdTouchApp } from "react-icons/md";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import NativeSelect from "@mui/material/NativeSelect";
 import { useState } from "react";
-import { useRef } from "react";
 import { ALL_DATA } from "../Query/ALL_DATA";
 import { useReducer } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -21,22 +17,8 @@ import { FoodUtils } from "../utils/food.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
 import { LuFolderEdit } from "react-icons/lu";
-import { useParams } from "react-router-dom";
 import { MenuItem, Select } from "@mui/material";
-import { IMG_BASE_URL } from "../constants/server.BaseUrl";
-import DeleteFood from "../components/DeleteFood";
 
-// Images transform getbase64Full
-async function getBase64Full(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.onerror = reject;
-  });
-}
 // Material UI style
 const style = {
   position: "absolute",
@@ -51,17 +33,6 @@ const style = {
   p: 1,
   borderRadius: 2,
 };
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
 
 // useReducer Functions
 function reduser(state, action) {
@@ -88,32 +59,22 @@ function reduser(state, action) {
 }
 const initionState = { title: {}, description: {} };
 
-
-const EditFood = ({data}) => {
-  console.log(data);
-  const params = useParams()
-  const category = ALL_DATA.useCatefory(data.restourant_id)
-  const categoryEdit = category?.data?.data.find(el => el.id === params.categoryId)
-  const categoryEditModal = categoryEdit.subcategories.find(el => el._id === data.category_id)
-    ///////////////////////////////////// Modal open and close
-
 const EditFood = ({ data }) => {
-  ///////////////////////////////////// Modal open and close
-
+    ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   ///////////////////////////////////// useReducer
   const [state, dispatch] = useReducer(reduser, initionState);
-  const praductImgs = useRef();
   const language = ALL_DATA.useLanguage();
   const queryClient = useQueryClient();
 
   const editFood = useMutation({
     mutationFn: FoodUtils.editFood,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Succes edit");
+      handleClose()
     },
     onError: (err) => {
       console.log(err, "Edit food");
@@ -123,25 +84,17 @@ const EditFood = ({ data }) => {
 
   const handleAddFood = (e) => {
     e.preventDefault();
-    const images = data.image_urls;
-    console.log(e.target.images?.files.length);
-    for (let i = 0; i < e.target.images?.files.length; i++) {
-      images.push(e.target.images.files[i]);
-    }
     const title = Object.keys(state.title).length ===0 ? "" : state.title;
     const description = Object.keys(state.description).length === 0 ? "" : state.description
     console.log(title);
 
     editFood.mutate({
       id: data._id,
-      images: images,
       food_status: e.target.food_status.value,
       status: e.target.status.value,
       name: title,
       description: description,
-      price: e.target.price?.value,
-      category_id: e.target.category_id?.value,
-      restourant_id: params.restaurantId,
+      price: e.target.price?.value
     });
     console.log(editFood.variables);
   };
@@ -186,7 +139,7 @@ const EditFood = ({ data }) => {
           onClick={handleOpen}
           tabIndex={-1}
           startIcon={<MdTouchApp />}
-          sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
+          sx={{ margin: "10px 0", width: "100%", fontSize: "12px" }}
         >
           Edit Title
         </Button>
@@ -258,7 +211,7 @@ const EditFood = ({ data }) => {
           onClick={handleOpen}
           tabIndex={-1}
           startIcon={<MdTouchApp />}
-          sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
+          sx={{ margin: "15px 0", width: "100%", fontSize: "12px" }}
         >
           Edit Description
         </Button>
@@ -301,7 +254,6 @@ const EditFood = ({ data }) => {
     );
   }
   return (
-
     <div className="relative z-10">
       <button className="absolute z-10 bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14" onClick={handleOpen}> <LuFolderEdit size={20}/> </button>
 
@@ -336,37 +288,6 @@ const EditFood = ({ data }) => {
               Add to praduct
             </Typography>
             <form onSubmit={handleAddFood}>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<BiCloudUpload />}
-                sx={{
-                  margin: "25px 0 10px 0",
-                  width: "100%",
-                  fontSize: "12px",
-                }}
-                onChange={showImages}
-              >
-                Upload file
-                <VisuallyHiddenInput name="images" multiple type="file" />
-              </Button>
-              {/* Showe chald image */}
-              <div
-                ref={praductImgs}
-                className="flex flex-wrap gap-1 w-[100%]"
-              >
-                {
-                  data.image_urls.length && data.image_urls.map((img) => {
-                    console.log(data, "wjvnejovno");
-                    return  <div key={Math.random()} className="child-img relative flex flex-col ">
-                              <img className="mb-[]" width={70} src={`${IMG_BASE_URL}${img}`} alt="images" />
-                              <button onClick={() => deleteImg.mutate({foodId: data._id, image_url: img})}>delete</button>
-                            </div>
-                  })
-                }
-              </div>
               <div className="title-edit flex items-center gap-3">
                 <h2 className="font-bold">Name:</h2>
                 <p className="font-medium">{data.name}</p>
@@ -374,6 +295,7 @@ const EditFood = ({ data }) => {
               <AddTitle />
               <div className="flex items-center gap-3">
                 <TextField
+                  fullWidth
                   autoFocus
                   required
                   margin="dense"
@@ -384,26 +306,6 @@ const EditFood = ({ data }) => {
                   variant="standard"
                   defaultValue={data.price}
                 />
-                <Box sx={{ minWidth: 120, marginTop: "4px" }}>
-                  <FormControl>
-                    <InputLabel
-                      variant="standard"
-                      htmlFor="uncontrolled-native"
-                    >
-                      Category
-                    </InputLabel>
-                    <NativeSelect defaultValue={categoryEditModal._id} name="category_id">
-                      {categoryEdit.subcategories?.length &&
-                        categoryEdit.subcategories.map((ctg) => {
-                          return (
-                            <option key={ctg._id} value={ctg._id}>
-                              {ctg.name}
-                            </option>
-                          );
-                        })}
-                    </NativeSelect>
-                  </FormControl>
-                </Box>
               </div>
               <div className="title-edit flex items-center gap-3 mt-1 mb-[-10px]">
                 <h2 className="font-bold">Description:</h2>
@@ -454,20 +356,8 @@ const EditFood = ({ data }) => {
         </Fade>
       </Modal>
     </div>
+    </div>
   );
-  // Show praduct images
-  async function showImages(e) {
-    const images = [];
-    for (let i = 0; i < e.target.files.length; i++) {
-      images.push(await getBase64Full(e.target.files[i]));
-    }
-    for (let image of images) {
-      praductImgs.current.insertAdjacentHTML(
-        "beforeend",
-        `<img src=${image} width='65' alt="praduct-image" className="overflow-hidden rounded-md"/>`
-      );
-    }
-  }
 };
 
 export default EditFood;

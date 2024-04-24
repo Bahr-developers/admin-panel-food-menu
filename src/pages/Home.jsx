@@ -7,7 +7,7 @@ import { IMG_BASE_URL } from "../constants/server.BaseUrl";
 const Home = () => {
   const { restaurantId } = useParams();
 
-  const getMainCategories = ALL_DATA.useCatefory(restaurantId);
+  const getMainCategories = ALL_DATA.useCategory(restaurantId);
 
   if (getMainCategories.isLoading) return <Loading />;
 

@@ -23,7 +23,6 @@ const AddLanguage = () => {
     },
   });
   const submit = React.useRef();
-  console.log(submit);
   const handleClickOpen = () => {
     setOpen(true);
   };
