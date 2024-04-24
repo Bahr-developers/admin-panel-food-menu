@@ -59,7 +59,7 @@ function reduser(state, action) {
 }
 const initionState = { title: {}, description: {} };
 
-const EditFood = ({ data }) => {  
+const EditFood = ({ data }) => {
     ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -72,8 +72,9 @@ const EditFood = ({ data }) => {
   const editFood = useMutation({
     mutationFn: FoodUtils.editFood,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Succes edit");
+      handleClose()
     },
     onError: (err) => {
       console.log(err, "Edit food");

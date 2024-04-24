@@ -39,11 +39,11 @@ export const FoodUtils = {
   },
   editFood: async ({name, food_status, status, description, price, id }) => {
     const { data } = await custumAxios.patch(`food/edit/${id}`, {
-      name: JSON.stringify(name), 
+      name: name ? JSON.stringify(name) : "", 
       food_status: food_status, 
       price: price,
       status: status,
-      description: JSON.stringify(description)
+      description: description ? JSON.stringify(description) : ""
     });
     return data;
   },

@@ -61,10 +61,9 @@ const AddCategory = () => {
   const [open, setOpen] = useState(false);
   const praductImg = useRef();
   const queryClient = useQueryClient();
-  const category = ALL_DATA.useCatefory(param.restaurantId)?.data;
+  const category = ALL_DATA.useCategory(param.restaurantId)?.data;
   const language = ALL_DATA.useLanguage();
   const parms = useParams()
-
   const translate = ALL_DATA.useTranslete()
   
   // Add taranslete and Category functions
@@ -72,7 +71,7 @@ const AddCategory = () => {
     mutationFn: TranslateUtils.postTranslate,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
-      toast.success("Translate succes")
+      toast.success("Translate succes")      
     },
     onError: (err) => {
       console.log(err, "Add translete");
@@ -85,6 +84,7 @@ const AddCategory = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Add category success");
+      setOpen(false)
     },
     onError: (err) => {
       console.log(err, "add Category");
@@ -114,8 +114,6 @@ const AddCategory = () => {
         category_id: e.target.category.value,
         restaurant_id: parms.restaurantId
       })     
-    console.log(addCategory.variables, "Category");
-    console.log(addTranslate.variables, "Transleta");
   }
     /////////////////////////////////// Add to titile child modal
     function AddTitle() {
