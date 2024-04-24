@@ -58,12 +58,10 @@ const VisuallyHiddenInput = styled('input')({
 
 const AddCategory = () => {
   const param = useParams()
-  console.log(param.restaurantId);
   const [open, setOpen] = useState(false);
   const praductImg = useRef();
   const queryClient = useQueryClient();
   const category = ALL_DATA.useCatefory(param.restaurantId)?.data;
-  console.log(category);
   const language = ALL_DATA.useLanguage();
   const parms = useParams()
 

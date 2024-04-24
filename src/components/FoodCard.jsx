@@ -20,7 +20,7 @@ const FoodCard = (props) => {
   const deletaFood = useMutation({
     mutationFn: FoodUtils.deleteFood,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food]});
       toast.success("Delete success");
     },
     onError: (err) => {
