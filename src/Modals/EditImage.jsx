@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FoodUtils } from "../utils/food.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { RiImageEditLine } from "react-icons/ri";
+import DeleteImgModal from "./DeleteImgModal";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -88,7 +89,7 @@ const EditImage = ({data}) => {
           <button className="absolute z-10 bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14" onClick={handleOpen}> <LuFolderEdit size={20}/> </button>    
           <div className="z-30">
             <button
-              className="absolute z-10 top-0 bg-indigo-400 right-0 text-white p-1 md:p-2 rounded-[0, 0, 0, 10px] md:right-14"
+              className="absolute z-10 top-0 bg-indigo-400 right-0 md:right-0 text-white p-1 md:p-2 rounded-[0, 0, 0, 10px] md:right-14"
               onClick={handleOpen}
             ><RiImageEditLine size={20}/>
             </button>
@@ -138,11 +139,11 @@ const EditImage = ({data}) => {
                         <div className="images flex overflow-x-scroll items-center gap-x-1">
                             {data.image_urls?.length && data.image_urls.map((img, i) => {
                               return <div className="relative" key={i}>
-                                          <img width={70} src={`${IMG_BASE_URL}${img}`} alt="images" />
-                                          <span className="cursor-pointer" onClick={()=>deleteImg.mutate({foodId: data._id, image_url: img})}>delete</span>
+                                          <img width={70} className="h-[130px] py-4" src={`${IMG_BASE_URL}${img}`} alt="images" />
+                                          <DeleteImgModal deleteFn={deleteImg.mutate} id={{foodId: data._id, image_url: img}}/>
                                       </div>
                             })}
-                            <img width={70} ref={praductImg} className='hidden rounded-lg' src="" alt="img" />
+                            <img width={70} ref={praductImg} className='hidden h-[130px] py-4' src="" alt="img" />
                         </div>
                     <Button
                       className="w-full"

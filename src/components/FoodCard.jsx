@@ -50,7 +50,7 @@ const FoodCard = (props) => {
                     <LazyLoadImage
                       src={`${IMG_BASE_URL}${img}`}
                       alt={`slider img ${index + 1}`}
-                      className="h-full w-full rounded-t-[10px]"
+                      className="h-full w-full rounded-t-[10px] py-2 bg-cover"
                       height={300}
                       effect="blur"
                     />
@@ -66,11 +66,11 @@ const FoodCard = (props) => {
       <EditFood data={foodInformation}/>
       <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id}/>
 
-      <h2 className="font-bold py-1 px-1 text-xl truncate">
+      <h2 className="font-bold px-1 text-[16px] truncate">
         {foodInformation.name}
       </h2>
-      <p className="overflow-hidden px-1">{foodInformation.description}</p>
-      <p className="mb-1 px-1">{foodInformation.price} so`m</p>
+      <p className="overflow-hidden text-[13px] px-1">{foodInformation.description}</p>
+      <p className="mb-1 px-1 text-[13px]">{foodInformation.price} so`m</p>
       <span
         className={`p-[4px] block w-full text-center rounded ${
           foodInformation?.food_status === "available"
