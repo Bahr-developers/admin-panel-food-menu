@@ -110,17 +110,6 @@ const EditFood = ({ data }) => {
       titleName: title,
     });
   };
-  const deleteImg = useMutation({
-    mutationFn: FoodUtils.deleteImg,
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [QUERY_KEY.food]})
-      toast.success("Delete image")
-    },
-    onError: (err) => {
-      console.log(err, "image delete");
-      toast.error("Don't delete image")
-    }
-  })
   /////////////////////////////////// Add to titile child modal
   function AddTitle() {
     const [open, setOpen] = React.useState(false);

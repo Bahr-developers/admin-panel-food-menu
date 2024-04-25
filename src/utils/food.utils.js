@@ -49,8 +49,8 @@ export const FoodUtils = {
   },
   deleteImg: async ({foodId, image_url}) => {
     const {data}  = await custumAxios.delete('food/delete/food-image', {
-      foodId,
-      image_url      
+      foodId: foodId,
+      image_url:image_url     
     })
     return data
   },
