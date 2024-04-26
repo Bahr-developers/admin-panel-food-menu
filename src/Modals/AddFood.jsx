@@ -21,6 +21,7 @@ import { FoodUtils } from "../utils/food.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { addModal } from "../configs/language";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -98,6 +99,7 @@ const initionState = { title: {}, description: {} };
 
 const AddFood = () => {
   const params = useParams();
+  const langCode = localStorage.getItem("language")
   ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -183,7 +185,7 @@ const AddFood = () => {
           startIcon={<MdTouchApp />}
           sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
         >
-          Add Title
+          {addModal[1][langCode]}
         </Button>
         <Modal
           open={open}
@@ -243,7 +245,7 @@ const AddFood = () => {
           startIcon={<MdTouchApp />}
           sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
         >
-          Add Description
+          {addModal[4][langCode]}
         </Button>
         <Modal
           open={open}
@@ -304,7 +306,7 @@ const AddFood = () => {
         <Fade in={open}>
           <Box sx={style}>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Add to praduct
+            {addModal[0][langCode]}
             </Typography>
               <AddTitle />
             <form onSubmit={handleAddFood}>
@@ -321,7 +323,7 @@ const AddFood = () => {
                 }}
                 onChange={showImages}
               >
-                Upload file
+                {addModal[2][langCode]}
                 <VisuallyHiddenInput name="images" multiple type="file" />
               </Button>
               {/* Showe chald image */}
@@ -336,7 +338,7 @@ const AddFood = () => {
                   margin="dense"
                   id="name"
                   name="price"
-                  label="Price"
+                  label={addModal[3][langCode]}
                   type="number"
                   variant="standard"
                 />
@@ -368,7 +370,7 @@ const AddFood = () => {
                 variant="contained"
                 color="success"
               >
-                Add
+                {addModal[5][langCode]}
               </Button>
             </form>
           </Box>
