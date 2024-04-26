@@ -81,7 +81,11 @@ const FoodCard = (props) => {
             : "bg-red-500 text-white"
         }`}
       >
-        {foodInformation.food_status}
+        {foodInformation?.food_status === "available"
+            ? "Mavjud"
+            : foodInformation?.food_status === "preparing"
+            ? "Tayyorlanmoqda"
+            : "Mavjuu emas"}
       </span>
       <span className={foodInformation.status === "inactive"?"overlay absolute block bg-[#b0a7a773] top-0 left-0 w-full h-full z-[5]":""}></span>
     </div>

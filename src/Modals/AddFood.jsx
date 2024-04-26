@@ -105,7 +105,7 @@ const AddFood = () => {
   ///////////////////////////////////// useReducer
   const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
-  const getCategoryFood = ALL_DATA.useCatefory(params.restaurantId);
+  const getCategoryFood = ALL_DATA.useCategory(params.restaurantId);
   const category = getCategoryFood?.data?.data.find(
     (el) => el.id === params.categoryId
   );
