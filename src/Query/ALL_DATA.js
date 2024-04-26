@@ -48,8 +48,8 @@ export const ALL_DATA = {
   useCategoryAll: () => {
     return useQuery({
       queryKey: [QUERY_KEY.category],
-      queryFn: CategoryUtils.getCategoryAll
-    })
+      queryFn: CategoryUtils.getCategoryAll,
+    });
   },
   useUsers: () => {
     return useQuery({

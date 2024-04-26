@@ -1,9 +1,9 @@
 import { custumAxios } from "../configs/axios.config";
 
 export const CategoryUtils = {
-  getCategoryAll: async() => {
-    const data = await custumAxios.get('category/find/all')
-    return data
+  getCategoryAll: async () => {
+    const data = await custumAxios.get("category/find/all");
+    return data;
   },
   getCategory: async (id) => {
     const { data } = await custumAxios.get(
@@ -17,8 +17,8 @@ export const CategoryUtils = {
     return data;
   },
   getFindByCategory: async (id) => {
-    const data = await custumAxios.get(`category/find/by/restaurant/${id}`)
-    return data
+    const data = await custumAxios.get(`category/find/by/restaurant/${id}`);
+    return data;
   },
   addCategory: async ({ name, image, category_id, restaurant_id }) => {
     const formData = new FormData();
@@ -37,7 +37,7 @@ export const CategoryUtils = {
     return data;
   },
   deleteCatefory: async (id) => {
-    const { data } = await custumAxios.post(`/category/delete/${id}`);
+    const { data } = await custumAxios.delete(`category/delete/${id}`);
     return data;
   },
 };

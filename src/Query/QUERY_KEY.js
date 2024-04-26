@@ -1,8 +1,8 @@
 export const QUERY_KEY = {
-  category: "categorys",
-  food: "foods",
-  translete: "transletes",
+  category: "category",
+  food: "food",
+  translete: "translate",
   restourant: "restourant",
-  language: "languages",
+  language: "language",
   user: "user",
 };

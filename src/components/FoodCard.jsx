@@ -18,6 +18,7 @@ import EditImage from "../Modals/EditImage";
 
 const FoodCard = (props) => {
   const queryClient = useQueryClient();
+
   const deletaFood = useMutation({
     mutationFn: FoodUtils.deleteFood,
     onSuccess: () => {
