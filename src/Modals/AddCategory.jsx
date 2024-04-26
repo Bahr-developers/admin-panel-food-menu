@@ -69,7 +69,7 @@ const AddCategory = () => {
   const [open, setOpen] = useState(false);
   const praductImg = useRef();
   const queryClient = useQueryClient();
-  const category = ALL_DATA.useCatefory(param.restaurantId)?.data;
+  const category = ALL_DATA.useCategory(param.restaurantId)?.data;
 
   const language = ALL_DATA.useLanguage();
   const parms = useParams();

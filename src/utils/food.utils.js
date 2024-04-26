@@ -47,12 +47,14 @@ export const FoodUtils = {
     });
     return data;
   },
-  deleteImg: async ({ foodId, image_url }) => {
-    const { data } = await custumAxios.delete("food/delete/food-image", {
-      foodId,
-      image_url,
-    });
-    return data;
+  deleteImg: async ({foodId, image_url}) => {
+    const {data}  = await custumAxios.delete('food/delete/food-image', {
+      data: {
+        foodId: foodId,
+        image_url:image_url,     
+      }
+    })
+    return data
   },
   deleteFood: async (id) => {
     const { data } = custumAxios.delete(`food/delete/${id}`);
