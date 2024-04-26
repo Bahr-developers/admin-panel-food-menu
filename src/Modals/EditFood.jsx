@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import { LuFolderEdit } from "react-icons/lu";
 import { MenuItem, Select } from "@mui/material";
 import { IMG_BASE_URL } from "../constants/server.BaseUrl";
+import { useParams } from "react-router-dom";
 
 // Material UI style
 const style = {
@@ -61,16 +62,6 @@ function reduser(state, action) {
 const initionState = { title: {}, description: {} };
 
 const EditFood = ({ data }) => {
-  const params = useParams();
-  const category = ALL_DATA.useCatefory(data.restourant_id);
-  const categoryEdit = category?.data?.data.find(
-    (el) => el.id === params.categoryId
-  );
-  const categoryEditModal = categoryEdit.subcategories.find(
-    (el) => el._id === data.category_id
-  );
-  ///////////////////////////////////// Modal open and close
-
   ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -95,15 +86,8 @@ const EditFood = ({ data }) => {
 
   const handleAddFood = (e) => {
     e.preventDefault();
-
-    const images = data.image_urls;
-    console.log(e.target.images?.files.length);
-    for (let i = 0; i < e.target.images?.files.length; i++) {
-      images.push(e.target.images.files[i]);
-    }
     const title = Object.keys(state.title).length ===0 ? "" : state.title;
     const description = Object.keys(state.description).length === 0 ? "" : state.description
-    console.log(title);
 
     editFood.mutate({
       id: data._id,
@@ -359,20 +343,6 @@ const EditFood = ({ data }) => {
           </Fade>
         </Modal>
       </div>
-      {async function showImages(e) {
-        const images = [];
-        for (let i = 0; i < e.target.files.length; i++) {
-          images.push(await getBase64Full(e.target.files[i]));
-        }
-        for (let image of images) {
-          praductImgs.current.insertAdjacentHTML(
-            "beforeend",
-            `<img src=${image} width='65' alt="praduct-image" className="overflow-hidden rounded-md"/>`
-          );
-        }
-      }}
-    </div>
-    </div>
   );
 };
 
