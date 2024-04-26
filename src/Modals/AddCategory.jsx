@@ -11,12 +11,21 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CategoryUtils } from "../utils/categoryutils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { ALL_DATA } from "../Query/ALL_DATA";
-import { Box, FormControl, InputLabel, MenuItem, Modal, Select } from "@mui/material";
+
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+} from "@mui/material";
+
 import { TranslateUtils } from "../utils/translate.utils";
+
 import toast from "react-hot-toast";
 import { MdTouchApp } from "react-icons/md";
 import { useParams } from "react-router-dom";
-
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -43,39 +52,40 @@ const style = {
   p: 1,
   borderRadius: 2,
 };
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
   height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
+  overflow: "hidden",
+  position: "absolute",
   bottom: 0,
   left: 0,
-  whiteSpace: 'nowrap',
+  whiteSpace: "nowrap",
   width: 1,
 });
 
-
 const AddCategory = () => {
-  const param = useParams()
+  const param = useParams();
   const [open, setOpen] = useState(false);
   const praductImg = useRef();
   const queryClient = useQueryClient();
-  const category = ALL_DATA.useCategory(param.restaurantId)?.data;
+  const category = ALL_DATA.useCatefory(param.restaurantId)?.data;
+
   const language = ALL_DATA.useLanguage();
-  const parms = useParams()
-  const translate = ALL_DATA.useTranslete()
-  
+  const parms = useParams();
+
+  const translate = ALL_DATA.useTranslete();
+
   // Add taranslete and Category functions
   const addTranslate = useMutation({
     mutationFn: TranslateUtils.postTranslate,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
-      toast.success("Translate succes")      
+      toast.success("Translate succes");
     },
     onError: (err) => {
       console.log(err, "Add translete");
-      toast.error("Xatolik")
+      toast.error("Xatolik");
     },
   });
 
@@ -92,19 +102,18 @@ const AddCategory = () => {
     },
   });
 
-  
-  const handleTitleAddCategory = (e) =>{
-    e.preventDefault()
-    const definition = {}
+  const handleTitleAddCategory = (e) => {
+    e.preventDefault();
+    const definition = {};
     for (let el of language.data) {
       definition[el.code] = e.target[el.code].value;
     }
     addTranslate.mutate({
       code: e.target.translete_code.value,
       definition,
-      type: "content"
-    })
-  }
+      type: "content",
+    });
+  };
 
   const handleAddCotegory = (e) => {
     e.preventDefault()
@@ -147,50 +156,50 @@ const AddCategory = () => {
             <form  onSubmit={handleTitleAddCategory}>
               <div className='flex items-center gap-5'>
                 <TextField
-                        autoFocus
-                        required
-                        margin="dense"
-                        id="name"
-                        name="translete_code"
-                        label={`Add category name code`}
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                  />
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="name"
+                  name="translete_code"
+                  label={`Add category name code`}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                />
               </div>
-              {language.data?.length && language.data.map(lang=>{
-                return <TextField
-                        key={lang._id}
-                        autoFocus
-                        required
-                        margin="dense"
-                        id="name"
-                        name={lang.code}
-                        label={`Add category ${lang.code}`}
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                      />
-              })}
+              {language.data?.length &&
+                language.data.map((lang) => {
+                  return (
+                    <TextField
+                      key={lang._id}
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="name"
+                      name={lang.code}
+                      label={`Add category ${lang.code}`}
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+                  );
+                })}
               <button
                 type="submit"
                 className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
               >
-                Saqlash
+                Save
               </button>
-           </form>
-            </Box>
-            
-          </Modal>  
-        </Fragment>
-        );
-      }
+            </form>
+          </Box>
+        </Modal>
+      </Fragment>
+    );
+  }
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen}>
-        Add Category
-      </Button>      
-      <Dialog     
+      <Button onClick={handleClickOpen}>Add Category</Button>
+      <Dialog
         open={open}
         onClose={handleClose}
         PaperProps={{
@@ -199,44 +208,53 @@ const AddCategory = () => {
         }}
       >
         <DialogContent sx={{}}>
-          <DialogContentText>
-            To subscribe to this website
-          </DialogContentText>
-          <div  className="miniwrap-image flex gap-x-4 md:gap-x-10 items-center">
+          <DialogContentText>Create subcategory</DialogContentText>
+          <div className="miniwrap-image flex gap-x-4 md:gap-x-10 items-center">
             <Button
-                component="label"
-                variant="contained"
-                tabIndex={-1}
-                onChange={showImage}    
-                name='image_category'            
-                startIcon={<BiCloudUpload />}
-                sx={{margin: '25px 0 10px 0'}}
-                >                
-                Upload file
-                <VisuallyHiddenInput name='image_category' type="file" />
+              component="label"
+              variant="contained"
+              tabIndex={-1}
+              onChange={showImage}
+              name="image_category"
+              startIcon={<BiCloudUpload />}
+              sx={{ margin: "25px 0 10px 0" }}
+            >
+              Upload file
+              <VisuallyHiddenInput name="image_category" type="file" />
             </Button>
-            <img width={90} ref={praductImg} className='hidden rounded-lg' src="" alt="img" />
-          </div> 
-          <TextField disabled fullWidth  variant="standard" /> 
-          <AddTitle/>                
-            <FormControl fullWidth sx={{marginTop: "20px", width:"100%"}}>
-                <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                <Select
-                  sx={{ width: "100%" }}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  name='category'
-                  label="Category"
-                  >
-                  {category.data?.length && category.data.map(ctg => {
-                    return <MenuItem fullWidth key={ctg.id} value={ctg.id}>{ctg.name}</MenuItem>
-                  })}
-                </Select>
-            </FormControl>
+            <img
+              width={90}
+              ref={praductImg}
+              className="hidden rounded-lg"
+              src=""
+              alt="img"
+            />
+          </div>
+          <TextField disabled fullWidth variant="standard" />
+          <AddTitle />
+          <FormControl fullWidth sx={{ marginTop: "20px", width: "100%" }}>
+            <InputLabel id="demo-simple-select-label">Category</InputLabel>
+            <Select
+              sx={{ width: "100%" }}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              name="category"
+              label="Category"
+            >
+              {category.data?.length &&
+                category.data.map((ctg) => {
+                  return (
+                    <MenuItem fullWidth key={ctg.id} value={ctg.id}>
+                      {ctg.name}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Subscribe</Button>
+          <Button type="submit">Save</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

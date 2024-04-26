@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -6,12 +6,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { MdDelete } from "react-icons/md";
-import { useState } from 'react';
 
-
-
-const DeleteFood = ({deleteFn, id}) => {    
-  const [open, setOpen] = useState(false);
+const DeleteConfirmation = ({ deleteFn, id }) => {
+  const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -26,10 +23,10 @@ const DeleteFood = ({deleteFn, id}) => {
   return (
     <React.Fragment>
       <button
-        className="absolute block top-[130px] md:top-[275px] z-10 bg-red-500 text-white p-1 md:p-2 rounded-full right-2 md:right-4"
+        className="absolute bottom-3 block right-2 z-50 bg-red-500 text-white p-1 md:p-1 rounded"
         onClick={handleClickOpen}
       >
-        <MdDelete size={20} />
+        <MdDelete size={23} />
       </button>
       <Dialog
         open={open}
@@ -58,4 +55,4 @@ const DeleteFood = ({deleteFn, id}) => {
   );
 };
 
-export default DeleteFood;
+export default DeleteConfirmation;
