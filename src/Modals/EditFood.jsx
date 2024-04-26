@@ -24,7 +24,6 @@ import { LuFolderEdit } from "react-icons/lu";
 import { useParams } from "react-router-dom";
 import { MenuItem, Select } from "@mui/material";
 import { IMG_BASE_URL } from "../constants/server.BaseUrl";
-import DeleteFood from "../components/DeleteFood";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -88,16 +87,17 @@ function reduser(state, action) {
 }
 const initionState = { title: {}, description: {} };
 
-
-const EditFood = ({data}) => {
-  console.log(data);
-  const params = useParams()
-  const category = ALL_DATA.useCatefory(data.restourant_id)
-  const categoryEdit = category?.data?.data.find(el => el.id === params.categoryId)
-  const categoryEditModal = categoryEdit.subcategories.find(el => el._id === data.category_id)
-    ///////////////////////////////////// Modal open and close
-
 const EditFood = ({ data }) => {
+  const params = useParams();
+  const category = ALL_DATA.useCatefory(data.restourant_id);
+  const categoryEdit = category?.data?.data.find(
+    (el) => el.id === params.categoryId
+  );
+  const categoryEditModal = categoryEdit.subcategories.find(
+    (el) => el._id === data.category_id
+  );
+  ///////////////////////////////////// Modal open and close
+
   ///////////////////////////////////// Modal open and close
 
   const [open, setOpen] = useState(false);
@@ -128,8 +128,9 @@ const EditFood = ({ data }) => {
     for (let i = 0; i < e.target.images?.files.length; i++) {
       images.push(e.target.images.files[i]);
     }
-    const title = Object.keys(state.title).length ===0 ? "" : state.title;
-    const description = Object.keys(state.description).length === 0 ? "" : state.description
+    const title = Object.keys(state.title).length === 0 ? "" : state.title;
+    const description =
+      Object.keys(state.description).length === 0 ? "" : state.description;
     console.log(title);
 
     editFood.mutate({
@@ -160,14 +161,14 @@ const EditFood = ({ data }) => {
   const deleteImg = useMutation({
     mutationFn: FoodUtils.deleteImg,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [QUERY_KEY.food]})
-      toast.success("Delete image")
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
+      toast.success("Delete image");
     },
     onError: (err) => {
       console.log(err, "image delete");
-      toast.error("Don't delete image")
-    }
-  })
+      toast.error("Don't delete image");
+    },
+  });
   /////////////////////////////////// Add to titile child modal
   function AddTitle() {
     const [open, setOpen] = React.useState(false);
@@ -211,7 +212,6 @@ const EditFood = ({ data }) => {
                       name={lang.code}
                       label={`Add category ${lang.code}`}
                       type="text"
-                      
                       variant="standard"
                     />
                   );
@@ -300,174 +300,203 @@ const EditFood = ({ data }) => {
       </React.Fragment>
     );
   }
+
   return (
-
     <div className="relative z-10">
-      <button className="absolute z-10 bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14" onClick={handleOpen}> <LuFolderEdit size={20}/> </button>
-
-    <div className="relative z-30">
       <button
-        className="absolute bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14"
+        className="absolute z-10 bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14"
         onClick={handleOpen}
       >
         {" "}
         <LuFolderEdit size={20} />{" "}
       </button>
 
-      <Modal
-        aria-labelledby={`child-modal-title${data.id}`}
-        aria-describedby={`transition-modal-description${data.id}`}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <Typography
-              id={`transition-modal-description${data.id}`}
-              sx={{ mt: 2 }}
-            >
-              Add to praduct
-            </Typography>
-            <form onSubmit={handleAddFood}>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<BiCloudUpload />}
-                sx={{
-                  margin: "25px 0 10px 0",
-                  width: "100%",
-                  fontSize: "12px",
-                }}
-                onChange={showImages}
+      <div className="relative z-30">
+        <button
+          className="absolute bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14"
+          onClick={handleOpen}
+        >
+          {" "}
+          <LuFolderEdit size={20} />{" "}
+        </button>
+
+        <Modal
+          aria-labelledby={`child-modal-title${data.id}`}
+          aria-describedby={`transition-modal-description${data.id}`}
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          slots={{ backdrop: Backdrop }}
+          slotProps={{
+            backdrop: {
+              timeout: 500,
+            },
+          }}
+        >
+          <Fade in={open}>
+            <Box sx={style}>
+              <Typography
+                id={`transition-modal-description${data.id}`}
+                sx={{ mt: 2 }}
               >
-                Upload file
-                <VisuallyHiddenInput name="images" multiple type="file" />
-              </Button>
-              {/* Showe chald image */}
-              <div
-                ref={praductImgs}
-                className="flex flex-wrap gap-1 w-[100%]"
-              >
-                {
-                  data.image_urls.length && data.image_urls.map((img) => {
-                    console.log(data, "wjvnejovno");
-                    return  <div key={Math.random()} className="child-img relative flex flex-col ">
-                              <img className="mb-[]" width={70} src={`${IMG_BASE_URL}${img}`} alt="images" />
-                              <button onClick={() => deleteImg.mutate({foodId: data._id, image_url: img})}>delete</button>
-                            </div>
-                  })
-                }
-              </div>
-              <div className="title-edit flex items-center gap-3">
-                <h2 className="font-bold">Name:</h2>
-                <p className="font-medium">{data.name}</p>
-              </div>
-              <AddTitle />
-              <div className="flex items-center gap-3">
-                <TextField
-                  autoFocus
-                  required
-                  margin="dense"
-                  id="name"
-                  name="price"
-                  label="Price"
-                  type="number"
-                  variant="standard"
-                  defaultValue={data.price}
-                />
-                <Box sx={{ minWidth: 120, marginTop: "4px" }}>
-                  <FormControl>
-                    <InputLabel
-                      variant="standard"
-                      htmlFor="uncontrolled-native"
-                    >
-                      Category
+                Add to praduct
+              </Typography>
+              <form onSubmit={handleAddFood}>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<BiCloudUpload />}
+                  sx={{
+                    margin: "25px 0 10px 0",
+                    width: "100%",
+                    fontSize: "12px",
+                  }}
+                >
+                  Upload file
+                  <VisuallyHiddenInput name="images" multiple type="file" />
+                </Button>
+                {/* Showe chald image */}
+                <div
+                  ref={praductImgs}
+                  className="flex flex-wrap gap-1 w-[100%]"
+                >
+                  {data.image_urls.length &&
+                    data.image_urls.map((img) => {
+                      return (
+                        <div
+                          key={Math.random()}
+                          className="child-img relative flex flex-col "
+                        >
+                          <img
+                            className="mb-[]"
+                            width={70}
+                            src={`${IMG_BASE_URL}${img}`}
+                            alt="images"
+                          />
+                          <button
+                            onClick={() =>
+                              deleteImg.mutate({
+                                foodId: data._id,
+                                image_url: img,
+                              })
+                            }
+                          >
+                            delete
+                          </button>
+                        </div>
+                      );
+                    })}
+                </div>
+                <div className="title-edit flex items-center gap-3">
+                  <h2 className="font-bold">Name:</h2>
+                  <p className="font-medium">{data.name}</p>
+                </div>
+                <AddTitle />
+                <div className="flex items-center gap-3">
+                  <TextField
+                    autoFocus
+                    required
+                    margin="dense"
+                    id="name"
+                    name="price"
+                    label="Price"
+                    type="number"
+                    variant="standard"
+                    defaultValue={data.price}
+                  />
+                  <Box sx={{ minWidth: 120, marginTop: "4px" }}>
+                    <FormControl>
+                      <InputLabel
+                        variant="standard"
+                        htmlFor="uncontrolled-native"
+                      >
+                        Category
+                      </InputLabel>
+                      <NativeSelect
+                        defaultValue={categoryEditModal._id}
+                        name="category_id"
+                      >
+                        {categoryEdit.subcategories?.length &&
+                          categoryEdit.subcategories.map((ctg) => {
+                            return (
+                              <option key={ctg._id} value={ctg._id}>
+                                {ctg.name}
+                              </option>
+                            );
+                          })}
+                      </NativeSelect>
+                    </FormControl>
+                  </Box>
+                </div>
+                <div className="title-edit flex items-center gap-3 mt-1 mb-[-10px]">
+                  <h2 className="font-bold">Description:</h2>
+                  <p className="font-medium">{data.description}</p>
+                </div>
+                <AddDecription />
+                <div className="foode-status flex items-center gap-3">
+                  <FormControl sx={{ margin: "20px 0 20px", width: "100%" }}>
+                    <InputLabel id="demo-simple-select-label">
+                      Food Status
                     </InputLabel>
-                    <NativeSelect defaultValue={categoryEditModal._id} name="category_id">
-                      {categoryEdit.subcategories?.length &&
-                        categoryEdit.subcategories.map((ctg) => {
-                          return (
-                            <option key={ctg._id} value={ctg._id}>
-                              {ctg.name}
-                            </option>
-                          );
-                        })}
-                    </NativeSelect>
-                  </FormControl>
-                </Box>
-              </div>
-              <div className="title-edit flex items-center gap-3 mt-1 mb-[-10px]">
-                <h2 className="font-bold">Description:</h2>
-                <p className="font-medium">{data.description}</p>
-              </div>
-              <AddDecription />
-              <div className="foode-status flex items-center gap-3">
-                  <FormControl sx={{margin: "20px 0 20px", width:"100%"}}>
-                    <InputLabel id="demo-simple-select-label">Food Status</InputLabel>
                     <Select
                       sx={{ width: "100%" }}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      name='food_status'
+                      name="food_status"
                       label="Food Status"
                       defaultValue="available"
-                      >
-                        <MenuItem value="available">Available</MenuItem>
-                        <MenuItem value="preparing">Preparing</MenuItem>
-                        <MenuItem value="none">None</MenuItem>
+                    >
+                      <MenuItem value="available">Available</MenuItem>
+                      <MenuItem value="preparing">Preparing</MenuItem>
+                      <MenuItem value="none">None</MenuItem>
                     </Select>
                   </FormControl>
-                  <FormControl sx={{margin: "20px 0 20px", width:"100%"}}>
-                      <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                      <Select
-                        sx={{ width: "100%" }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        name='status'
-                        label="Status"
-                        defaultValue="active"
-                        >
-                          <MenuItem  value="active">Active</MenuItem>
-                          <MenuItem  value="inactive">Inactive</MenuItem>
-                      </Select>
+                  <FormControl sx={{ margin: "20px 0 20px", width: "100%" }}>
+                    <InputLabel id="demo-simple-select-label">
+                      Status
+                    </InputLabel>
+                    <Select
+                      sx={{ width: "100%" }}
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      name="status"
+                      label="Status"
+                      defaultValue="active"
+                    >
+                      <MenuItem value="active">Active</MenuItem>
+                      <MenuItem value="inactive">Inactive</MenuItem>
+                    </Select>
                   </FormControl>
-              </div>
-              <Button
-                className="w-full"
-                type="submit"
-                variant="contained"
-                color="success"
-              >
-                Edit
-              </Button>
-            </form>
-          </Box>
-        </Fade>
-      </Modal>
+                </div>
+                <Button
+                  className="w-full"
+                  type="submit"
+                  variant="contained"
+                  color="success"
+                >
+                  Edit
+                </Button>
+              </form>
+            </Box>
+          </Fade>
+        </Modal>
+      </div>
+      {async function showImages(e) {
+        const images = [];
+        for (let i = 0; i < e.target.files.length; i++) {
+          images.push(await getBase64Full(e.target.files[i]));
+        }
+        for (let image of images) {
+          praductImgs.current.insertAdjacentHTML(
+            "beforeend",
+            `<img src=${image} width='65' alt="praduct-image" className="overflow-hidden rounded-md"/>`
+          );
+        }
+      }}
     </div>
   );
-  // Show praduct images
-  async function showImages(e) {
-    const images = [];
-    for (let i = 0; i < e.target.files.length; i++) {
-      images.push(await getBase64Full(e.target.files[i]));
-    }
-    for (let image of images) {
-      praductImgs.current.insertAdjacentHTML(
-        "beforeend",
-        `<img src=${image} width='65' alt="praduct-image" className="overflow-hidden rounded-md"/>`
-      );
-    }
-  }
 };
 
 export default EditFood;

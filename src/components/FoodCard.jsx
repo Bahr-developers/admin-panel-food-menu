@@ -17,10 +17,11 @@ import toast from "react-hot-toast";
 
 const FoodCard = (props) => {
   const queryClient = useQueryClient();
+
   const deletaFood = useMutation({
     mutationFn: FoodUtils.deleteFood,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
+      queryClient.invalidateQueries({ type: "all" });
       toast.success("Delete success");
     },
     onError: (err) => {
@@ -59,8 +60,8 @@ const FoodCard = (props) => {
           <div className="h-[100px] text-center">no image</div>
         )}
       </Swiper>
-      <EditFood data={foodInformation}/>
-      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id}/>
+      <EditFood data={foodInformation} />
+      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id} />
 
       <h2 className="font-bold py-1 text-xl truncate">
         {foodInformation.name}

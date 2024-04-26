@@ -106,7 +106,9 @@ const AddFood = () => {
   const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
   const getCategoryFood = ALL_DATA.useCatefory(params.restaurantId);
-  const category = getCategoryFood?.data?.data.find(el => el.id === params.categoryId)
+  const category = getCategoryFood?.data?.data.find(
+    (el) => el.id === params.categoryId
+  );
   const language = ALL_DATA.useLanguage();
   const queryClient = useQueryClient();
 
@@ -119,7 +121,7 @@ const AddFood = () => {
     onError: (err) => {
       console.log(err, "Error add food");
     },
-  }); 
+  });
 
   const handleTitle = (e) => {
     e.preventDefault();
@@ -158,7 +160,6 @@ const AddFood = () => {
       category_id: e.target.category_id?.value,
       restourant_id: "661bd36d8e353f56d26067c5",
     });
-    console.log(addFood.variables);
   };
 
   /////////////////////////////////// Add to titile child modal
@@ -202,7 +203,7 @@ const AddFood = () => {
                       margin="dense"
                       id="name"
                       name={lang.code}
-                      label={`Add category ${lang.code}`}
+                      label={`Add food name ${lang.code}`}
                       type="text"
                       fullWidth
                       variant="standard"
