@@ -6,9 +6,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { MdDelete } from "react-icons/md";
+import { useState } from 'react';
 
-const DeleteFood = ({ deleteFn, id }) => {
-  const [open, setOpen] = React.useState(false);
+
+const DeleteFood = ({deleteFn, id}) => {    
+  const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };

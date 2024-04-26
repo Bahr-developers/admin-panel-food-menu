@@ -33,16 +33,16 @@ export const ALL_DATA = {
       queryFn: FoodUtils.getFood,
     });
   },
-  useCatefory: (id) => {
-    if (!id) return [];
+  useCategory: (id) => {
+    // if (!id) return [];
     return useQuery({
       queryKey: [QUERY_KEY.category],
       queryFn: async () =>
-        await custumAxios.get(`category/find/by/restaurant/${id}`, {
-          headers: {
-            "accept-language": localStorage.getItem("language"),
-          },
-        }),
+      await custumAxios.get(`category/find/by/restaurant/${id}`, {
+        headers: {
+          "accept-language": localStorage.getItem("language"),
+        },
+      }),
     });
   },
   useCategoryAll: () => {

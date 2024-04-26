@@ -94,6 +94,7 @@ const AddCategory = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Add category success");
+      setOpen(false)
     },
     onError: (err) => {
       console.log(err, "add Category");
@@ -115,46 +116,45 @@ const AddCategory = () => {
   };
 
   const handleAddCotegory = (e) => {
-    e.preventDefault();
-    addCategory.mutate({
-      name: translate.data?.at(translate.data?.length - 1)._id,
-      image: e.target.image_category.files[0],
-      category_id: e.target.category.value,
-      restaurant_id: parms.restaurantId,
-    });
-    setOpen(false);
-  };
-  /////////////////////////////////// Add to titile child modal
-  function AddTitle() {
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => {
-      setOpen(true);
-    };
-    const handleClose = () => {
-      setOpen(false);
-    };
-    return (
-      <Fragment>
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          onClick={handleOpen}
-          tabIndex={-1}
-          startIcon={<MdTouchApp />}
-          sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
-        >
-          Add Title
-        </Button>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="child-modal-title"
-          aria-describedby="child-modal-description"
-        >
-          <Box sx={{ ...style, width: 200 }}>
-            <form onSubmit={handleTitleAddCategory}>
-              <div className="flex items-center gap-5">
+    e.preventDefault()
+      addCategory.mutate({
+        name: translate.data?.at(translate.data?.length-1)._id,
+        image: e.target.image_category.files[0],
+        category_id: e.target.category.value,
+        restaurant_id: parms.restaurantId
+      })     
+  }
+    /////////////////////////////////// Add to titile child modal
+    function AddTitle() {
+      const [open, setOpen] = useState(false);
+      const handleOpen = () => {
+        setOpen(true);
+      };
+      const handleClose = () => {
+        setOpen(false);
+      };
+      return (
+        <Fragment>
+          <Button
+            component="label"
+            role={undefined}
+            variant="contained"
+            onClick={handleOpen}
+            tabIndex={-1}
+            startIcon={<MdTouchApp />}
+            sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
+          >
+            Add Title
+          </Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="child-modal-title"
+            aria-describedby="child-modal-description"
+          >
+            <Box  sx={{ ...style, width: 200 }}>
+            <form  onSubmit={handleTitleAddCategory}>
+              <div className='flex items-center gap-5'>
                 <TextField
                   autoFocus
                   required

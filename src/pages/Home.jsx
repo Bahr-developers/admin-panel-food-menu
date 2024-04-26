@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 const Home = () => {
   const { restaurantId } = useParams();
 
-  const getMainCategories = ALL_DATA.useCatefory(restaurantId);
+  const getMainCategories = ALL_DATA.useCategory(restaurantId);
 
   const queryClient = useQueryClient();
 

@@ -115,8 +115,9 @@ const AddFood = () => {
   const addFood = useMutation({
     mutationFn: FoodUtils.addFood,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.food] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category]});
       toast.success("Succes add food");
+      handleClose()
     },
     onError: (err) => {
       console.log(err, "Error add food");
@@ -158,7 +159,7 @@ const AddFood = () => {
       description: state.description,
       price: e.target.price?.value,
       category_id: e.target.category_id?.value,
-      restourant_id: "661bd36d8e353f56d26067c5",
+      restourant_id: params.restaurantId,
     });
   };
 
@@ -305,6 +306,7 @@ const AddFood = () => {
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               Add to praduct
             </Typography>
+              <AddTitle />
             <form onSubmit={handleAddFood}>
               <Button
                 component="label"
@@ -327,7 +329,6 @@ const AddFood = () => {
                 ref={praductImgs}
                 className="flex flex-wrap gap-1 w-[100%]"
               ></div>
-              <AddTitle />
               <div className="flex items-center gap-3">
                 <TextField
                   autoFocus
