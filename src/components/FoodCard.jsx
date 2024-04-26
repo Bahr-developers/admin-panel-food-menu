@@ -51,7 +51,7 @@ const FoodCard = (props) => {
                     <LazyLoadImage
                       src={`${IMG_BASE_URL}${img}`}
                       alt={`slider img ${index + 1}`}
-                      className="h-full w-full rounded-t-[10px]"
+                      className="h-full w-full rounded-t-[10px] py-2 bg-cover"
                       height={300}
                       effect="blur"
                     />
@@ -67,31 +67,23 @@ const FoodCard = (props) => {
       <EditFood data={foodInformation}/>
       <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id}/>
 
-      <h2 className="font-bold py-1 text-xl truncate">
+      <h2 className="font-bold px-1 text-[16px] truncate">
         {foodInformation.name}
       </h2>
-      <p className="overflow-hidden">{foodInformation.description}</p>
-      <p className="mb-1">{foodInformation.price} so`m</p>
-      <div className="flex items-center gap-x-5">
-        <span
-          className={`p-[4px] rounded inline-block ${
-            foodInformation?.food_status === "available"
-              ? "text-white bg-green-500"
-              : foodInformation?.food_status === "preparing"
-              ? "bg-yellow-500 text-white"
-              : "bg-red-500 text-white"
-          }`}
-        >
-          {foodInformation.food_status}
-        </span>
-        <p
-          className={`my-1 text-center rounded p-1 text-white md:text-lg ${
-            foodInformation.status === "active" ? "bg-green-400" : "bg-red-400"
-          }`}
-        >
-          {foodInformation.status}
-        </p>
-      </div>
+      <p className="overflow-hidden text-[13px] px-1">{foodInformation.description}</p>
+      <p className="mb-1 px-1 text-[13px]">{foodInformation.price} so`m</p>
+      <span
+        className={`p-[4px] block w-full text-center rounded ${
+          foodInformation?.food_status === "available"
+            ? "text-white bg-green-500"
+            : foodInformation?.food_status === "preparing"
+            ? "bg-yellow-500 text-white"
+            : "bg-red-500 text-white"
+        }`}
+      >
+        {foodInformation.food_status}
+      </span>
+      <span className={foodInformation.status === "inactive"?"overlay absolute block bg-[#b0a7a773] top-0 left-0 w-full h-full z-[5]":""}></span>
     </div>
   );
 };

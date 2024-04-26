@@ -9,6 +9,7 @@ import { MdDelete } from "react-icons/md";
 import { useState } from 'react';
 
 
+
 const DeleteFood = ({deleteFn, id}) => {    
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
