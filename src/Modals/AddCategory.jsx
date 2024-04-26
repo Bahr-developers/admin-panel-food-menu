@@ -26,6 +26,7 @@ import { TranslateUtils } from "../utils/translate.utils";
 import toast from "react-hot-toast";
 import { MdTouchApp } from "react-icons/md";
 import { useParams } from "react-router-dom";
+import { addModal } from "../configs/language";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -67,6 +68,7 @@ const VisuallyHiddenInput = styled("input")({
 const AddCategory = () => {
   const param = useParams();
   const [open, setOpen] = useState(false);
+  const langCode = localStorage.getItem("language")
   const praductImg = useRef();
   const queryClient = useQueryClient();
   const category = ALL_DATA.useCategory(param.restaurantId)?.data;
@@ -144,7 +146,7 @@ const AddCategory = () => {
             startIcon={<MdTouchApp />}
             sx={{ margin: "25px 0 10px 0", width: "100%", fontSize: "12px" }}
           >
-            Add Title
+            {addModal[1][langCode]}
           </Button>
           <Modal
             open={open}
@@ -198,7 +200,7 @@ const AddCategory = () => {
   }
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen}>Add Category</Button>
+      <Button onClick={handleClickOpen}>{addModal[6][langCode]}</Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -208,7 +210,7 @@ const AddCategory = () => {
         }}
       >
         <DialogContent sx={{}}>
-          <DialogContentText>Create subcategory</DialogContentText>
+          <DialogContentText>{addModal[6][langCode]}</DialogContentText>
           <div className="miniwrap-image flex gap-x-4 md:gap-x-10 items-center">
             <Button
               component="label"
@@ -219,7 +221,7 @@ const AddCategory = () => {
               startIcon={<BiCloudUpload />}
               sx={{ margin: "25px 0 10px 0" }}
             >
-              Upload file
+              {addModal[2][langCode]}
               <VisuallyHiddenInput name="image_category" type="file" />
             </Button>
             <img
@@ -253,8 +255,7 @@ const AddCategory = () => {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Save</Button>
+          <Button sx={{width: "100%", backgroundColor:"green", color: "white", ":hover":{backgroundColor:"green", color: "white"}}} type="submit">{addModal[5][langCode]}</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

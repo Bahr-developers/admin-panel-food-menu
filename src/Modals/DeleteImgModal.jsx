@@ -7,9 +7,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { MdDelete } from "react-icons/md";
 import { useState } from 'react';
+import { deleteModal } from '../configs/language';
 
 const DeleteImgModal = ({deleteFn, id}) => {
     const [open, setOpen] = useState(false);
+    const language = localStorage.getItem("language")
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -29,15 +31,15 @@ const DeleteImgModal = ({deleteFn, id}) => {
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{"Are you sure delete?"}</DialogTitle>
+                <DialogTitle>{deleteModal[0][language]}</DialogTitle>
                 <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                If you continue, you will permanently delete this record. Are you sure you want to continue?
+                  {deleteModal[1][language]}
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={handleClose}>Close</Button>
-                <span onClick={deleteCloseBtn}>Delete</span>
+                <Button onClick={handleClose}>{deleteModal[2][language]}</Button>
+                  <span className='p-2 bg-red-500 text-white cursor-pointer rounded-md' onClick={deleteCloseBtn}>{deleteModal[3][language]}</span>
                 </DialogActions>
             </Dialog>
             </React.Fragment>

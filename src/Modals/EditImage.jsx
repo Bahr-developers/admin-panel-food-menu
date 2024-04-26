@@ -9,6 +9,7 @@ import { FoodUtils } from "../utils/food.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { RiImageEditLine } from "react-icons/ri";
 import DeleteImgModal from "./DeleteImgModal";
+import { BiImageAdd } from "react-icons/bi";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -119,24 +120,9 @@ const EditImage = ({data}) => {
                       <h2 className="font-bold">Name:</h2>
                       <p className="font-medium">{data.name}</p>
                     </div>
-                  <form onSubmit={addImageSingle}>                    
-                    <Button
-                        component="label"
-                        role={undefined}
-                        variant="contained"
-                        onChange={showImage}
-                        tabIndex={-1}
-                        startIcon={<BiCloudUpload />}
-                        sx={{
-                          margin: "25px 0 10px 0",
-                          width: "100%",
-                          fontSize: "12px",
-                        }}
-                      >
-                        Upload file
-                        <VisuallyHiddenInput  name="image" type="file" />
-                    </Button>
+                  <form onSubmit={addImageSingle}>           
                         <div className="images flex overflow-x-scroll items-center gap-x-1">
+                            
                             {data.image_urls?.length && data.image_urls.map((img, i) => {
                               return <div className="relative" key={i}>
                                           <img width={70} className="h-[130px] py-4" src={`${IMG_BASE_URL}${img}`} alt="images" />
@@ -144,6 +130,23 @@ const EditImage = ({data}) => {
                                       </div>
                             })}
                             <img width={70} ref={praductImg} className='hidden h-[130px] py-4' src="" alt="img" />
+                            <Button
+                                component="label"
+                                role={undefined}
+                                variant="contained"
+                                className="h-[100%] bg-red-800"
+                                onChange={showImage}
+                                tabIndex={-1}
+                                startIcon={<BiImageAdd  size={30}/>}
+                                sx={{
+                                  height: "100%",
+                                  padding:"17px 0 17px 15px",
+                                  backgroundColor:"silver",
+                                  borderRadius: "50%"
+                                }}
+                              >
+                                <VisuallyHiddenInput  name="image" type="file" />
+                            </Button>
                         </div>
                     <Button
                       className="w-full"
@@ -151,7 +154,7 @@ const EditImage = ({data}) => {
                       variant="contained"
                       color="success"
                     >
-                      Edit
+                      Save
                     </Button>
                   </form>
                 </Box>
