@@ -48,7 +48,7 @@ const DeleteFood = ({deleteFn, id}) => {
         <DialogActions>
           <Button onClick={handleClose}>{deleteModal[2][language]}</Button>
           <Button
-            sx={{ backgroundColor: "red", padding: "3px", color: "white" }}
+            sx={{ backgroundColor: "red", padding: "3px", color: "white", ":hover": {backgroundColor: "red", color: "white",} }}
             onClick={deleteCloseBtn}
           >
             {deleteModal[3][language]}
