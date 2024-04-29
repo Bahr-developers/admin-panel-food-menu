@@ -19,7 +19,7 @@ const CategoriesPage = () => {
   const getCategoryById = getCategories?.data?.data.find(
     (category) => category.id === categoryId
   );
-  console.log(getCategoryById, "errrrrrrrrrrrrr");
+
   if (getCategories.isLoading) return <Loading />;
 
   return (
@@ -31,7 +31,7 @@ const CategoriesPage = () => {
             <AddCategoryFood />
           </div>
           <div className="food-body">
-            {getCategoryById?.subcategories.map((subcategory) => (
+            {getCategoryById?.subcategories?.map((subcategory) => (
               <div key={subcategory._id}>
                 <div className="flex items-center gap-2 mb-3">
                   {subcategory?.image_url !== "" ? (

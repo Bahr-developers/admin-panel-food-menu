@@ -1,10 +1,12 @@
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useRestaurant } from "../utils/RestaurantUtils";
 
 const RootLayouts = () => {
   // get Restaurant id
   const { restaurantId } = useParams();
+
+  const navigate = useNavigate();
 
   // get all restaurant
   const getRestaurant = useRestaurant();
