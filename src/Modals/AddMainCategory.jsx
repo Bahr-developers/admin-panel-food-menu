@@ -93,7 +93,7 @@ const AddMainCategory = () => {
     mutationFn: CategoryUtils.addCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
-      toast.success("Add category success");
+      toast.success("Category successfully added");
     },
     onError: (err) => {
       console.log(err, "add Category");
@@ -126,7 +126,9 @@ const AddMainCategory = () => {
   return (
     <>
       <React.Fragment>
-        <Button onClick={handleClickOpen}>Add Category</Button>
+        <Button onClick={handleClickOpen} variant="contained">
+          Add Category
+        </Button>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -146,8 +148,9 @@ const AddMainCategory = () => {
                 name="image_category"
                 startIcon={<BiCloudUpload />}
                 sx={{ margin: "25px 0 10px 0" }}
+                color="primary"
               >
-                Upload file
+                Upload image
                 <VisuallyHiddenInput name="image_category" type="file" />
               </Button>
               <img
@@ -188,8 +191,12 @@ const AddMainCategory = () => {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Save</Button>
+            <Button onClick={handleClose} variant="outlined">
+              Cancel
+            </Button>
+            <Button type="submit" variant="contained" color="success">
+              Save
+            </Button>
           </DialogActions>
         </Dialog>
       </React.Fragment>
