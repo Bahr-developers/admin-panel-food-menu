@@ -15,10 +15,11 @@ import EditFood from "../Modals/EditFood";
 import DeleteFood from "./DeleteFood";
 import toast from "react-hot-toast";
 import EditImage from "../Modals/EditImage";
+import { FoodStatus } from "../configs/language";
 
 const FoodCard = (props) => {
   const queryClient = useQueryClient();
-
+  const language = localStorage.getItem("language")
   const deletaFood = useMutation({
     mutationFn: FoodUtils.deleteFood,
     onSuccess: () => {
@@ -71,7 +72,7 @@ const FoodCard = (props) => {
         {foodInformation.name}
       </h2>
       <p className="overflow-hidden text-[13px] px-1">{foodInformation.description}</p>
-      <p className="mb-1 px-1 text-[13px]">{foodInformation.price} so`m</p>
+      <p className="mb-1 px-1 text-[13px]">{foodInformation.price} {FoodStatus[3][language]}</p>
       <span
         className={`p-[4px] block w-full text-center rounded ${
           foodInformation?.food_status === "available"
@@ -82,10 +83,11 @@ const FoodCard = (props) => {
         }`}
       >
         {foodInformation?.food_status === "available"
-            ? "Mavjud"
+            ? FoodStatus[0][language]
             : foodInformation?.food_status === "preparing"
-            ? "Tayyorlanmoqda"
-            : "Mavjuu emas"}
+            ? FoodStatus[1][language]
+            : FoodStatus[2][language]
+            }
       </span>
       <span className={foodInformation.status === "inactive"?"overlay absolute block bg-[#b0a7a773] top-0 left-0 w-full h-full z-[5]":""}></span>
     </div>
