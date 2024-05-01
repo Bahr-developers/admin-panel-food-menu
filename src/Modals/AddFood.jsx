@@ -107,7 +107,9 @@ const AddFood = () => {
   ///////////////////////////////////// useReducer
   const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
+
   const getCategoryFood = ALL_DATA.useCategory(params.restaurantId);
+
   const category = getCategoryFood?.data?.data.find(
     (el) => el.id === params.categoryId
   );
@@ -117,9 +119,9 @@ const AddFood = () => {
   const addFood = useMutation({
     mutationFn: FoodUtils.addFood,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category]});
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Succes add food");
-      handleClose()
+      handleClose();
     },
     onError: (err) => {
       console.log(err, "Error add food");
@@ -308,7 +310,7 @@ const AddFood = () => {
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
             {addModal[0][langCode]}
             </Typography>
-              <AddTitle />
+            <AddTitle />
             <form onSubmit={handleAddFood}>
               <Button
                 component="label"

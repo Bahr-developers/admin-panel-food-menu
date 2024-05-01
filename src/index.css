@@ -5,7 +5,7 @@
 span {
   display: block;
 }
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
   display: none;
 }
 .MuiFormLabel-root span {
@@ -42,3 +42,9 @@ select {
 /* .overlay{
   background-color: rgba(192, 192, 192, 0.466);
 } */
+
+.footerLink.active {
+  color: white;
+  border-radius: 20px;
+  border: 1px solid white;
+}

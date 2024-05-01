@@ -38,11 +38,12 @@ export const ALL_DATA = {
     return useQuery({
       queryKey: [QUERY_KEY.category],
       queryFn: async () =>
-      await custumAxios.get(`category/find/by/restaurant/${id}`, {
-        headers: {
-          "accept-language": localStorage.getItem("language"),
-        },
-      }),
+        await custumAxios.get(`category/find/by/restaurant/${id}`, {
+          headers: {
+            "accept-language": localStorage.getItem("language"),
+          },
+        }),
+      staleTime: 2 * 1000,
     });
   },
   useCategoryAll: () => {
