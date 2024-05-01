@@ -56,10 +56,10 @@ const Home = () => {
               <div>
                 <h3 className="text-2xl py-2 pl-2">{category?.name.trim()}</h3>
               </div>
-              <DeleteConfirmation
-                deleteFn={deleteCategory.mutate}
-                id={category.id}
-              />
+                <DeleteConfirmation
+                  deleteFn={deleteCategory.mutate}
+                  id={category.id}
+                />
             </div>
           ))
         ) : (

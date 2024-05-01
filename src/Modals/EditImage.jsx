@@ -58,7 +58,7 @@ const EditImage = ({data}) => {
   const deleteImg = useMutation({
     mutationFn: FoodUtils.deleteImg,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [QUERY_KEY.food]})
+      queryClient.invalidateQueries({queryKey: [QUERY_KEY.category]})
       toast.success("Delete image")
     },
     onError: (err) => {
