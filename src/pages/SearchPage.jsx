@@ -11,7 +11,7 @@ const SearchPage = () => {
           searchValue?.map((food) => <FoodCard key={food.id} food={food} />)
         ) : (
           <div>
-            <p>Not found</p>
+            <p>Food not found</p>
           </div>
         )}
       </div>

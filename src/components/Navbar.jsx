@@ -12,6 +12,7 @@ import UserDropdown from "./UserDropdown";
 import { custumAxios } from "../configs/axios.config";
 import { useDispatch } from "react-redux";
 import { setSearchValue } from "../redux/searchSlice";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const Navbar = (props) => {
   const queryClient = useQueryClient();
@@ -57,7 +58,6 @@ const Navbar = (props) => {
         navigate(`/${restaurant?.id}`);
         setSearchShow(false);
       }
-      console.log(search);
     } catch (err) {
       console.log(err);
     }
@@ -109,17 +109,20 @@ const Navbar = (props) => {
             >
               <BiSearch size={30} />
             </button>
-            <select
-              onChange={handleChangeLanguage}
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
               value={languageChange}
-              className="border-2 py-[2px] px-2 rounded focus:outline-none focus:border-gray-500 text-gray-800 cursor-pointer"
+              label="language"
+              onChange={handleChangeLanguage}
+              className="h-[40px]"
             >
               {getLanguage?.data?.map((language) => (
-                <option value={language.code} key={language._id}>
+                <MenuItem value={language.code} key={language._id}>
                   {language.code}
-                </option>
+                </MenuItem>
               ))}
-            </select>
+            </Select>
 
             <UserDropdown />
           </div>
