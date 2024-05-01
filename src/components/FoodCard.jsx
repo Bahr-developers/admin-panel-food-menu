@@ -31,7 +31,6 @@ const FoodCard = (props) => {
       toast.error("Error");
     },
   });
-
   const foodInformation = props?.food;
 
   return (
