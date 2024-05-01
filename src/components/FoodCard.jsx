@@ -19,11 +19,11 @@ import { FoodStatus } from "../configs/language";
 
 const FoodCard = (props) => {
   const queryClient = useQueryClient();
-  const language = localStorage.getItem("language")
+  const language = localStorage.getItem("language");
   const deletaFood = useMutation({
     mutationFn: FoodUtils.deleteFood,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category]});
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Delete success");
     },
     onError: (err) => {
@@ -31,48 +31,51 @@ const FoodCard = (props) => {
       toast.error("Error");
     },
   });
-
   const foodInformation = props?.food;
 
   return (
     <div className="card-food relative w-[47%] md:w-[31%] mb-2">
       <div className="images-wrap relative">
-          <Swiper
-            pagination={{ clickable: true }}
-            modules={[Pagination]}
-            className="mySwiper"
-          >
-            {foodInformation.image_urls.length ? (
-              foodInformation.image_urls.map((img, index) => {
-                return (
-                  <SwiperSlide
-                    key={Math.random()}
-                    className="h-[150px] sm:h-[200px] md:h-[300px] w-full"
-                  >
-                    <LazyLoadImage
-                      src={`${IMG_BASE_URL}${img}`}
-                      alt={`slider img ${index + 1}`}
-                      className="h-full w-full rounded-t-[10px] py-2 bg-cover"
-                      height={300}
-                      effect="blur"
-                    />
-                  </SwiperSlide>
-                );
-              })
-            ) : (
-              <div className="h-[100px] text-center">no image</div>
-            )}
-          </Swiper>
-          <EditImage data={foodInformation}/>
+        <Swiper
+          pagination={{ clickable: true }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          {foodInformation.image_urls.length ? (
+            foodInformation.image_urls.map((img, index) => {
+              return (
+                <SwiperSlide
+                  key={Math.random()}
+                  className="h-[150px] sm:h-[200px] md:h-[300px] w-full"
+                >
+                  <LazyLoadImage
+                    src={`${IMG_BASE_URL}${img}`}
+                    alt={`slider img ${index + 1}`}
+                    className="h-full w-full rounded-t-[10px] py-2 bg-cover"
+                    height={300}
+                    effect="blur"
+                  />
+                </SwiperSlide>
+              );
+            })
+          ) : (
+            <div className="h-[100px] text-center">no image</div>
+          )}
+        </Swiper>
+        <EditImage data={foodInformation} />
       </div>
-      <EditFood data={foodInformation}/>
-      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id}/>
+      <EditFood data={foodInformation} />
+      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id} />
 
       <h2 className="font-bold px-1 text-[16px] truncate">
         {foodInformation.name}
       </h2>
-      <p className="overflow-hidden text-[13px] px-1">{foodInformation.description}</p>
-      <p className="mb-1 px-1 text-[13px]">{foodInformation.price} {FoodStatus[3][language]}</p>
+      <p className="overflow-hidden text-[13px] px-1">
+        {foodInformation.description}
+      </p>
+      <p className="mb-1 px-1 text-[13px]">
+        {foodInformation.price} {FoodStatus[3][language]}
+      </p>
       <span
         className={`p-[4px] block w-full text-center rounded ${
           foodInformation?.food_status === "available"
@@ -83,13 +86,18 @@ const FoodCard = (props) => {
         }`}
       >
         {foodInformation?.food_status === "available"
-            ? FoodStatus[0][language]
-            : foodInformation?.food_status === "preparing"
-            ? FoodStatus[1][language]
-            : FoodStatus[2][language]
-            }
+          ? FoodStatus[0][language]
+          : foodInformation?.food_status === "preparing"
+          ? FoodStatus[1][language]
+          : FoodStatus[2][language]}
       </span>
-      <span className={foodInformation.status === "inactive"?"overlay absolute block bg-[#b0a7a773] top-0 left-0 w-full h-full z-[5]":""}></span>
+      <span
+        className={
+          foodInformation.status === "inactive"
+            ? "overlay absolute block bg-[#b0a7a773] top-0 left-0 w-full h-full z-[5]"
+            : ""
+        }
+      ></span>
     </div>
   );
 };

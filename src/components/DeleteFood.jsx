@@ -6,14 +6,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { MdDelete } from "react-icons/md";
-import { useState } from 'react';
+import { useState } from "react";
 import { deleteModal } from "../configs/language";
 
-
-
-const DeleteFood = ({deleteFn, id}) => {    
+const DeleteFood = ({ deleteFn, id }) => {
   const [open, setOpen] = useState(false);
-  const language = localStorage.getItem("language")
+  const language = localStorage.getItem("language");
   const handleClickOpen = () => {
     setOpen(true);
   };

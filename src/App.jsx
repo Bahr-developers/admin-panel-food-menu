@@ -1,21 +1,24 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
+
 import { Provider } from "react-redux";
 
-// pages
-import SignIn from "./pages/SignIn";
-import ErrorPage from "./pages/ErrorPage";
-import Profil from "./pages/Profil";
-import CategoriesPage from "./pages/CategoriesPage";
-import Home from "./pages/Home";
-import SearchPage from "./pages/SearchPage";
+import React, { useEffect, lazy, Suspense } from "react";
+
+import { store } from "./redux/store";
 
 // layouts
 import RootLayouts from "./layouts/RootLayouts";
 
 // blur css
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useEffect } from "react";
-import { store } from "./redux/store";
+
+// Lazy load components
+const SignIn = lazy(() => import("./pages/SignIn"));
+const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+const Profil = lazy(() => import("./pages/Profil"));
+const CategoriesPage = lazy(() => import("./pages/CategoriesPage"));
+const Home = lazy(() => import("./pages/Home"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 function App() {
   const navigate = useNavigate();
@@ -33,16 +36,18 @@ function App() {
   return (
     <>
       <Provider store={store}>
-        <Routes>
-          <Route path="/" element={<SignIn />} />
-          <Route path=":restaurantId" element={<RootLayouts />}>
-            <Route index element={<Home />} />
-            <Route path=":categoryId" element={<CategoriesPage />} />
-            <Route path="profile" element={<Profil />} />
-            <Route path="search" element={<SearchPage />} />
-          </Route>
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<SignIn />} />
+            <Route path=":restaurantId" element={<RootLayouts />}>
+              <Route index element={<Home />} />
+              <Route path=":categoryId" element={<CategoriesPage />} />
+              <Route path="profile" element={<Profil />} />
+              <Route path="search" element={<SearchPage />} />
+            </Route>
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </Suspense>
       </Provider>
     </>
   );
