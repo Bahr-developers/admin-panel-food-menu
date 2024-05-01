@@ -39,22 +39,22 @@ export const FoodUtils = {
   },
   editFood: async ({ name, food_status, status, description, price, id }) => {
     const { data } = await custumAxios.patch(`food/edit/${id}`, {
-      name: name ? JSON.stringify(name) : "", 
-      food_status: food_status, 
+      name: name ? JSON.stringify(name) : "",
+      food_status: food_status,
       price: price,
       status: status,
-      description: description ? JSON.stringify(description) : ""
+      description: description ? JSON.stringify(description) : "",
     });
     return data;
   },
-  deleteImg: async ({foodId, image_url}) => {
-    const {data}  = await custumAxios.delete('food/delete/food-image', {
+  deleteImg: async ({ foodId, image_url }) => {
+    const { data } = await custumAxios.delete("food/delete/food-image", {
       data: {
         foodId: foodId,
-        image_url:image_url,     
-      }
-    })
-    return data
+        image_url: image_url,
+      },
+    });
+    return data;
   },
   deleteFood: async (id) => {
     const { data } = custumAxios.delete(`food/delete/${id}`);
