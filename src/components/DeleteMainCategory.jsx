@@ -6,9 +6,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { MdDelete } from "react-icons/md";
+import { deleteModal } from "../configs/language";
 
 const DeleteConfirmation = ({ deleteFn, id }) => {
   const [open, setOpen] = React.useState(false);
+  const language = localStorage.getItem("language")
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -34,20 +36,19 @@ const DeleteConfirmation = ({ deleteFn, id }) => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Are you sure delete?"}</DialogTitle>
+        <DialogTitle>{deleteModal[0][language]}</DialogTitle>
         <DialogContent>
           <DialogContentText id={`alert-dialog-slide-description ${id}`}>
-            If you continue, you will permanently delete this record. Are you
-            sure you want to continue?
+          {deleteModal[1][language]}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
           <Button
-            sx={{ backgroundColor: "red", padding: "3px", color: "white" }}
+            sx={{ backgroundColor: "red", padding: "3px", color: "white",":hover": {backgroundColor: "red", color: "white",} }}
             onClick={deleteCloseBtn}
           >
-            Delete
+           {deleteModal[3][language]}
           </Button>
         </DialogActions>
       </Dialog>
