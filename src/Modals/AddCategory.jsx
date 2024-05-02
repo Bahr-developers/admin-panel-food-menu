@@ -200,7 +200,9 @@ const AddCategory = () => {
   }
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen}>{addModal[6][langCode]}</Button>
+      <Button onClick={handleClickOpen} variant="contained">
+        {addModal[6][langCode]}
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
