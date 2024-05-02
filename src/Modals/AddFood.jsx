@@ -99,7 +99,7 @@ const initionState = { title: {}, description: {} };
 
 const AddFood = () => {
   const params = useParams();
-  const langCode = localStorage.getItem("language")
+  const langCode = localStorage.getItem("language");
   ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -308,7 +308,7 @@ const AddFood = () => {
         <Fade in={open}>
           <Box sx={style}>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-            {addModal[0][langCode]}
+              {addModal[0][langCode]}
             </Typography>
             <AddTitle />
             <form onSubmit={handleAddFood}>
@@ -353,8 +353,8 @@ const AddFood = () => {
                       Category
                     </InputLabel>
                     <NativeSelect name="category_id">
-                      {category.subcategories?.length &&
-                        category.subcategories.map((ctg) => {
+                      {category?.subcategories?.length &&
+                        category?.subcategories?.map((ctg) => {
                           return (
                             <option key={ctg._id} value={ctg._id}>
                               {ctg.name}

@@ -35,7 +35,7 @@ const FoodCard = (props) => {
 
   return (
     <div className="card-food relative w-[47%] md:w-[31%] mb-2">
-      <div className="images-wrap relative">
+      <div className="images-wrap relative w-full">
         <Swiper
           pagination={{ clickable: true }}
           modules={[Pagination]}
@@ -44,10 +44,7 @@ const FoodCard = (props) => {
           {foodInformation.image_urls.length ? (
             foodInformation.image_urls.map((img, index) => {
               return (
-                <SwiperSlide
-                  key={Math.random()}
-                  className="h-[150px] sm:h-[200px] md:h-[300px] w-full"
-                >
+                <SwiperSlide key={Math.random()}>
                   <LazyLoadImage
                     src={`${IMG_BASE_URL}${img}`}
                     alt={`slider img ${index + 1}`}
@@ -64,9 +61,10 @@ const FoodCard = (props) => {
         </Swiper>
         <EditImage data={foodInformation} />
       </div>
-      <EditFood data={foodInformation} />
-      <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id} />
-
+      <div className="relative">
+        <EditFood data={foodInformation} />
+        <DeleteFood deleteFn={deletaFood.mutate} id={foodInformation._id} />
+      </div>
       <h2 className="font-bold px-1 text-[16px] truncate">
         {foodInformation.name}
       </h2>

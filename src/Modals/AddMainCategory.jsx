@@ -18,6 +18,7 @@ import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { useParams } from "react-router-dom";
 import { CategoryUtils } from "../utils/categoryutils";
 import toast from "react-hot-toast";
+import { addMainCategory } from "../configs/language";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -30,20 +31,6 @@ async function getBase64Full(file) {
     reader.onerror = reject;
   });
 }
-
-const style = {
-  position: "absolute",
-  top: "40%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  minWidth: 300,
-  width: 350,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  px: 2,
-  p: 1,
-  borderRadius: 2,
-};
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -61,6 +48,8 @@ const AddMainCategory = () => {
   const queryClient = useQueryClient();
   const language = ALL_DATA.useLanguage();
   const translate = ALL_DATA.useTranslete();
+
+  const languageCode = localStorage.getItem("language");
 
   const { restaurantId } = useParams();
 
@@ -105,10 +94,14 @@ const AddMainCategory = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(e);
     const name = {};
+
     for (const el of language.data) {
       name[el.code] = e.target[el.code].value;
     }
+
+    console.log(name);
 
     addTranslate.mutate({
       code: e.target.translete_code.value,
@@ -116,12 +109,15 @@ const AddMainCategory = () => {
       type: "content",
     });
 
+    console.log(translate?.data);
+
     addCategory.mutate({
-      name: translate.data?.at(translate.data?.length - 1)._id,
+      name: translate.data?.at(-1)._id,
       image: e.target.image_category.files[0],
       category_id: "",
       restaurant_id: restaurantId,
     });
+
     setOpen(false);
   };
 
@@ -129,7 +125,7 @@ const AddMainCategory = () => {
     <>
       <React.Fragment>
         <Button onClick={handleClickOpen} variant="contained">
-          Add Category
+          {addMainCategory[languageCode]}
         </Button>
         <Dialog
           open={open}
@@ -193,7 +189,7 @@ const AddMainCategory = () => {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} variant="outlined">
+            <Button type="button" onClick={handleClose} variant="outlined">
               Cancel
             </Button>
             <Button type="submit" variant="contained" color="success">

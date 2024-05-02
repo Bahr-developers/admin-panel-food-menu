@@ -12,7 +12,7 @@ import UserDropdown from "./UserDropdown";
 import { custumAxios } from "../configs/axios.config";
 import { useDispatch } from "react-redux";
 import { setSearchValue } from "../redux/searchSlice";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { MenuItem, Select } from "@mui/material";
 
 const Navbar = (props) => {
   const queryClient = useQueryClient();
@@ -33,12 +33,14 @@ const Navbar = (props) => {
     localStorage.getItem("language")
   );
 
+  // handleChange Language
   const handleChangeLanguage = (e) => {
     localStorage.setItem("language", e.target.value);
     setLangaugeChange(e.target.value);
     queryClient.invalidateQueries({ type: "all" });
   };
 
+  // handLe Search
   const handleSearch = async (e) => {
     e.preventDefault();
     const inputValue = e.target.value.trim();

@@ -79,3 +79,9 @@ export const addModal = [
     en: "Add category",
   },
 ];
+
+export const addMainCategory = {
+  uz: "Kategory qo'shish",
+  ru: "Добавить категорию",
+  en: "Add category",
+};

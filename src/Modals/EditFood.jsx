@@ -18,8 +18,6 @@ import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
 import { LuFolderEdit } from "react-icons/lu";
 import { MenuItem, Select } from "@mui/material";
-import { IMG_BASE_URL } from "../constants/server.BaseUrl";
-import { useParams } from "react-router-dom";
 
 // Material UI style
 const style = {
@@ -59,6 +57,7 @@ function reduser(state, action) {
     }
   }
 }
+
 const initionState = { title: {}, description: {} };
 
 const EditFood = ({ data }) => {
@@ -76,7 +75,7 @@ const EditFood = ({ data }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Succes edit");
-      handleClose()
+      handleClose();
     },
     onError: (err) => {
       console.log(err, "Edit food");
@@ -86,8 +85,9 @@ const EditFood = ({ data }) => {
 
   const handleAddFood = (e) => {
     e.preventDefault();
-    const title = Object.keys(state.title).length ===0 ? "" : state.title;
-    const description = Object.keys(state.description).length === 0 ? "" : state.description
+    const title = Object.keys(state.title).length === 0 ? "" : state.title;
+    const description =
+      Object.keys(state.description).length === 0 ? "" : state.description;
 
     editFood.mutate({
       id: data._id,
@@ -95,9 +95,8 @@ const EditFood = ({ data }) => {
       status: e.target.status.value,
       name: title,
       description: description,
-      price: e.target.price?.value
+      price: e.target.price?.value,
     });
-    console.log(editFood.variables);
   };
 
   const handleTitle = (e) => {
@@ -111,6 +110,7 @@ const EditFood = ({ data }) => {
       titleName: title,
     });
   };
+
   /////////////////////////////////// Add to titile child modal
   function AddTitle() {
     const [open, setOpen] = React.useState(false);
@@ -298,51 +298,51 @@ const EditFood = ({ data }) => {
               </div>
               <AddDecription />
               <div className="foode-status flex items-center gap-3">
-                  <FormControl sx={{margin: "20px 0 20px", width:"100%"}}>
-                    <InputLabel id="demo-simple-select-label">Food Status</InputLabel>
-                    <Select
-                      sx={{ width: "100%" }}
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      name="food_status"
-                      label="Food Status"
-                      defaultValue="available"
-                    >
-                      <MenuItem value="available">Available</MenuItem>
-                      <MenuItem value="preparing">Preparing</MenuItem>
-                      <MenuItem value="none">None</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <FormControl sx={{ margin: "20px 0 20px", width: "100%" }}>
-                    <InputLabel id="demo-simple-select-label">
-                      Status
-                    </InputLabel>
-                    <Select
-                      sx={{ width: "100%" }}
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      name="status"
-                      label="Status"
-                      defaultValue="active"
-                    >
-                      <MenuItem value="active">Active</MenuItem>
-                      <MenuItem value="inactive">Inactive</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <Button
-                  className="w-full"
-                  type="submit"
-                  variant="contained"
-                  color="success"
-                >
-                  Edit
-                </Button>
-              </form>
-            </Box>
-          </Fade>
-        </Modal>
-      </div>
+                <FormControl sx={{ margin: "20px 0 20px", width: "100%" }}>
+                  <InputLabel id="demo-simple-select-label">
+                    Food Status
+                  </InputLabel>
+                  <Select
+                    sx={{ width: "100%" }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="food_status"
+                    label="Food Status"
+                    defaultValue="available"
+                  >
+                    <MenuItem value="available">Available</MenuItem>
+                    <MenuItem value="preparing">Preparing</MenuItem>
+                    <MenuItem value="none">None</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl sx={{ margin: "20px 0 20px", width: "100%" }}>
+                  <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                  <Select
+                    sx={{ width: "100%" }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="status"
+                    label="Status"
+                    defaultValue="active"
+                  >
+                    <MenuItem value="active">Active</MenuItem>
+                    <MenuItem value="inactive">Inactive</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <Button
+                className="w-full"
+                type="submit"
+                variant="contained"
+                color="success"
+              >
+                Edit
+              </Button>
+            </form>
+          </Box>
+        </Fade>
+      </Modal>
+    </div>
   );
 };
 

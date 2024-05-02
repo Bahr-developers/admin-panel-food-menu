@@ -11,7 +11,9 @@ import { deleteModal } from "../configs/language";
 
 const DeleteFood = ({ deleteFn, id }) => {
   const [open, setOpen] = useState(false);
+
   const language = localStorage.getItem("language");
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -26,7 +28,7 @@ const DeleteFood = ({ deleteFn, id }) => {
   return (
     <React.Fragment>
       <button
-        className="absolute block top-[130px] md:top-[275px] z-10 bg-red-500 text-white p-1 md:p-2 rounded-full right-2 md:right-4"
+        className="absolute block top-[-19px] md:top-[-24px] z-10 bg-red-500 text-white p-1 md:p-2 rounded-full right-2 md:right-4"
         onClick={handleClickOpen}
       >
         <MdDelete size={20} />
@@ -46,7 +48,12 @@ const DeleteFood = ({ deleteFn, id }) => {
         <DialogActions>
           <Button onClick={handleClose}>{deleteModal[2][language]}</Button>
           <Button
-            sx={{ backgroundColor: "red", padding: "3px", color: "white", ":hover": {backgroundColor: "red", color: "white",} }}
+            sx={{
+              backgroundColor: "red",
+              padding: "3px",
+              color: "white",
+              ":hover": { backgroundColor: "red", color: "white" },
+            }}
             onClick={deleteCloseBtn}
           >
             {deleteModal[3][language]}

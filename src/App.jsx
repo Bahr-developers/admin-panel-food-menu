@@ -11,6 +11,7 @@ import RootLayouts from "./layouts/RootLayouts";
 
 // blur css
 import "react-lazy-load-image-component/src/effects/blur.css";
+import Loading from "./components/Loading";
 
 // Lazy load components
 const SignIn = lazy(() => import("./pages/SignIn"));
@@ -36,7 +37,7 @@ function App() {
   return (
     <>
       <Provider store={store}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<SignIn />} />
             <Route path=":restaurantId" element={<RootLayouts />}>
