@@ -48,19 +48,19 @@ const style = {
   p: 1,
   borderRadius: 2,
 };
+
 const btnStyle = {
   position: "fixed",
   right: "5%",
   top: "76%",
-  backgroundColor: "#6AD4DD",
+  backgroundColor: "#ef4444",
   overflow: "hidden",
   padding: "5px 0",
   border: "1px solid silver",
   borderRadius: "50%",
-  color: "#000",
-  boxShadow:
-    "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;",
+  color: "#fff",
 };
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -95,10 +95,11 @@ function reduser(state, action) {
     }
   }
 }
+
 const initionState = { title: {}, description: {} };
 
 const AddFood = () => {
-  const params = useParams();
+  const { restaurantId, categoryId } = useParams();
   const langCode = localStorage.getItem("language");
   ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
@@ -108,12 +109,14 @@ const AddFood = () => {
   const [state, dispatch] = useReducer(reduser, initionState);
   const praductImgs = useRef();
 
-  const getCategoryFood = ALL_DATA.useCategory(params.restaurantId);
+  const getCategoryFood = ALL_DATA.useCategory(restaurantId);
 
   const category = getCategoryFood?.data?.data.find(
-    (el) => el.id === params.categoryId
+    (el) => el.id === categoryId
   );
+
   const language = ALL_DATA.useLanguage();
+
   const queryClient = useQueryClient();
 
   const addFood = useMutation({
@@ -139,6 +142,7 @@ const AddFood = () => {
       titleName: title,
     });
   };
+
   const handleAddDescription = (e) => {
     e.preventDefault();
     const description = {};
@@ -150,10 +154,10 @@ const AddFood = () => {
       description: description,
     });
   };
+
   const handleAddFood = (e) => {
     e.preventDefault();
     const images = [];
-    console.log(e.target.images?.files.length);
     for (let i = 0; i < e.target.images?.files.length; i++) {
       images.push(e.target.images.files[i]);
     }
@@ -163,7 +167,7 @@ const AddFood = () => {
       description: state.description,
       price: e.target.price?.value,
       category_id: e.target.category_id?.value,
-      restourant_id: params.restaurantId,
+      restourant_id: restaurantId,
     });
   };
 
