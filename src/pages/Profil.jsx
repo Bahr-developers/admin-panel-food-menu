@@ -7,6 +7,7 @@ import { UserUtils } from "../utils/userUtils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import toast from "react-hot-toast";
 
 const Profil = () => {

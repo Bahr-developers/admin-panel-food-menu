@@ -3,12 +3,12 @@ import { ALL_DATA } from "../Query/ALL_DATA";
 import Loading from "../components/Loading";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { IMG_BASE_URL } from "../constants/server.BaseUrl";
-import AddMainCategory from "../Modals/AddMainCategory";
 import DeleteConfirmation from "../components/DeleteMainCategory";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CategoryUtils } from "../utils/categoryutils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
+import AddMainCategory2 from "../Modals/AddMainCategory2";
 
 const Home = () => {
   const { restaurantId } = useParams();
@@ -35,7 +35,7 @@ const Home = () => {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h4 className="text-2xl">Home Page</h4>
-        <AddMainCategory />
+        <AddMainCategory2 />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mb-10">
         {getMainCategories?.data?.data.length ? (
@@ -56,10 +56,10 @@ const Home = () => {
               <div>
                 <h3 className="text-2xl py-2 pl-2">{category?.name.trim()}</h3>
               </div>
-                <DeleteConfirmation
-                  deleteFn={deleteCategory.mutate}
-                  id={category.id}
-                />
+              <DeleteConfirmation
+                deleteFn={deleteCategory.mutate}
+                id={category.id}
+              />
             </div>
           ))
         ) : (

@@ -66,16 +66,15 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const AddCategory = () => {
-  const param = useParams();
-  const [translateId, setTranslateId] = useState(0);
+const AddMainCategory2 = () => {
   const [open, setOpen] = useState(false);
+  const [translateId, setTranslateId] = useState(0);
+
   const langCode = localStorage.getItem("language");
   const praductImg = useRef();
   const queryClient = useQueryClient();
-  const category = ALL_DATA.useCategory(param.restaurantId)?.data;
-
   const language = ALL_DATA.useLanguage();
+
   const { restaurantId } = useParams();
 
   const translate = ALL_DATA.useTranslete();
@@ -89,19 +88,20 @@ const AddCategory = () => {
     },
     onError: (err) => {
       console.log(err, "Add translete");
+      toast.error("Something went wrong");
     },
   });
 
-  const addCategory = useMutation({
+  const addMainCategory = useMutation({
     mutationFn: CategoryUtils.addCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
-      toast.success("Category added successfully");
+      toast.success("Add category success");
       setOpen(false);
     },
     onError: (err) => {
       console.log(err, "add Category");
-      toast.error("Something went wrong");
+      toast.error("Xatolik");
     },
   });
 
@@ -119,20 +119,19 @@ const AddCategory = () => {
   };
 
   const handleAddCotegory = (e) => {
-    e.preventDefault();
-
-    const findTranslate = translate.data?.find(
+    const findTranslate = translate?.data.find(
       (item) => item._id === translateId
     );
 
-    addCategory.mutate({
-      name: findTranslate._id,
+    e.preventDefault();
+    addMainCategory.mutate({
+      name: findTranslate?._id,
       image: e.target.image_category.files[0],
-      category_id: e.target.category.value,
+      category_id: "",
       restaurant_id: restaurantId,
     });
   };
-  /////////////////////////////////// Add to titile child modal
+
   function AddTitle() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
@@ -243,25 +242,6 @@ const AddCategory = () => {
           </div>
           <TextField disabled fullWidth variant="standard" />
           <AddTitle />
-          <FormControl fullWidth sx={{ marginTop: "20px", width: "100%" }}>
-            <InputLabel id="demo-simple-select-label">Category</InputLabel>
-            <Select
-              sx={{ width: "100%" }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              name="category"
-              label="Category"
-            >
-              {category.data?.length &&
-                category.data.map((ctg) => {
-                  return (
-                    <MenuItem fullWidth key={ctg.id} value={ctg.id}>
-                      {ctg.name}
-                    </MenuItem>
-                  );
-                })}
-            </Select>
-          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button
@@ -294,4 +274,4 @@ const AddCategory = () => {
   }
 };
 
-export default AddCategory;
+export default AddMainCategory2;
