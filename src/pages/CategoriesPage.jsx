@@ -53,6 +53,7 @@ const CategoriesPage = () => {
                 </div>
               </div>
             ))}
+            <div className="mb-16"></div>
           </div>
           <AddFood />
         </div>

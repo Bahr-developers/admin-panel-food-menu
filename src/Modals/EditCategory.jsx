@@ -25,13 +25,11 @@ const style = {
   borderRadius: 2,
 };
 
-
 const EditFood = ({ data }) => {
   ///////////////////////////////////// Modal open and close
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
 
   /////////////////////////////////// Add to titile child modal
   function AddTitle() {
@@ -120,19 +118,19 @@ const EditFood = ({ data }) => {
               id={`transition-modal-description${data.id}`}
               sx={{ mt: 2 }}
             >
-              Add to praduct
+              Add to product
             </Typography>
             <form>
               <div className="title-edit flex items-center gap-3">
                 <h2 className="font-bold">Name:</h2>
                 <p className="font-medium">{data.name}</p>
               </div>
-                <AddTitle />              
-              </form>
-            </Box>
-          </Fade>
-        </Modal>
-      </div>
+              <AddTitle />
+            </form>
+          </Box>
+        </Fade>
+      </Modal>
+    </div>
   );
 };
 
