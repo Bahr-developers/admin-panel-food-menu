@@ -85,6 +85,7 @@ const EditImage = ({ data }) => {
       toast.error("Error");
     },
   });
+
   const addImageSingle = (e) => {
     e.preventDefault();
     addImagesSingle.mutate({
@@ -103,7 +104,7 @@ const EditImage = ({ data }) => {
       </button>
       <div className="z-30">
         <button
-          className="absolute z-10 top-0 bg-indigo-400 right-0 md:right-0 text-white p-1 md:p-2 rounded-[0, 0, 0, 10px] md:right-14"
+          className="absolute z-10 top-2 bg-indigo-400 right-0 text-white p-1 md:p-2 rounded-[0, 0, 0, 10px]"
           onClick={handleOpen}
         >
           <RiImageEditLine size={20} />

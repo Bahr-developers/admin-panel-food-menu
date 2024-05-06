@@ -29,11 +29,11 @@ export const CategoryUtils = {
     const { data } = await custumAxios.post("/category/add", formData);
     return data;
   },
-  editCAtegory: async ({ id, name, category_id }) => {
-    const { data } = await custumAxios.post(`/category/edit/${id}`, {
-      name,
-      category_id,
-    });
+  editCAtegory: async ({ id, name, image }) => {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("image", image);
+    const { data } = await custumAxios.patch(`/category/edit/${id}`, formData);
     return data;
   },
   deleteCatefory: async (id) => {

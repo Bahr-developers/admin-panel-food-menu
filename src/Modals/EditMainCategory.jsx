@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { BiCloudUpload } from "react-icons/bi";
+import { BiCloudUpload, BiEdit } from "react-icons/bi";
 import { styled } from "@mui/material/styles";
 import React, { Fragment, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import { MdTouchApp } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { addModal } from "../configs/language";
+import { LuFolderEdit } from "react-icons/lu";
 
 // Images transform getbase64Full
 async function getBase64Full(file) {
@@ -59,7 +60,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const AddMainCategory2 = () => {
+const EditMainCategory = (props) => {
   const [open, setOpen] = useState(false);
   const [translateId, setTranslateId] = useState(0);
 
@@ -67,8 +68,6 @@ const AddMainCategory2 = () => {
   const praductImg = useRef();
   const queryClient = useQueryClient();
   const language = ALL_DATA.useLanguage();
-
-  const { restaurantId } = useParams();
 
   const translate = ALL_DATA.useTranslete();
 
@@ -80,21 +79,21 @@ const AddMainCategory2 = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
     },
     onError: (err) => {
-      console.log(err, "Add translete");
+      console.log(err, "add translete");
       toast.error("Something went wrong");
     },
   });
 
-  const addMainCategory = useMutation({
-    mutationFn: CategoryUtils.addCategory,
+  const EditMainCategory = useMutation({
+    mutationFn: CategoryUtils.editCAtegory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
-      toast.success("Add category success");
+      toast.success("Category successfully edited");
       setOpen(false);
     },
     onError: (err) => {
-      console.log(err, "add Category");
-      toast.error("Xatolik");
+      console.log(err, "edit category");
+      toast.error("something went wrong");
     },
   });
 
@@ -104,24 +103,27 @@ const AddMainCategory2 = () => {
     for (let el of language.data) {
       definition[el.code] = e.target[el.code].value;
     }
-    addTranslate.mutate({
-      code: e.target.translete_code.value,
-      definition,
-      type: "content",
-    });
+    try {
+      addTranslate.mutate({
+        code: e.target.translete_code.value,
+        definition,
+        type: "content",
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleAddCotegory = (e) => {
+  const handleEditCotegory = (e) => {
     const findTranslate = translate?.data.find(
       (item) => item._id === translateId
     );
 
     e.preventDefault();
-    addMainCategory.mutate({
+    EditMainCategory.mutate({
+      id: props?.id,
       name: findTranslate?._id,
-      image: e.target.image_category.files[0],
-      category_id: "",
-      restaurant_id: restaurantId,
+      image: e.target?.image_category?.files[0],
     });
   };
 
@@ -199,19 +201,22 @@ const AddMainCategory2 = () => {
 
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen} variant="contained">
-        {addModal[6][langCode]}
-      </Button>
+      <button
+        onClick={handleClickOpen}
+        className="bg-yellow-500 rounded text-white p-[5px] absolute right-[45px] bottom-[12px]"
+      >
+        <LuFolderEdit size={20} />
+      </button>
       <Dialog
         open={open}
         onClose={handleClose}
         PaperProps={{
           component: "form",
-          onSubmit: handleAddCotegory,
+          onSubmit: handleEditCotegory,
         }}
       >
         <DialogContent sx={{}}>
-          <DialogContentText>{addModal[6][langCode]}</DialogContentText>
+          <DialogContentText>Edit main category</DialogContentText>
           <div className="miniwrap-image flex gap-x-4 md:gap-x-10 items-center">
             <Button
               component="label"
@@ -246,7 +251,7 @@ const AddMainCategory2 = () => {
             }}
             type="submit"
           >
-            {addModal[5][langCode]}
+            Save
           </Button>
         </DialogActions>
       </Dialog>
@@ -267,4 +272,4 @@ const AddMainCategory2 = () => {
   }
 };
 
-export default AddMainCategory2;
+export default EditMainCategory;
