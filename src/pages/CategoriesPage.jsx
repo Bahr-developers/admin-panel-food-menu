@@ -10,15 +10,32 @@ import { IMG_BASE_URL } from "../constants/server.BaseUrl";
 
 import { GiMeal } from "react-icons/gi";
 import Loading from "../components/Loading";
+import { MdDelete } from "react-icons/md";
+import DeleteSubcategory from "../components/DeleteSubcategory";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CategoryUtils } from "../utils/categoryutils";
+import { QUERY_KEY } from "../Query/QUERY_KEY";
 
 const CategoriesPage = () => {
   const { restaurantId, categoryId } = useParams();
+  const queryClient = useQueryClient();
 
   const getCategories = ALL_DATA.useCategory(restaurantId);
 
   const getCategoryById = getCategories?.data?.data.find(
     (category) => category.id === categoryId
   );
+
+  // delete subcategory
+  const DeleteSubcategoryFn = useMutation({
+    mutationFn: CategoryUtils.deleteCatefory,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
+    },
+    onError: (err) => {
+      console.log(err, "subcategory delete");
+    },
+  });
 
   if (getCategories.isLoading) return <Loading />;
 
@@ -33,19 +50,29 @@ const CategoriesPage = () => {
           <div className="food-body">
             {getCategoryById?.subcategories?.map((subcategory) => (
               <div key={subcategory._id}>
-                <div className="flex items-center gap-2 mb-3">
-                  {subcategory?.image_url !== "" ? (
-                    <LazyLoadImage
-                      src={`${IMG_BASE_URL}${subcategory.image_url}`}
-                      className="w-7 h-7"
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 mb-3">
+                    {subcategory?.image_url !== "" ? (
+                      <LazyLoadImage
+                        src={`${IMG_BASE_URL}${subcategory.image_url}`}
+                        className="w-7 h-7"
+                      />
+                    ) : (
+                      <span className="text-blue-500">
+                        <GiMeal size={30} />
+                      </span>
+                    )}
+                    <p className="text-2xl">{subcategory?.name}</p>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <DeleteSubcategory
+                      deleteFn={DeleteSubcategoryFn.mutate}
+                      id={subcategory._id}
                     />
-                  ) : (
-                    <span className="text-blue-500">
-                      <GiMeal size={30} />
-                    </span>
-                  )}
-                  <p className="text-2xl">{subcategory?.name}</p>
+                  </div>
                 </div>
+
                 <div className="flex flex-wrap items-start gap-3">
                   {subcategory?.foods.map((food) => (
                     <FoodCard key={food._id} food={food} />
