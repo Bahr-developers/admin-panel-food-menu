@@ -9,6 +9,7 @@ import { CategoryUtils } from "../utils/categoryutils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
 import AddMainCategory2 from "../Modals/AddMainCategory2";
+import EditMainCategory from "../Modals/EditMainCategory";
 
 const Home = () => {
   const { restaurantId } = useParams();
@@ -60,6 +61,7 @@ const Home = () => {
                 deleteFn={deleteCategory.mutate}
                 id={category.id}
               />
+              <EditMainCategory id={category.id} />
             </div>
           ))
         ) : (
