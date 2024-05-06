@@ -18,7 +18,6 @@ import { TranslateUtils } from "../utils/translate.utils";
 
 import toast from "react-hot-toast";
 import { MdTouchApp } from "react-icons/md";
-import { useParams } from "react-router-dom";
 import { addModal } from "../configs/language";
 import { LuFolderEdit } from "react-icons/lu";
 
@@ -186,10 +185,7 @@ const EditMainCategory = (props) => {
                     />
                   );
                 })}
-              <button
-                type="submit"
-                className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block"
-              >
+              <button className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block">
                 Save
               </button>
             </form>
@@ -251,7 +247,7 @@ const EditMainCategory = (props) => {
             }}
             type="submit"
           >
-            Save
+            Save changes
           </Button>
         </DialogActions>
       </Dialog>
