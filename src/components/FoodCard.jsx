@@ -5,7 +5,6 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Pagination } from "swiper/modules";
-import "./swiper.css";
 import { IMG_BASE_URL } from "../constants/server.BaseUrl";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FoodUtils } from "../utils/food.utils";
@@ -48,8 +47,7 @@ const FoodCard = (props) => {
                   <LazyLoadImage
                     src={`${IMG_BASE_URL}${img}`}
                     alt={`slider img ${index + 1}`}
-                    className="h-full w-full rounded-t-[10px] py-2 bg-cover"
-                    height={300}
+                    className="w-full rounded-t-[10px] h-[140px] md:h-[230px]  py-2 object-cover"
                     effect="blur"
                   />
                 </SwiperSlide>

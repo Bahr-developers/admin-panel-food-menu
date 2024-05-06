@@ -32,11 +32,15 @@ select {
 }
 
 .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-  background-color: #82f238;
-  border-radius: 50%;
-  margin: 0 5px;
+  width: 10px !important;
+  height: 10px !important;
+  background-color: #82f238 !important;
+  border-radius: 50% !important;
+  margin: 10px 5px !important;
+}
+
+.swiper-slide img {
+  object-fit: fill !important;
 }
 
 .footerLink.active {
