@@ -112,11 +112,12 @@ const AddMainCategory2 = () => {
   };
 
   const handleAddCotegory = (e) => {
+    e.preventDefault();
+
     const findTranslate = translate?.data.find(
       (item) => item._id === translateId
     );
 
-    e.preventDefault();
     addMainCategory.mutate({
       name: findTranslate?._id,
       image: e.target.image_category.files[0],
