@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { BiCloudUpload, BiEdit } from "react-icons/bi";
+import { BiCloudUpload } from "react-icons/bi";
 import { styled } from "@mui/material/styles";
 import React, { Fragment, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -71,17 +71,6 @@ const EditMainCategory = (props) => {
   const translate = ALL_DATA.useTranslete();
 
   // Add taranslete and Category functions
-  const addTranslate = useMutation({
-    mutationFn: TranslateUtils.postTranslate,
-    onSuccess: (data) => {
-      setTranslateId(data);
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
-    },
-    onError: (err) => {
-      console.log(err, "add translete");
-      toast.error("Something went wrong");
-    },
-  });
 
   const EditMainCategory = useMutation({
     mutationFn: CategoryUtils.editCAtegory,
@@ -96,43 +85,58 @@ const EditMainCategory = (props) => {
     },
   });
 
-  const handleTitleAddCategory = (e) => {
+  const handleEditCotegory = (e) => {
     e.preventDefault();
-    const definition = {};
-    for (let el of language.data) {
-      definition[el.code] = e.target[el.code].value;
-    }
-    try {
+    const findTranslate = translate?.data.find(
+      (item) => item._id === translateId
+    );
+    EditMainCategory.mutate({
+      id: props?.id,
+      name: findTranslate?._id || "",
+      image: e.target?.image_category?.files[0] || "",
+    });
+  };
+
+  // Open and close modal
+  function handleClickOpen() {
+    setOpen(true);
+  }
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function AddTitle() {
+    const addTranslate = useMutation({
+      mutationFn: TranslateUtils.postTranslate,
+      onSuccess: (data) => {
+        setTranslateId(data);
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
+      },
+      onError: (err) => {
+        console.log(err, "add translete");
+        toast.error("Something went wrong");
+      },
+    });
+
+    const handleTitleAddCategory = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const definition = {};
+      for (let el of language.data) {
+        definition[el.code] = e.target[el.code].value;
+      }
       addTranslate.mutate({
         code: e.target.translete_code.value,
         definition,
         type: "content",
       });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleEditCotegory = (e) => {
-    const findTranslate = translate?.data.find(
-      (item) => item._id === translateId
-    );
-
-    e.preventDefault();
-    EditMainCategory.mutate({
-      id: props?.id,
-      name: findTranslate?._id,
-      image: e.target?.image_category?.files[0],
-    });
-  };
-
-  function AddTitle() {
-    const [open, setOpen] = useState(false);
+    };
+    const [addTitleOpen, setAddTitleOpen] = useState(false);
     const handleOpen = () => {
-      setOpen(true);
+      setAddTitleOpen(true);
     };
     const handleClose = () => {
-      setOpen(false);
+      setAddTitleOpen(false);
     };
     return (
       <Fragment>
@@ -148,7 +152,7 @@ const EditMainCategory = (props) => {
           {addModal[1][langCode]}
         </Button>
         <Modal
-          open={open}
+          open={addTitleOpen}
           onClose={handleClose}
           aria-labelledby="child-modal-title"
           aria-describedby="child-modal-description"
@@ -185,9 +189,11 @@ const EditMainCategory = (props) => {
                     />
                   );
                 })}
-              <button className="ml-auto mt-3 w-[90px] bg-green-600 font-medium text-white p-2 rounded px-3 block">
-                Save
-              </button>
+              <div className="text-end">
+                <Button type="submit" color="success" variant="outlined">
+                  Save
+                </Button>
+              </div>
             </form>
           </Box>
         </Modal>
@@ -258,13 +264,6 @@ const EditMainCategory = (props) => {
   async function showImage(e) {
     praductImg.current.src = await getBase64Full(e.target.files[0]);
     praductImg.current.classList.remove("hidden");
-  }
-  // Open and close modal
-  function handleClickOpen() {
-    setOpen(true);
-  }
-  function handleClose() {
-    setOpen(false);
   }
 };
 

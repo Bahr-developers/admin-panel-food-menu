@@ -67,16 +67,15 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const AddCategory = () => {
-  const param = useParams();
+  const { restaurantId } = useParams();
   const [translateId, setTranslateId] = useState(0);
   const [open, setOpen] = useState(false);
   const langCode = localStorage.getItem("language");
   const praductImg = useRef();
   const queryClient = useQueryClient();
-  const category = ALL_DATA.useCategory(param.restaurantId)?.data;
+  const category = ALL_DATA.useCategory(restaurantId)?.data;
 
   const language = ALL_DATA.useLanguage();
-  const { restaurantId } = useParams();
 
   const translate = ALL_DATA.useTranslete();
 
@@ -135,12 +134,14 @@ const AddCategory = () => {
   /////////////////////////////////// Add to titile child modal
   function AddTitle() {
     const [open, setOpen] = useState(false);
+
     const handleOpen = () => {
       setOpen(true);
     };
     const handleClose = () => {
       setOpen(false);
     };
+
     return (
       <Fragment>
         <Button

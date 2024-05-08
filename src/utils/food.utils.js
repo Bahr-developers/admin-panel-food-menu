@@ -21,7 +21,6 @@ export const FoodUtils = {
     for (let img of images) {
       formData.append("images", img);
     }
-    console.log(formData.get("images"));
     formData.append("name", JSON.stringify(name));
     formData.append("description", JSON.stringify(description));
     formData.append("category_id", category_id);
