@@ -8,7 +8,7 @@ import { BiCloudUpload } from "react-icons/bi";
 import { styled } from "@mui/material/styles";
 import React, { Fragment, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CategoryUtils } from "../utils/categoryutils";
+import { CategoryUtils } from "../utils/category.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { ALL_DATA } from "../Query/ALL_DATA";
 
@@ -70,14 +70,14 @@ const AddMainCategory2 = () => {
 
   const { restaurantId } = useParams();
 
-  const translate = ALL_DATA.useTranslete();
+  const translate = ALL_DATA.useTranslate();
 
   // Add taranslete and Category functions
   const addTranslate = useMutation({
     mutationFn: TranslateUtils.postTranslate,
     onSuccess: (data) => {
       setTranslateId(data);
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translate] });
     },
     onError: (err) => {
       console.log(err, "Add translete");
@@ -105,7 +105,7 @@ const AddMainCategory2 = () => {
       definition[el.code] = e.target[el.code].value;
     }
     addTranslate.mutate({
-      code: e.target.translete_code.value,
+      code: e.target.translate_code.value,
       definition,
       type: "content",
     });
@@ -161,7 +161,7 @@ const AddMainCategory2 = () => {
                   required
                   margin="dense"
                   id="name"
-                  name="translete_code"
+                  name="translate_code"
                   label={`Add category name code`}
                   type="text"
                   fullWidth

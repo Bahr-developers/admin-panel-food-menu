@@ -4,7 +4,7 @@ import { custumAxios } from "../configs/axios.config";
 
 export const useRestaurant = function () {
   return useQuery({
-    queryKey: [QUERY_KEY.restourant],
+    queryKey: [QUERY_KEY.restaurant],
     queryFn: async () =>
       await custumAxios.get("restourant/find/all", {
         headers: {

@@ -33,16 +33,4 @@ export const TranslateUtils = {
     });
     return data;
   },
-  editTranslateId: async (id) => {
-    const { data } = await custumAxios.post(`translate/edit/${id}`);
-    return data;
-  },
-  editTranslateDefinition: async (id) => {
-    const { data } = await custumAxios.post(`translate/edit/definition/${id}`);
-    return data;
-  },
-  deletwTranslete: async (id) => {
-    const { data } = await custumAxios.post(`translate/delete/${id}`);
-    return data;
-  },
 };

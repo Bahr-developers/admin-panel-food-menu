@@ -8,7 +8,7 @@ import { BiCloudUpload } from "react-icons/bi";
 import { styled } from "@mui/material/styles";
 import React, { Fragment, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CategoryUtils } from "../utils/categoryutils";
+import { CategoryUtils } from "../utils/category.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { ALL_DATA } from "../Query/ALL_DATA";
 
@@ -77,14 +77,14 @@ const AddCategory = () => {
 
   const language = ALL_DATA.useLanguage();
 
-  const translate = ALL_DATA.useTranslete();
+  const translate = ALL_DATA.useTranslate();
 
   // Add taranslete and Category functions
   const addTranslate = useMutation({
     mutationFn: TranslateUtils.postTranslate,
     onSuccess: (data) => {
       setTranslateId(data);
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translate] });
     },
     onError: (err) => {
       console.log(err, "Add translete");
@@ -121,11 +121,11 @@ const AddCategory = () => {
     e.preventDefault();
 
     const findTranslate = translate.data?.find(
-      (item) => item._id === translateId
+      (item) => item?._id === translateId
     );
 
     addCategory.mutate({
-      name: findTranslate._id,
+      name: findTranslate?._id,
       image: e.target.image_category.files[0],
       category_id: e.target.category.value,
       restaurant_id: restaurantId,
@@ -188,8 +188,8 @@ const AddCategory = () => {
                       name={lang.code}
                       label={`Add category ${lang.code}`}
                       type="text"
-                      fullWidth
                       variant="standard"
+                      className="w-full"
                     />
                   );
                 })}

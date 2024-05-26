@@ -8,7 +8,7 @@ import { BiCloudUpload } from "react-icons/bi";
 import { styled } from "@mui/material/styles";
 import React, { Fragment, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CategoryUtils } from "../utils/categoryutils";
+import { CategoryUtils } from "../utils/category.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import { ALL_DATA } from "../Query/ALL_DATA";
 
@@ -68,12 +68,12 @@ const EditMainCategory = (props) => {
   const queryClient = useQueryClient();
   const language = ALL_DATA.useLanguage();
 
-  const translate = ALL_DATA.useTranslete();
+  const translate = ALL_DATA.useTranslate();
 
   // Add taranslete and Category functions
 
   const EditMainCategory = useMutation({
-    mutationFn: CategoryUtils.editCAtegory,
+    mutationFn: CategoryUtils.editCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Category successfully edited");
@@ -81,18 +81,19 @@ const EditMainCategory = (props) => {
     },
     onError: (err) => {
       console.log(err, "edit category");
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     },
   });
 
   const handleEditCotegory = (e) => {
     e.preventDefault();
     const findTranslate = translate?.data.find(
-      (item) => item._id === translateId
+      (item) => item?._id === translateId
     );
     EditMainCategory.mutate({
+      // eslint-disable-next-line react/prop-types
       id: props?.id,
-      name: findTranslate?._id || "",
+      name: findTranslate?._id,
       image: e.target?.image_category?.files[0] || "",
     });
   };
@@ -110,7 +111,7 @@ const EditMainCategory = (props) => {
       mutationFn: TranslateUtils.postTranslate,
       onSuccess: (data) => {
         setTranslateId(data);
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translete] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.translate] });
       },
       onError: (err) => {
         console.log(err, "add translete");

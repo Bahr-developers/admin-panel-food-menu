@@ -2,40 +2,39 @@ import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEY } from "./QUERY_KEY";
 import { TranslateUtils } from "../utils/translate.utils";
 import { FoodUtils } from "../utils/food.utils";
-import { RestourantUtils } from "../utils/restourant";
-import { CategoryUtils } from "../utils/categoryutils";
+import { RestourantUtils } from "../utils/restourant.utils";
+import { CategoryUtils } from "../utils/category.utils";
 import { LanguageUtils } from "../utils/language.utils";
 import { custumAxios } from "../configs/axios.config";
-import { UserUtils } from "../utils/userUtils";
+import { UserUtils } from "../utils/user.utils";
 
 export const ALL_DATA = {
-  useLanguage: () => {
-    return useQuery({
+  useLanguage: () =>
+    useQuery({
       queryKey: [QUERY_KEY.language],
       queryFn: LanguageUtils.getLanguage,
-    });
-  },
-  useTranslete: () => {
-    return useQuery({
-      queryKey: [QUERY_KEY.translete],
+    }),
+
+  useTranslate: () =>
+    useQuery({
+      queryKey: [QUERY_KEY.translate],
       queryFn: TranslateUtils.getTranslate,
-    });
-  },
-  useRestourant: () => {
-    return useQuery({
-      queryKey: [QUERY_KEY.restourant],
+    }),
+
+  useRestourant: () =>
+    useQuery({
+      queryKey: [QUERY_KEY.restaurant],
       queryFn: RestourantUtils.getRestourant,
-    });
-  },
-  useFood: () => {
-    return useQuery({
+    }),
+
+  useFood: () =>
+    useQuery({
       queryKey: [QUERY_KEY.food],
       queryFn: FoodUtils.getFood,
-    });
-  },
-  useCategory: (id) => {
-    // if (!id) return [];
-    return useQuery({
+    }),
+
+  useCategory: (id) =>
+    useQuery({
       queryKey: [QUERY_KEY.category],
       queryFn: async () =>
         await custumAxios.get(`category/find/by/restaurant/${id}`, {
@@ -43,19 +42,17 @@ export const ALL_DATA = {
             "accept-language": localStorage.getItem("language"),
           },
         }),
-      staleTime: 2 * 1000,
-    });
-  },
-  useCategoryAll: () => {
-    return useQuery({
+    }),
+
+  useCategoryAll: () =>
+    useQuery({
       queryKey: [QUERY_KEY.category],
       queryFn: CategoryUtils.getCategoryAll,
-    });
-  },
-  useUsers: () => {
-    return useQuery({
+    }),
+
+  useUsers: () =>
+    useQuery({
       queryKey: [QUERY_KEY.user],
       queryFn: UserUtils.getUsers,
-    });
-  },
+    }),
 };
