@@ -1,14 +1,15 @@
 import { useParams } from "react-router-dom";
 import { ALL_DATA } from "../Query/ALL_DATA";
 import Cleave from "cleave.js/react";
-import { useRestaurant } from "../utils/RestaurantUtils";
-import Loading from "../components/Loading";
-import { UserUtils } from "../utils/userUtils";
+import { useRestaurant } from "../utils/useRestaurant";
+import Loading from "../components/Loading/Loading";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import toast from "react-hot-toast";
+
+import { UserUtils } from "../utils/user.utils";
 
 const Profil = () => {
   const { restaurantId } = useParams();
@@ -25,7 +26,7 @@ const Profil = () => {
 
   // get restaurant by id
   const getRestaurantById = getRestaurant?.data?.data.find(
-    (restourant) => restaurantId === restourant.id
+    (restourant) => restaurantId === restourant?.id
   );
 
   // edit user function
@@ -44,12 +45,10 @@ const Profil = () => {
 
   const handleChangeInformation = (e) => {
     e.preventDefault();
-
     const fullName = e.target.fullName.value;
     const password = e.target.password.value;
     const phoneNumber = e.target.number.value.replaceAll(" ", "");
     const id = getUserByRestaurantId?._id;
-
     editUser.mutate({ fullName, password, phoneNumber, id });
   };
 
@@ -81,7 +80,7 @@ const Profil = () => {
               }}
               name="number"
               className="border-2 py-1 px-3 rounded focus:border-gray-500"
-              value={getUserByRestaurantId?.phone}
+              defaultValue={getUserByRestaurantId?.phone}
             />
           </label>
 

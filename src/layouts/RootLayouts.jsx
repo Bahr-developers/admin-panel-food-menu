@@ -1,6 +1,7 @@
 import { Outlet, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { useRestaurant } from "../utils/RestaurantUtils";
+import { useRestaurant } from "../utils/useRestaurant";
+import Loading from "../components/Loading";
 
 const RootLayouts = () => {
   // get Restaurant id
@@ -8,6 +9,8 @@ const RootLayouts = () => {
 
   // get all restaurant
   const getRestaurant = useRestaurant();
+
+  if (getRestaurant.isLoading) return <Loading />;
 
   // get restaurant by id
   const getRestaurantById = getRestaurant?.data?.data.find(

@@ -9,12 +9,11 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { IMG_BASE_URL } from "../constants/server.BaseUrl";
 
 import { GiMeal } from "react-icons/gi";
-import Loading from "../components/Loading";
-import { MdDelete } from "react-icons/md";
 import DeleteSubcategory from "../components/DeleteSubcategory";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CategoryUtils } from "../utils/categoryutils";
+import { CategoryUtils } from "../utils/category.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
+import Loading from "../components/Loading";
 
 const CategoriesPage = () => {
   const { restaurantId, categoryId } = useParams();
@@ -28,7 +27,7 @@ const CategoriesPage = () => {
 
   // delete subcategory
   const DeleteSubcategoryFn = useMutation({
-    mutationFn: CategoryUtils.deleteCatefory,
+    mutationFn: CategoryUtils.deleteCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
     },

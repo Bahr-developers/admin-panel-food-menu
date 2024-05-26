@@ -1,6 +1,5 @@
 import { BiSearch } from "react-icons/bi";
 import logo from "../assets/image/login_logo.png";
-import { useRef } from "react";
 import { IMG_BASE_URL } from "../constants/server.BaseUrl";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ALL_DATA } from "../Query/ALL_DATA";
@@ -24,6 +23,7 @@ const Navbar = (props) => {
 
   const getLanguage = ALL_DATA.useLanguage();
 
+  // eslint-disable-next-line react/prop-types
   const restaurant = props?.restaurant;
 
   // for change language

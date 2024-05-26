@@ -22,6 +22,9 @@ const FoodCard = (props) => {
   const deletaFood = useMutation({
     mutationFn: FoodUtils.deleteFood,
     onSuccess: () => {
+      console.log(
+        "Mutation successful, invalidating and refetching queries..."
+      );
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Delete success");
     },
@@ -30,6 +33,7 @@ const FoodCard = (props) => {
       toast.error("Error");
     },
   });
+  // eslint-disable-next-line react/prop-types
   const foodInformation = props?.food;
 
   return (

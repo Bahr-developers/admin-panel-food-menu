@@ -9,6 +9,8 @@ import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { deleteModal } from "../configs/language";
 
+import propTypes from "prop-types";
+
 const DeleteFood = ({ deleteFn, id }) => {
   const [open, setOpen] = useState(false);
 
@@ -21,6 +23,7 @@ const DeleteFood = ({ deleteFn, id }) => {
     setOpen(false);
   };
   const deleteCloseBtn = () => {
+    console.log("Deleting food item with ID:", id);
     deleteFn(id);
     setOpen(false);
   };
@@ -62,6 +65,11 @@ const DeleteFood = ({ deleteFn, id }) => {
       </Dialog>
     </React.Fragment>
   );
+};
+
+DeleteFood.propTypes = {
+  id: propTypes.string.isRequired,
+  deleteFn: propTypes.func.isRequired,
 };
 
 export default DeleteFood;

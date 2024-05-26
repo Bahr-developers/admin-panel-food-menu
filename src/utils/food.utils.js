@@ -18,9 +18,7 @@ export const FoodUtils = {
     restourant_id,
   }) => {
     const formData = new FormData();
-    for (let img of images) {
-      formData.append("images", img);
-    }
+   images.forEach((img) => formData.append("images", img));
     formData.append("name", JSON.stringify(name));
     formData.append("description", JSON.stringify(description));
     formData.append("category_id", category_id);
@@ -33,15 +31,15 @@ export const FoodUtils = {
     const formData = new FormData();
     formData.append("foodId", foodId);
     formData.append("image", image);
-    const { data } = custumAxios.post("food/add/one/food-image", formData);
+    const { data } = await custumAxios.post("food/add/one/food-image", formData);
     return data;
   },
   editFood: async ({ name, food_status, status, description, price, id }) => {
     const { data } = await custumAxios.patch(`food/edit/${id}`, {
       name: name ? JSON.stringify(name) : "",
-      food_status: food_status,
-      price: price,
-      status: status,
+     food_status,
+      price,
+       status,
       description: description ? JSON.stringify(description) : "",
     });
     return data;
@@ -56,7 +54,7 @@ export const FoodUtils = {
     return data;
   },
   deleteFood: async (id) => {
-    const { data } = custumAxios.delete(`food/delete/${id}`);
+    const { data } = await custumAxios.delete(`food/delete/${id}`);
     return data;
   },
 };

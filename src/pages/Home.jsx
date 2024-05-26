@@ -1,15 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import { ALL_DATA } from "../Query/ALL_DATA";
-import Loading from "../components/Loading";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { IMG_BASE_URL } from "../constants/server.BaseUrl";
 import DeleteConfirmation from "../components/DeleteMainCategory";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CategoryUtils } from "../utils/categoryutils";
+import { CategoryUtils } from "../utils/category.utils";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 import toast from "react-hot-toast";
 import AddMainCategory2 from "../Modals/AddMainCategory2";
 import EditMainCategory from "../Modals/EditMainCategory";
+import Loading from "../components/Loading";
 
 const Home = () => {
   const { restaurantId } = useParams();
@@ -19,7 +19,7 @@ const Home = () => {
   const queryClient = useQueryClient();
 
   const deleteCategory = useMutation({
-    mutationFn: CategoryUtils.deleteCatefory,
+    mutationFn: CategoryUtils.deleteCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.category] });
       toast.success("Delete success");
