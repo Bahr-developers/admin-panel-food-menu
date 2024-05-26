@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { ALL_DATA } from "../Query/ALL_DATA";
 import Cleave from "cleave.js/react";
 import { useRestaurant } from "../utils/useRestaurant";
-import Loading from "../components/Loading/Loading";
 import { QUERY_KEY } from "../Query/QUERY_KEY";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 import { UserUtils } from "../utils/user.utils";
+import Loading from "../components/Loading";
 
 const Profil = () => {
   const { restaurantId } = useParams();
