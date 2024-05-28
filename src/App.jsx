@@ -2,7 +2,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { Provider } from "react-redux";
 
-import React, { useEffect, lazy, Suspense } from "react";
+import { useEffect, lazy, Suspense } from "react";
 
 import { store } from "./redux/store";
 
@@ -32,7 +32,7 @@ function App() {
     if (!restaurantId) {
       navigate("/");
     }
-  }, []);
+  }, [navigate, restaurantId]);
 
   return (
     <>

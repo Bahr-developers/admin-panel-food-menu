@@ -95,13 +95,13 @@ const EditImage = ({ data }) => {
   };
   return (
     <div className="z-10">
-      <button
+      {/* <button
         className="absolute z-10 bottom-[-10px] bg-yellow-500 text-white p-1 md:p-2 rounded-full right-11 md:right-14"
         onClick={handleOpen}
       >
         {" "}
         <LuFolderEdit size={20} />{" "}
-      </button>
+      </button> */}
       <div className="z-30">
         <button
           className="absolute z-10 top-2 bg-indigo-400 right-0 text-white p-1 md:p-2 rounded-[0, 0, 0, 10px]"
